@@ -16245,7 +16245,83 @@
      
 }
 
-        namespace Spatie\LaravelIgnition\Facades { 
+        namespace Monarobase\CountryList { 
+            /**
+     * CountryListFacade
+     *
+     * @author Monarobase <jonathan@monarobase.net>
+     */ 
+        class CountryListFacade {
+                    /**
+         * Get the country data directory.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getDataDir()
+        {
+                        /** @var \Monarobase\CountryList\CountryList $instance */
+                        return $instance->getDataDir();
+        }
+                    /**
+         * Returns one country.
+         *
+         * @param string $countryCode The country
+         * @param string $locale The locale (default: en)
+         * @return string 
+         * @throws CountryNotFoundException  If the country code doesn't match any country.
+         * @static 
+         */ 
+        public static function getOne($countryCode, $locale = 'en')
+        {
+                        /** @var \Monarobase\CountryList\CountryList $instance */
+                        return $instance->getOne($countryCode, $locale);
+        }
+                    /**
+         * Returns a list of countries.
+         *
+         * @param string $locale The locale (default: en)
+         * @param string $format The format (default: php)
+         * @return mixed An array (list) with country or raw data
+         * @static 
+         */ 
+        public static function getList($locale = 'en', $format = 'php')
+        {
+                        /** @var \Monarobase\CountryList\CountryList $instance */
+                        return $instance->getList($locale, $format);
+        }
+                    /**
+         * 
+         *
+         * @param string $locale The locale
+         * @param array $data An array (list) with country data
+         * @return \Monarobase\CountryList\CountryList The instance of CountryList to enable fluent interface
+         * @static 
+         */ 
+        public static function setList($locale, $data)
+        {
+                        /** @var \Monarobase\CountryList\CountryList $instance */
+                        return $instance->setList($locale, $data);
+        }
+                    /**
+         * Indicates whether or not a given $countryCode matches a country.
+         *
+         * @param string $countryCode A 2-letter country code
+         * @param string $locale The locale (default: en)
+         * @return bool <code>true</code> if a match was found, <code>false</code> otherwise
+         * @static 
+         */ 
+        public static function has($countryCode, $locale = 'en')
+        {
+                        /** @var \Monarobase\CountryList\CountryList $instance */
+                        return $instance->has($countryCode, $locale);
+        }
+         
+    }
+     
+}
+
+    namespace Spatie\LaravelIgnition\Facades { 
             /**
      * 
      *
@@ -20357,6 +20433,7 @@ namespace  {
             class URL extends \Illuminate\Support\Facades\URL {}
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
+            class Countries extends \Monarobase\CountryList\CountryListFacade {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
      
 }

@@ -11,7 +11,8 @@
         "laravel/framework": "^9.2",
         "laravel/sanctum": "^2.14.1",
         "laravel/telescope": "^4.8",
-        "laravel/tinker": "^2.7"
+        "laravel/tinker": "^2.7",
+        "monarobase/country-list": "^3.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
