@@ -43,3 +43,10 @@ function something()
 {
     // ..
 }
+
+function allow_authorize(string $ability, mixed ...$params){
+    Gate::shouldReceive('authorize')
+        ->with($ability, ...$params)
+        ->atLeast()->once()
+        ->andReturn(\Illuminate\Auth\Access\Response::allow());
+}

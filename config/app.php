@@ -164,6 +164,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Monarobase\CountryList\CountryListServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
+
 
 
         /*

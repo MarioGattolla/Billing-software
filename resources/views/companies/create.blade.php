@@ -34,7 +34,7 @@ $countries = CountryListFacade::getList();
                 <div class="m-10 ">
 
 
-                    <div x-data="formFilter()">
+                    <div x-data="formFilter()" class="bg-gray-100 p-10 border rounded-md">
 
 
                         <form method="POST" action="{{route('companies.store')}}" name="company_create_form">
@@ -100,7 +100,7 @@ $countries = CountryListFacade::getList();
                                 <input class="rounded-md " type="text" id="phone" name="phone" required/>
                             </div>
 
-                            <button class="w-1/5 bg-green-300 mt-3 h-10 rounded-md border-b-2 type=" type="submit">
+                            <button class="w-1/5 bg-green-200 mt-3 h-10 rounded-md border border-green-400 hover:bg-green-400 type=" type="submit">
                                 Submit
                             </button>
                         </form>

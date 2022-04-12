@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Companies\CreateNewCompany;
 use App\Models\Company;
 use DefStudio\Actions\Exceptions\ActionException;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,9 +27,12 @@ class CompanyController extends Controller
      * Show the form for creating a new resource.
      *
      * @return View
+     * @throws AuthorizationException
      */
     public function create(): View
     {
+        $this->authorize('create', Company::class);
+
         return view('companies.create', []);
 
     }
