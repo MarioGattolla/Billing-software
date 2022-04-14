@@ -12,4 +12,10 @@ enum Permission: string
     case delete_user = 'delete user';
     case show_user = 'show user';
     case show_super_admin = 'show super admin';
+
+    public static function get_permissions_cases_values(): array
+    {
+        return collect(Permission::cases())
+            ->map(fn(Permission $permission) => $permission->value)->sort()->toArray();
+    }
 }
