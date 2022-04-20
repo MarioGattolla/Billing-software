@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -24,14 +25,14 @@ class UserSeeder extends Seeder
         $super_admin->assignRole('Super Admin');
 
 
-        $admins = User::factory(2)->create([]);
+        $admins = User::factory(10)->create([]);
         foreach ($admins as $admin){
             /** @var User $admin */
             $admin->assignRole('Admin');
         }
 
         /** @var User[] $users */
-        $users = User::factory(10)->create([]);
+        $users = User::factory(30)->create([]);
         foreach ($users as $user){
             /** @var User $user */
             $user->assignRole('Operator');

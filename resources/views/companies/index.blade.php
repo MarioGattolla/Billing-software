@@ -4,10 +4,10 @@ use App\Models\Company;
 use App\Models\User;
 
 /** @var Company[] $companies */
-$companies = Company::where('contact_name', '=', 'null')->paginate(18, ['*'],$pageName= 'companies', $page = null );
+$companies = Company::where('contact_name', '=', 'null')->paginate(18, ['*'], $pageName = 'companies', $page = null);
 
 /** @var Company[] $privates */
-$privates = Company::where('business_name', '=', 'null')->paginate(18, ['*'],$pageName= 'privates', $page = null);
+$privates = Company::where('business_name', '=', 'null')->paginate(18, ['*'], $pageName = 'privates', $page = null);
 
 /** @var User $user */
 $user = Auth::user();
@@ -40,14 +40,18 @@ $user = Auth::user();
                         border-green-400 bg-green-200 text-sm">
                             Companies
                         </div>
-                        <div class=" ml-10 mr-10 flex grid grid-cols-6" >
+                        <div class=" ml-10 mr-10 flex grid grid-cols-6">
                             @foreach($companies as $company)
                                 <div class="p-3 m-2 border-green-400 border
                             rounded-md col-span-2  text-center bg-white">
-                                    {{$company->business_name}}</div>
+                                    <p> {{$company->business_name}}</p>
+                                    <p> {{$company->email}}</p>
+                                    <p> {{$company->address}}</p>
+                                </div>
                             @endforeach
                         </div>
-                        <div class="ml-10 mt-3 mr-10">{{$companies->appends(['privates' => $privates->currentPage()])->links()}}</div>
+                        <div
+                            class="ml-10 mt-3 mr-10">{{$companies->appends(['privates' => $privates->currentPage()])->links()}}</div>
                     </div>
 
                     <div class="bg-gray-100 p-3 mt-10 border rounded-md">
@@ -55,14 +59,18 @@ $user = Auth::user();
                          border-green-400 bg-green-200 text-sm">
                             Privates
                         </div>
-                        <div class=" ml-10 mr-10 flex grid grid-cols-6" >
+                        <div class=" ml-10 mr-10 flex grid grid-cols-6">
                             @foreach($privates as $private)
                                 <div class="p-3 m-2 text-center border-green-400 border
                             rounded-md col-span-2 bg-white">
-                                    {{$private->contact_name}}</div>
+                                    <p>{{$private->contact_name}}</p>
+                                    <p>{{$private->email}}</p>
+                                    <p>{{$private->address}}</p>
+                                </div>
                             @endforeach
                         </div>
-                        <div class="ml-10 mt-3 mr-10">{{$privates->appends(['companies' => $companies->currentPage()])->links()}}</div>
+                        <div
+                            class="ml-10 mt-3 mr-10">{{$privates->appends(['companies' => $companies->currentPage()])->links()}}</div>
                     </div>
                 </div>
 

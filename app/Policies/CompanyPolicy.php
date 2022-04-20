@@ -42,9 +42,7 @@ class CompanyPolicy
      */
     public function create(User $user)
     {
-        if ($user->can('user_create')){
-            return true;
-        }
+
     }
 
     /**

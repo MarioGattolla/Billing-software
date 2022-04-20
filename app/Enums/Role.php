@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use Illuminate\Support\Collection;
+
 enum Role: string
 {
     case super_admin = 'Super Admin';
@@ -23,7 +25,7 @@ enum Role: string
 
     }
 
-    public static function get_roles_cases()
+    public static function get_roles_cases(): Collection
     {
        return collect(Role::cases());
     }
