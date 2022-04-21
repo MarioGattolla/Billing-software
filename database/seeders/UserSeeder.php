@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         /** @var User $super_admin */
         $super_admin = User::factory()->count(1)->create([
             'email' => 'mario.gattolla@gmail.com',
-            'password' => Hash::make('provaprova'),
+            'password' => 'provaprova',
         ])->first();
         $super_admin->assignRole('Super Admin');
 

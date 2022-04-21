@@ -10,11 +10,11 @@ class CreateNewUser
 {
     use ActsAsAction;
 
-    public function handle($name, $email, $password, $role)
+    public function handle($name, $email, $password, $role): bool
     {
 
         /** @var User $user */
-         User::create([
+       return  User::create([
             'name' => $name,
             'email' => $email,
             'password' => $password,

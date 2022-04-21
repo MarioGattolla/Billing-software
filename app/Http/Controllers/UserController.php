@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Users\CreateNewUser;
+use App\Actions\Users\UpdateUser;
 use App\Models\User;
 use DefStudio\Actions\Exceptions\ActionException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 
 class UserController extends Controller
 {
@@ -97,11 +100,13 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param User $user
-     * @return Response
+     * @return View
      */
-    public function edit(User $user)
+    public function edit(User $user): View
     {
-        //
+        return \view('users.edit', [
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -109,21 +114,32 @@ class UserController extends Controller
      *
      * @param Request $request
      * @param User $user
-     * @return Response
+     * @return RedirectResponse
+     * @throws ActionException
+     * @throws AuthorizationException
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): RedirectResponse
     {
-        //
+        $this->authorize('update', User::class);
+
+        UpdateUser::run($request, $user) ;
+
+        return redirect()->route('users.show',$user);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param User $user
-     * @return Response
+     * @return RedirectResponse
+     * @throws Throwable
      */
-    public function destroy(User $user)
+    public function destroy(User $user): RedirectResponse
     {
-        //
+        $this->authorize('delete' , User::class);
+
+        $user->deleteOrFail();
+
+        return redirect()->route('users.index');
     }
 }

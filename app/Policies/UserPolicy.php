@@ -59,7 +59,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        if ($user->can('create user')){
+        if ($user->can('edit user')){
             return true;
         }
     }
@@ -73,7 +73,9 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        //
+        if ($user->can('delete user')){
+            return true;
+        }
     }
 
 }

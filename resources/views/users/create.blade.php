@@ -10,12 +10,13 @@ $user = Auth::user();
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
             <div class="pb-10 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class=" ml-20 mt-10 bg-white  text-xl">
+                <div class=" ml-20 mt-10 bg-white  text-xl ">
                     Here you can create a new User
                 </div>
                 <div class="m-10 bg-gray-100 p-10 border rounded-md">
-                    <form method="POST" action="{{route('users.store')}}" name="company_create_form">
+                    <form method="POST" action="{{route('users.store')}}" name="users_create_form">
                         @csrf
 
                         <div class="pt-2">
@@ -43,14 +44,14 @@ $user = Auth::user();
                         <div class="pt-2">
                             <p>Role</p>
                             <label>
-                                <select id="role" name="role">
+                                <select id="role" name="role" required>
                                     @if($user->hasRole('Super Admin'))
+                                        <option>Operator</option>
+                                        <option>Admin</option>
                                         <option>Super Admin</option>
-                                        <option>Admin</option>
-                                        <option>Operator</option>
                                     @else
-                                        <option>Admin</option>
                                         <option>Operator</option>
+                                        <option>Admin</option>
                                     @endif
                                 </select>
                             </label>

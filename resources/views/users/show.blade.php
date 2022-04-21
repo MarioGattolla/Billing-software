@@ -1,5 +1,6 @@
 <?php
 
+$logged_user = Auth::user();
 
 ?>
 <script>
@@ -31,33 +32,54 @@
                             @endforeach
                         </div>
 
-                        <div>
-                            <a href="{{route('users.edit', $user)}}" class="p-3 border rounded-md border-green-400 hover:bg-green-400
-                            bg-green-200 text-sm ml-3 mr-5 mt-2 mb-2">Edit
-                                User
-                            </a>
+                            <div>
+                                <a href="{{route('users.edit', $user)}}" class="p-3 border rounded-md border-green-400 hover:bg-green-400
+                            bg-green-200 text-sm ml-3 mr-5 mt-2 mb-2">
+                                    Edit User
+                                </a>
 
-                            <button class="p-3 border rounded-md border-green-400 hover:bg-green-400
-                            bg-green-200 text-sm ml-3 mr-5 mt-2 mb-2 modal" x-on:click="modal = true">Edit
-                                User
-                            </button>
-                        </div>
+                                <button class="p-3 border rounded-md border-green-400 hover:bg-green-400
+                            bg-green-200 text-sm ml-3 mr-5 mt-2 mb-2 modal" x-on:click="modal = true">
+                                    Delete User
+                                </button>
+                            </div>
 
 
                         <div x-show="modal == true"
-                             class="fixed top-0 right-0 left-0  h-full w-full bg-gray-100 bg-opacity-75 ">
-                            <div class="  relative  bg-white rounded-md border ">
-                                <div>
+                             class="fixed top-0 right-0 left-0  h-full w-full bg-gray-100 bg-opacity-75 flex
+                             items-center  ">
+                            <div class="  bg-white rounded-md border m-auto w-1/3 text-center
+                            rounded-md border-2 p-3 ">
+                                <div class="m-3">
+                                    <div>
+                                        You are trying to cancel the current User.
 
+                                    </div>
+                                    <div>
+                                        By clicking "DELETE" , User will be permanently deleted. Are you sure?
+
+                                    </div>
                                 </div>
-                                <div><a href="{{route('users.edit', $user)}}" class="p-3 border rounded-md border-green-400 hover:bg-green-400
-                            bg-green-200 text-sm ml-3 mr-5 mt-2 mb-2">Delete User
-                                        User
-                                    </a></div>
-                                <button class="p-3 border rounded-md border-green-400 hover:bg-green-400
-                            bg-green-200 text-sm ml-3 mr-5 mt-2 mb-2 modal" x-on:click="modal = false">
-                                    Return Back
-                                </button>
+                                <div class=" flex grid grid-cols-2 items-center ">
+
+                                    <div class="col-span-1 items-center ">
+                                        <form method="POST" class="mt-2">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="mt-1   p-3 border rounded-md border-green-400 hover:bg-green-400
+                                            bg-green-200 text-sm" > Delete User
+                                            </button>
+                                        </form>
+
+                                    </div>
+
+                                    <div class="col-span-1 items-center ">
+                                        <button class="p-3 border rounded-md border-green-400 hover:bg-green-400
+                                            bg-green-200 text-sm" x-on:click="modal = false">
+                                            Return Back
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
