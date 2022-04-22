@@ -7,12 +7,9 @@ use App\Actions\Users\UpdateUser;
 use App\Models\User;
 use DefStudio\Actions\Exceptions\ActionException;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Throwable;
 
@@ -26,10 +23,7 @@ class UserController extends Controller
      */
     public function index(): View
     {
-        /** @var User $user */
-        $user = \Auth::user();
-
-        $this->authorize('viewAny', $user);
+        $this->authorize('viewAny', User::class);
 
         return view('users.index');
     }
@@ -42,10 +36,7 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        /** @var User $user */
-        $user = \Auth::user();
-
-        $this->authorize('create', $user);
+        $this->authorize('create', User::class);
 
         return \view('users.create');
     }
@@ -54,14 +45,14 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return Application|Factory|View
+     * @return RedirectResponse
      * @throws ActionException
      * @throws AuthorizationException
      * @throws ValidationException
      */
-    public function store(Request $request): View|Factory|Application
+    public function store(Request $request): RedirectResponse
     {
-        $this->authorize('store', User::class);
+        $this->authorize('create', User::class);
 
         $this->validate($request, [
             'name' => 'required',
@@ -77,7 +68,7 @@ class UserController extends Controller
 
         CreateNewUser::run($name, $email, $password, $role) ;
 
-        return \view('users.index');
+        return redirect()->route('users.index');
     }
 
     /**
@@ -101,9 +92,12 @@ class UserController extends Controller
      *
      * @param User $user
      * @return View
+     * @throws AuthorizationException
      */
     public function edit(User $user): View
     {
+        $this->authorize('edit', User::class);
+
         return \view('users.edit', [
             'user' => $user,
         ]);

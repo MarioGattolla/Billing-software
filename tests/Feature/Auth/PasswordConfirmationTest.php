@@ -21,10 +21,14 @@ class PasswordConfirmationTest extends TestCase
 
     public function test_password_can_be_confirmed()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'name' => 'Test Name',
+            'email' => 'email@test.com',
+            'password' =>'PasswordTest',
+        ]);
 
         $response = $this->actingAs($user)->post('/confirm-password', [
-            'password' => 'password',
+            'password' => 'PasswordTest',
         ]);
 
         $response->assertRedirect();

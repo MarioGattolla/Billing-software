@@ -35,12 +35,16 @@ enum Role: string
         return match ($this){
             self::super_admin => [
                 Permission::create_user,
+                Permission::create_admin,
                 Permission::create_super_admin,
                 Permission::edit_user,
+                Permission::edit_admin,
                 Permission::edit_super_admin,
                 Permission::delete_user,
+                Permission::delete_admin,
                 Permission::delete_super_admin,
                 Permission::show_user,
+                Permission::show_admin,
                 Permission::show_super_admin,
             ],
             self::admin => [
@@ -48,6 +52,7 @@ enum Role: string
                 Permission::edit_user,
                 Permission::delete_user,
                 Permission::show_user,
+                Permission::show_admin,
             ],
             self::operator => [
                 Permission::show_user,

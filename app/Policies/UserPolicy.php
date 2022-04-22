@@ -64,6 +64,13 @@ class UserPolicy
         }
     }
 
+    public function edit(User $user, User $model)
+    {
+        if ($user->can('edit user')){
+            return true;
+        }
+    }
+
     /**
      * Determine whether the user can delete the model.
      *

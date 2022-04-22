@@ -9,8 +9,10 @@ uses(RefreshDatabase::class);
 
 test('Admin can create new Company ', function () {
 
+
    $response = $this->actingAs(new User())->post('/companies',[
        'selectedRadioID' => 1,
+       'contact_name' => 'name',
        'business_name' => 'name',
        'vat_number' => '1245678',
        'country_select' => 'italy',
@@ -19,7 +21,7 @@ test('Admin can create new Company ', function () {
        'address' => 'road 23/a',
     ]);
 
-   expect($response)->toHaveStatus(302)->assertRedirect();
+   expect($response)->toHaveStatus(302);
 });
 
 test('Admin can create new Private ', function () {

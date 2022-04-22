@@ -11,6 +11,11 @@
 |
 */
 
+use App\Models\User;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use function Pest\Laravel\actingAs;
+
 uses(Tests\TestCase::class)->in('Feature');
 
 /*
@@ -39,14 +44,44 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function something(): void
 {
     // ..
 }
 
-function allow_authorize(string $ability, mixed ...$params){
+function allow_authorize(string $ability, mixed ...$params): void
+{
     Gate::shouldReceive('authorize')
         ->with($ability, ...$params)
         ->atLeast()->once()
         ->andReturn(\Illuminate\Auth\Access\Response::allow());
+}
+
+function authorize_check_by_policy(string $permission_name,string $policy_name ): void
+{
+
+    Permission::create(['name' => $permission_name]);
+
+    $admin_role = Role::create(['name' => 'Admin']);
+    Role::create(['name' => 'Operator']);
+
+    /** @var Role $admin_role */
+    $admin_role->givePermissionTo($permission_name);
+
+    /** @var User $operator */
+    $operator = User::factory()->create();
+    $operator->assignRole('Operator');
+
+    /** @var User $admin */
+    $admin = User::factory()->create();
+    $admin->assignRole('Admin');
+
+    actingAs($admin);
+    $response_admin = Gate::check($policy_name, $admin);
+
+    actingAs($operator);
+    $response_operator = Gate::check($policy_name, $operator);
+
+    expect($response_admin)->toBe(true);
+    expect($response_operator)->toBe(false);
 }

@@ -48,7 +48,7 @@ class CompanyController extends Controller
     public function store(Request $request): RedirectResponse
     {
 
-        // Requesting User is a Company
+        // Request is a Company
         if ($request->selectedRadioID == 1) {
             $this->validate($request, [
                 'business_name' => 'required',
@@ -63,7 +63,7 @@ class CompanyController extends Controller
 
         }
 
-        // Requesting User is a Private
+        // Request is a Private
         else {
             $this->validate($request, [
                 'contact_name' => 'required',
