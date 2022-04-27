@@ -18,6 +18,7 @@ enum Role: string
             ->map(fn(Role $role) => $role->value)->toArray();
     }
 
+
     public function get_permissions_values_by_role( ): array
     {
         return collect($this->permissions())
@@ -25,6 +26,7 @@ enum Role: string
 
     }
 
+    /** @return Collection<int, Role> */
     public static function get_roles_cases(): Collection
     {
        return collect(Role::cases());
@@ -46,6 +48,10 @@ enum Role: string
                 Permission::show_user,
                 Permission::show_admin,
                 Permission::show_super_admin,
+                Permission::create_company,
+                Permission::show_company,
+                Permission::edit_company,
+                Permission::delete_company,
             ],
             self::admin => [
                 Permission::create_user,
@@ -53,9 +59,14 @@ enum Role: string
                 Permission::delete_user,
                 Permission::show_user,
                 Permission::show_admin,
+                Permission::create_company,
+                Permission::show_company,
+                Permission::edit_company,
+                Permission::delete_company,
             ],
             self::operator => [
                 Permission::show_user,
+                Permission::show_company,
             ],
 
         };

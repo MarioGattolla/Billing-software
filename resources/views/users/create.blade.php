@@ -45,14 +45,9 @@ $user = Auth::user();
                             <p>Role</p>
                             <label>
                                 <select id="role" name="role" required>
-                                    @if($user->hasRole('Super Admin'))
                                         <option>Operator</option>
                                         <option>Admin</option>
                                         <option>Super Admin</option>
-                                    @else
-                                        <option>Operator</option>
-                                        <option>Admin</option>
-                                    @endif
                                 </select>
                             </label>
                         </div>

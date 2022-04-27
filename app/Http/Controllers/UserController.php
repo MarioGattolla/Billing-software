@@ -36,7 +36,7 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        $this->authorize('create', User::class);
+        $this->authorize('createUser', User::class);
 
         return \view('users.create');
     }
@@ -52,7 +52,14 @@ class UserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $this->authorize('create', User::class);
+        $role = $request->role;
+        match ($role){
+            'Super Admin' => $this->authorize('createSuperAdmin', User::class),
+            'Admin' => $this->authorize('createAdmin', User::class),
+            'Operator' => $this->authorize('createUser', User::class),
+            default => 'unknown role',
+
+        };
 
         $this->validate($request, [
             'name' => 'required',
@@ -80,7 +87,7 @@ class UserController extends Controller
      */
     public function show(User $user): View
     {
-        $this->authorize('view', User::class);
+        $this->authorize('view', $user);
 
         return \view('users.show', [
             'user' => $user,
@@ -96,7 +103,7 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
-        $this->authorize('edit', User::class);
+        $this->authorize('editUser', $user);
 
         return \view('users.edit', [
             'user' => $user,
@@ -114,8 +121,13 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user): RedirectResponse
     {
-        $this->authorize('update', User::class);
-
+        $role = $request->role;
+        match ($role){
+            'Super Admin' => $this->authorize('editSuperAdmin', $user),
+            'Admin' => $this->authorize('editAdmin', $user),
+            'Operator' => $this->authorize('editUser', $user),
+            default => 'unknown role',
+        };
         UpdateUser::run($request, $user) ;
 
         return redirect()->route('users.show',$user);
@@ -130,7 +142,13 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
-        $this->authorize('delete' , User::class);
+        $role = $user->getRoleNames()->first();
+
+        match ($role){
+            'Super Admin' => $this->authorize('deleteSuperAdmin', $user),
+            'Admin' => $this->authorize('deleteAdmin', $user),
+            'Operator' => $this->authorize('deleteUser', $user),
+        };
 
         $user->deleteOrFail();
 

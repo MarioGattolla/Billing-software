@@ -21,12 +21,12 @@ test('users index return correct view', function () {
 
 test('only authorized user can see index page', function () {
 
-    authorize_check_by_policy('show user', 'viewAny');
+    authorize_check_by_policy('show user', 'viewAny', User::class);
 });
 
 test('users create return correct view', function () {
 
-    allow_authorize('create', User::class);
+    allow_authorize('createUser', User::class);
 
     $response = app(UserController::class)->create();
 
@@ -36,21 +36,21 @@ test('users create return correct view', function () {
 
 test('only authorized user can see create page', function () {
 
-    authorize_check_by_policy('create user', 'create');
+    authorize_check_by_policy('create user', 'createUser', User::class);
 
 });
 
-test('can store users and return correct redirect', function () {
+test('can store users and return correct redirect', function (string $policy_name, string $role) {
 
    $this->seed(PermissionSeeder::class);
 
-    allow_authorize('create', User::class);
+    allow_authorize($policy_name, User::class);
 
     $request = \Illuminate\Http\Request::create(route('users.create'), 'POST', [
         'name' => 'Test Name',
         'email' => 'email@test.it',
         'password' => 'Test',
-        'role' => 'Operator',
+        'role' => $role,
     ]);
 
     $response = app(UserController::class)->store($request);
@@ -61,17 +61,21 @@ test('can store users and return correct redirect', function () {
     expect($user->name)->toBe('Test Name');
     expect($user->email)->toBe('email@test.it');
     expect(Hash::check('Test', $user->password))->toBeTrue();
-    expect($user->getRoleNames()->first())->toBe('Operator');
+    expect($user->getRoleNames()->first())->toBe($role);
     expect($response)->toBeRedirect(route('users.index'));
     expect($response)->toHaveStatus(302);
 
-});
+})->with([
+    ['createUser' , 'Operator'],
+    ['createAdmin' , 'Admin'],
+    ['createSuperAdmin', 'Super Admin'],
+]);
 
 test('users show return correct view', function () {
 
     $user = User::factory()->make();
 
-    allow_authorize('view', User::class);
+    allow_authorize('view', $user);
 
     $response = app(UserController::class)->show($user);
 
@@ -81,7 +85,9 @@ test('users show return correct view', function () {
 
 test('only authorized user can see user show page', function () {
 
-    authorize_check_by_policy('show user', 'view');
+    $user = User::factory()->make();
+
+    authorize_check_by_policy('show user', 'view', $user);
 
 });
 
@@ -89,7 +95,7 @@ test('users edit return correct view', function () {
 
     $user = User::factory()->make();
 
-    allow_authorize('edit', User::class);
+    allow_authorize('editUser', $user);
 
     $response = app(UserController::class)->edit($user);
 
@@ -99,17 +105,17 @@ test('users edit return correct view', function () {
 
 test('only authorized user can see user edit page', function () {
 
-    authorize_check_by_policy('edit user', 'edit');
+    $user = User::factory()->make();
+
+    authorize_check_by_policy('edit user', 'editUser', $user);
 
 });
 
-test('only authorized user can store user', function () {
 
-    authorize_check_by_policy('edit user', 'update');
+test('can update users and return correct redirect', function (string $policy_name, string $role) {
 
-});
+    $this->seed(PermissionSeeder::class);
 
-test('can update users and return correct redirect', function () {
 
     Role::create(['name' => 'TestRole']);
     Role::create(['name' => 'NewTestRole']);
@@ -122,13 +128,13 @@ test('can update users and return correct redirect', function () {
     ]);
     $old_user->assignRole('TestRole');
 
-    allow_authorize('update', User::class);
+    allow_authorize($policy_name, $old_user);
 
-    $request = \Illuminate\Http\Request::create(route('users.create'), 'POST', [
+    $request = \Illuminate\Http\Request::create(route('users.edit', $old_user), 'PUT', [
         'name' => 'Test New Name',
         'email' => 'newEmail@test.it',
         'password' => 'NewTest',
-        'role' => 'TestRole',
+        'role' => $role,
     ]);
 
     $response = app(UserController::class)->update($request, $old_user);
@@ -141,27 +147,34 @@ test('can update users and return correct redirect', function () {
     expect($user->name)->toBe('Test New Name');
     expect($user->email)->toBe('newEmail@test.it');
     expect(Hash::check('NewTest', $user->password))->toBeTrue();
-    expect($user->getRoleNames()->first())->toBe('TestRole');
+    expect($user->getRoleNames()->first())->toBe($role);
     expect($response)->toBeRedirect(route('users.show', $user));
 
-});
-
-test('only authorized user can delete user', function () {
-
-    authorize_check_by_policy('delete user', 'delete');
-
-});
+})->with([
+    ['editUser' , 'Operator'],
+    ['editAdmin' , 'Admin'],
+    ['editSuperAdmin', 'Super Admin'],
+]);
 
 
-test('can delete user and return correct redirect', function () {
+
+test('can delete user and return correct redirect', function (string $policy_name, string $role) {
+
+    $this->seed(PermissionSeeder::class);
 
     /** @var User $user */
     $user = User::factory()->create();
+    $user->assignRole($role);
 
-    allow_authorize('delete', User::class);
+    allow_authorize($policy_name, $user);
 
     $response = app(UserController::class)->destroy($user);
 
     expect(User::count())->toBe(0);
     expect($response)->toBeRedirect(route('users.index'));
-});
+
+})->with([
+    ['deleteUser' , 'Operator'],
+    ['deleteAdmin' , 'Admin'],
+    ['deleteSuperAdmin', 'Super Admin'],
+]);

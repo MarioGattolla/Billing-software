@@ -16,6 +16,10 @@ enum Permission: string
     case show_user = 'show user';
     case show_admin = 'show admin';
     case show_super_admin = 'show super admin';
+    case create_company = 'create company';
+    case edit_company = 'edit company';
+    case show_company = 'show company';
+    case delete_company = 'delete company';
 
     public static function get_permissions_cases_values(): array
     {

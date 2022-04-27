@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Actions\Companies ;
+namespace App\Actions\Companies;
 
 use App\Models\Company;
 use DefStudio\Actions\Concerns\ActsAsAction;
 
-class CreateNewCompany
+class UpdateCompany
 {
     use ActsAsAction;
 
     public function handle(string $business_name,string $vat_number,string $country_select,string $address,
-                           string $email,string $phone,string $contact_name): void
+                           string $email,string $phone,string $contact_name, Company $company): bool
     {
-        Company::create([
+        $old_company = Company::findOrFail($company->id);
+
+        $old_company->update([
             'business_name' => $business_name,
             'contact_name' => $contact_name,
             'vat_number' => $vat_number,
@@ -20,6 +22,8 @@ class CreateNewCompany
             'address' => $address,
             'email' => $email,
             'phone' => $phone,
-        ])->save();
+        ]);
+
+      return  $old_company->save();
     }
 }

@@ -4,10 +4,10 @@ use App\Models\Company;
 use App\Models\User;
 
 /** @var Company[] $companies */
-$companies = Company::where('contact_name', '=', 'null')->paginate(18, ['*'], $pageName = 'companies', $page = null);
+$companies = Company::where('contact_name', '=', null)->paginate(18, ['*'], $pageName = 'companies', $page = null);
 
 /** @var Company[] $privates */
-$privates = Company::where('business_name', '=', 'null')->paginate(18, ['*'], $pageName = 'privates', $page = null);
+$privates = Company::where('business_name', '=', null)->paginate(18, ['*'], $pageName = 'privates', $page = null);
 
 /** @var User $user */
 $user = Auth::user();
@@ -42,12 +42,15 @@ $user = Auth::user();
                         </div>
                         <div class=" ml-10 mr-10 flex grid grid-cols-6">
                             @foreach($companies as $company)
-                                <div class="p-3 m-2 border-green-400 border
-                            rounded-md col-span-2  text-center bg-white">
-                                    <p> {{$company->business_name}}</p>
-                                    <p> {{$company->email}}</p>
-                                    <p> {{$company->address}}</p>
-                                </div>
+                                <a class=" hover:bg-blue-50 p-3 m-2 border-green-400 border
+                            rounded-md col-span-2  text-center bg-white"
+                                   href="{{route('companies.show', $company)}}">
+                                    <div>
+                                        <p> {{$company->business_name}}</p>
+                                        <p> {{$company->email}}</p>
+                                        <p> {{$company->address}}</p>
+                                    </div>
+                                </a>
                             @endforeach
                         </div>
                         <div
@@ -61,12 +64,15 @@ $user = Auth::user();
                         </div>
                         <div class=" ml-10 mr-10 flex grid grid-cols-6">
                             @foreach($privates as $private)
-                                <div class="p-3 m-2 text-center border-green-400 border
-                            rounded-md col-span-2 bg-white">
-                                    <p>{{$private->contact_name}}</p>
-                                    <p>{{$private->email}}</p>
-                                    <p>{{$private->address}}</p>
-                                </div>
+                                <a class=" hover:bg-blue-50 p-3 m-2 border-green-400 border
+                            rounded-md col-span-2  text-center bg-white"
+                                   href="{{route('companies.show', $private)}}">
+                                    <div>
+                                        <p>{{$private->contact_name}}</p>
+                                        <p>{{$private->email}}</p>
+                                        <p>{{$private->address}}</p>
+                                    </div>
+                                </a>
                             @endforeach
                         </div>
                         <div

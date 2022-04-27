@@ -17,21 +17,25 @@ class CompanyPolicy
      * @param User $user
      * @return Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): Response|bool
     {
-        //
+        if ($user->can('show company')){
+            return true;
+        }
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param User $user
-     * @param  \App\Models\Company  $company
+     * @param Company $company
      * @return Response|bool
      */
-    public function view(User $user, Company $company)
+    public function view(User $user, Company $company): Response|bool
     {
-        //
+        if ($user->can('show company')){
+            return true;
+        }
     }
 
     /**
@@ -40,56 +44,40 @@ class CompanyPolicy
      * @param User $user
      * @return Response|bool
      */
-    public function create(User $user)
+    public function createCompany(User $user): Response|bool
     {
-
+        if ($user->can('create company')){
+            return true;
+        }
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param User $user
-     * @param  \App\Models\Company  $company
+     * @param Company $company
      * @return Response|bool
      */
-    public function update(User $user, Company $company)
+    public function editCompany(User $user, Company $company): Response|bool
     {
-        //
+        if ($user->can('edit company')){
+            return true;
+        }
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param User $user
-     * @param  \App\Models\Company  $company
+     * @param Company $company
      * @return Response|bool
      */
-    public function delete(User $user, Company $company)
+    public function deleteCompany(User $user, Company $company): Response|bool
     {
-        //
+        if ($user->can('delete company')){
+            return true;
+        }
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param User $user
-     * @param  \App\Models\Company  $company
-     * @return Response|bool
-     */
-    public function restore(User $user, Company $company)
-    {
-        //
-    }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param User $user
-     * @param  \App\Models\Company  $company
-     * @return Response|bool
-     */
-    public function forceDelete(User $user, Company $company)
-    {
-        //
-    }
 }

@@ -17,7 +17,7 @@ class CompanySeeder extends Seeder
     public function run()
     {
         Company::factory()->count(200)->state(new \Illuminate\Database\Eloquent\Factories\Sequence(
-            ['business_name' => 'null', 'vat_number' => 'null'],
-            ['contact_name' => 'null']))->create();
+            ['business_name' => null, 'vat_number' => null],
+            ['contact_name' => null]))->create();
     }
 }

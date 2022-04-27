@@ -10,7 +10,7 @@ class CreateNewUser
 {
     use ActsAsAction;
 
-    public function handle($name, $email, $password, $role): bool
+    public function handle(string $name,string $email,string $password,string $role): bool
     {
 
         /** @var User $user */

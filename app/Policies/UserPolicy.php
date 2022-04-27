@@ -37,13 +37,15 @@ class UserPolicy
         }
     }
 
+
+
     /**
      * Determine whether the user can create models.
      *
      * @param User $user
      * @return bool
      */
-    public function create(User $user)
+    public function createUser(User $user)
     {
         if ($user->can('create user')){
             return true;
@@ -51,22 +53,85 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can create models.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function createAdmin(User $user)
+    {
+        if ($user->can('create admin')){
+            return true;
+        }
+    }
+
+    /**
+     * Determine whether the user can create models.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function createSuperAdmin(User $user)
+    {
+        if ($user->can('create super admin')){
+            return true;
+        }
+    }
+
+
+    /**
+     * Determine whether the user can edit the model.
      *
      * @param User $user
      * @param User $model
      * @return Response|bool
      */
-    public function update(User $user, User $model)
+    public function editUser(User $user, User $model)
     {
         if ($user->can('edit user')){
             return true;
         }
     }
 
-    public function edit(User $user, User $model)
+    /**
+     * Determine whether the user can edit the model.
+     *
+     * @param User $user
+     * @param User $model
+     * @return Response|bool
+     */
+    public function editAdmin(User $user, User $model)
     {
-        if ($user->can('edit user')){
+        if ($user->can('edit admin')){
+            return true;
+        }
+    }
+
+    /**
+     * Determine whether the user can edit the model.
+     *
+     * @param User $user
+     * @param User $model
+     * @return Response|bool
+     */
+    public function editSuperUser(User $user, User $model)
+    {
+        if ($user->can('edit super admin')){
+            return true;
+        }
+    }
+
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param User $user
+     * @param User $model
+     * @return Response|bool
+     */
+    public function deleteUser(User $user, User $model)
+    {
+        if ($user->can('delete user')){
             return true;
         }
     }
@@ -78,9 +143,23 @@ class UserPolicy
      * @param User $model
      * @return Response|bool
      */
-    public function delete(User $user, User $model)
+    public function deleteAdmin(User $user, User $model)
     {
-        if ($user->can('delete user')){
+        if ($user->can('delete admin')){
+            return true;
+        }
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param User $user
+     * @param User $model
+     * @return Response|bool
+     */
+    public function deleteSuperAdmin(User $user, User $model)
+    {
+        if ($user->can('delete super admin')){
             return true;
         }
     }

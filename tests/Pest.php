@@ -57,7 +57,7 @@ function allow_authorize(string $ability, mixed ...$params): void
         ->andReturn(\Illuminate\Auth\Access\Response::allow());
 }
 
-function authorize_check_by_policy(string $permission_name,string $policy_name ): void
+function authorize_check_by_policy(string $permission_name,string $policy_name, mixed $params ): void
 {
 
     Permission::create(['name' => $permission_name]);
@@ -77,10 +77,10 @@ function authorize_check_by_policy(string $permission_name,string $policy_name )
     $admin->assignRole('Admin');
 
     actingAs($admin);
-    $response_admin = Gate::check($policy_name, $admin);
+    $response_admin = Gate::check($policy_name, $params);
 
     actingAs($operator);
-    $response_operator = Gate::check($policy_name, $operator);
+    $response_operator = Gate::check($policy_name, $params);
 
     expect($response_admin)->toBe(true);
     expect($response_operator)->toBe(false);

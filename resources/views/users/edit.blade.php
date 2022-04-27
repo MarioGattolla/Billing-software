@@ -43,15 +43,10 @@ $logged_user = Auth::user();
                             <p>Role</p>
                             <label>
                                 <select id="role" name="role">
-                                    @if($logged_user->hasRole('Super Admin'))
                                         <option value="{{null}}">--Select--</option>
                                         <option>Operator</option>
                                         <option>Admin</option>
                                         <option>Super Admin</option>
-                                    @else
-                                        <option>Operator</option>
-                                        <option>Admin</option>
-                                    @endif
                                 </select>
                             </label>
                         </div>
