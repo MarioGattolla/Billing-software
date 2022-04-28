@@ -15,9 +15,9 @@ class CompanyPolicy
      * Determine whether the user can view any models.
      *
      * @param User $user
-     * @return Response|bool
+     * @return mixed
      */
-    public function viewAny(User $user): Response|bool
+    public function viewAny(User $user)
     {
         if ($user->can('show company')){
             return true;
@@ -29,9 +29,9 @@ class CompanyPolicy
      *
      * @param User $user
      * @param Company $company
-     * @return Response|bool
+     * @return mixed
      */
-    public function view(User $user, Company $company): Response|bool
+    public function view(User $user, Company $company)
     {
         if ($user->can('show company')){
             return true;
@@ -42,9 +42,9 @@ class CompanyPolicy
      * Determine whether the user can create models.
      *
      * @param User $user
-     * @return Response|bool
+     * @return mixed
      */
-    public function createCompany(User $user): Response|bool
+    public function createCompany(User $user)
     {
         if ($user->can('create company')){
             return true;
@@ -56,9 +56,9 @@ class CompanyPolicy
      *
      * @param User $user
      * @param Company $company
-     * @return Response|bool
+     * @return mixed
      */
-    public function editCompany(User $user, Company $company): Response|bool
+    public function editCompany(User $user, Company $company)
     {
         if ($user->can('edit company')){
             return true;
@@ -70,9 +70,9 @@ class CompanyPolicy
      *
      * @param User $user
      * @param Company $company
-     * @return Response|bool
+     * @return mixed
      */
-    public function deleteCompany(User $user, Company $company): Response|bool
+    public function deleteCompany(User $user, Company $company)
     {
         if ($user->can('delete company')){
             return true;

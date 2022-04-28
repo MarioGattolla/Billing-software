@@ -14,7 +14,7 @@ class UserPolicy
      * Determine whether the user can view any models.
      *
      * @param User $user
-     * @return Response|bool
+     * @return mixed
      */
     public function viewAny(User $user)
     {
@@ -28,7 +28,7 @@ class UserPolicy
      *
      * @param User $user
      * @param User $model
-     * @return bool
+     * @return mixed
      */
     public function view(User $user, User $model)
     {
@@ -38,12 +38,11 @@ class UserPolicy
     }
 
 
-
     /**
      * Determine whether the user can create models.
      *
      * @param User $user
-     * @return bool
+     * @return mixed
      */
     public function createUser(User $user)
     {
@@ -56,7 +55,7 @@ class UserPolicy
      * Determine whether the user can create models.
      *
      * @param User $user
-     * @return bool
+     * @return mixed
      */
     public function createAdmin(User $user)
     {
@@ -69,7 +68,7 @@ class UserPolicy
      * Determine whether the user can create models.
      *
      * @param User $user
-     * @return bool
+     * @return mixed
      */
     public function createSuperAdmin(User $user)
     {
@@ -84,7 +83,7 @@ class UserPolicy
      *
      * @param User $user
      * @param User $model
-     * @return Response|bool
+     * @return mixed
      */
     public function editUser(User $user, User $model)
     {
@@ -98,7 +97,7 @@ class UserPolicy
      *
      * @param User $user
      * @param User $model
-     * @return Response|bool
+     * @return mixed
      */
     public function editAdmin(User $user, User $model)
     {
@@ -112,7 +111,7 @@ class UserPolicy
      *
      * @param User $user
      * @param User $model
-     * @return Response|bool
+     * @return mixed
      */
     public function editSuperUser(User $user, User $model)
     {
@@ -127,7 +126,7 @@ class UserPolicy
      *
      * @param User $user
      * @param User $model
-     * @return Response|bool
+     * @return mixed
      */
     public function deleteUser(User $user, User $model)
     {
@@ -141,7 +140,7 @@ class UserPolicy
      *
      * @param User $user
      * @param User $model
-     * @return Response|bool
+     * @return mixed
      */
     public function deleteAdmin(User $user, User $model)
     {
@@ -155,7 +154,7 @@ class UserPolicy
      *
      * @param User $user
      * @param User $model
-     * @return Response|bool
+     * @return mixed
      */
     public function deleteSuperAdmin(User $user, User $model)
     {

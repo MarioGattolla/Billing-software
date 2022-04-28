@@ -9,8 +9,8 @@ class CreateNewCompany
 {
     use ActsAsAction;
 
-    public function handle(string $business_name,string $vat_number,string $country_select,string $address,
-                           string $email,string $phone,string $contact_name): void
+    public function handle(mixed $business_name,mixed $vat_number,string $country_select,string $address,
+                           string $email,string $phone,mixed $contact_name): void
     {
         Company::create([
             'business_name' => $business_name,
