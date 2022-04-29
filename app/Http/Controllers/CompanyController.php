@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Companies\CreateNewCompany;
+use App\Actions\Companies\CreateNewProduct;
 use App\Actions\Companies\UpdateCompany;
+use App\Actions\Companies\UpdateProduct;
 use App\Models\Company;
 use DefStudio\Actions\Exceptions\ActionException;
 use Illuminate\Auth\Access\AuthorizationException;

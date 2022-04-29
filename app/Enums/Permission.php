@@ -20,6 +20,15 @@ enum Permission: string
     case edit_company = 'edit company';
     case show_company = 'show company';
     case delete_company = 'delete company';
+    case create_product = 'create product';
+    case edit_product = 'edit product';
+    case show_product = 'show product';
+    case delete_product = 'delete product';
+    case create_category = 'create category';
+    case show_category = 'show category';
+    case edit_category = 'edit category';
+    case delete_category = 'delete category';
+
 
     public static function get_permissions_cases_values(): array
     {

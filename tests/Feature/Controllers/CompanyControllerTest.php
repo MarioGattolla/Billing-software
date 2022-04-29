@@ -1,12 +1,9 @@
 <?php
 
-use App\Enums\Permission;
-use App\Enums\Role;
 use App\Http\Controllers\CompanyController;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use function Pest\Laravel\actingAs;
 
 uses(RefreshDatabase::class);
 
@@ -88,7 +85,7 @@ test('can store private and return correct redirect', function () {
 
     $response = app(CompanyController::class)->store($request);
 
-    /** @var User $user */
+    /** @var Company $company */
     $company = Company::findOrFail(1);
 
     expect($company->contact_name)->toBe('Test Name');

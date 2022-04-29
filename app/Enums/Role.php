@@ -52,6 +52,14 @@ enum Role: string
                 Permission::show_company,
                 Permission::edit_company,
                 Permission::delete_company,
+                Permission::create_product,
+                Permission::edit_product,
+                Permission::show_product,
+                Permission::delete_product,
+                Permission::create_category,
+                Permission::delete_category,
+                Permission::edit_category,
+                Permission::show_category,
             ],
             self::admin => [
                 Permission::create_user,
@@ -63,10 +71,20 @@ enum Role: string
                 Permission::show_company,
                 Permission::edit_company,
                 Permission::delete_company,
+                Permission::create_product,
+                Permission::edit_product,
+                Permission::show_product,
+                Permission::delete_product,
+                Permission::edit_category,
+                Permission::show_category,
+
             ],
             self::operator => [
                 Permission::show_user,
                 Permission::show_company,
+                Permission::show_product,
+                Permission::show_category,
+
             ],
 
         };
