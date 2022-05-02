@@ -14,6 +14,13 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        Category::factory()->count(10)->create();
+        Category::factory()->create(['name' => 'Computers']);
+        Category::factory()->create(['name' => 'Mouses']);
+        Category::factory()->create(['name' => 'Keyboards']);
+        Category::factory()->create(['name' => 'Laptops']);
+        Category::factory()->create(['name' => 'All In One']);
+        Category::factory()->create(['name' => 'Storage Drives']);
+        Category::factory()->create(['name' => 'Microphones']);
+
     }
 }

@@ -10,7 +10,7 @@ class UpdateCategory
 {
     use ActsAsAction;
 
-    public function handle(string $name, string $description, Category $category ): bool
+    public function handle(string $name, mixed $description, Category $category ): bool
     {
         $old_category = Category::findOrFail($category->id);
 

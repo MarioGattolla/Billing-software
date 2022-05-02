@@ -1,22 +1,22 @@
 <?php
 
 
-namespace App\Actions\Categories;
+namespace App\Actions\Subcategories;
 
-use App\Models\Category;
+use App\Models\Subcategory;
 use DefStudio\Actions\Concerns\ActsAsAction;
 
-class CreateNewCategory
+class CreateNewSubcategory
 {
     use ActsAsAction;
 
     public function handle(string $name, mixed $description ): bool
     {
-        $category = Category::create([
+        $subcategory = Subcategory::create([
             'name' => $name,
             'description' => $description,
         ]);
 
-        return $category->save();
+        return $subcategory->save();
     }
 }

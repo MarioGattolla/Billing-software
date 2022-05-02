@@ -56,7 +56,6 @@ class CategoryController extends Controller
 
         $this->validate($request, [
             'name' => 'required|string',
-            'description' => 'required|string',
         ]);
 
         $name = $request->input('name');
@@ -115,7 +114,6 @@ class CategoryController extends Controller
 
         $this->validate($request, [
             'name' => 'required|string',
-            'description' => 'required|string',
         ]);
 
         $name = $request->input('name');

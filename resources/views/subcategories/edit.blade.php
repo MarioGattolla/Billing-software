@@ -1,38 +1,37 @@
 <?php
 
-use App\Models\User;
+/** @var Subcategory $subcategory */
 
-/** @var User $user */
-$user = Auth::user();
+use App\Models\Subcategory;
 
 ?>
-
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <div class="pb-10 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class=" ml-20 mt-10 bg-white  text-xl ">
-                    Here you can create a new Category
+                    Edit Subcategory : {{$subcategory->name }}
                 </div>
                 <div class="m-10 bg-gray-100 p-10 border rounded-md">
-                    <form method="POST" action="{{route('categories.store')}}" name="categories_create_form">
+                    <form method="POST" action="/subcategories/{{$subcategory->id}}" name="subcategories_update_form">
                         @csrf
+                        @method('PUT')
 
                         <div class="pt-2">
-                            <p>Category Name</p>
+                            <p>Subcategory Name</p>
                             <label for="name">
-                                <input class="rounded-md " name="name" type="text" id="name" required/>
+                                <input class="rounded-md " value="{{$subcategory->name}}"  name="name" type="text" id="name"/>
                             </label>
                         </div>
 
                         <div class="pt-2">
-                            <p>Category Description</p>
-                                <label for="description">
-                                <input class="rounded-md" type="text" id="description" name="description" />
+                            <p>Subcategory Description</p>
+                            <label for="description">
+                                <input class="rounded-md" value="{{$subcategory-> description}}" type="text" id="description"
+                                       name="description"/>
                             </label>
                         </div>
-
 
                         <button
                             class="w-1/5 bg-green-200 mt-3 h-10 rounded-md border border-green-400 hover:bg-green-400 type="

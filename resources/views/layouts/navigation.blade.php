@@ -12,6 +12,8 @@
         <div class="ml-10"> <a href="{{route('companies.index')}}">Companies</a></div>
         <div class="ml-10"> <a href="{{route('products.index')}}">Products</a></div>
         <div class="ml-10"> <a href="{{route('categories.index')}}">Categories</a></div>
+        <div class="ml-10"> <a href="{{route('subcategories.index')}}">Subcategories</a></div>
+
 
     </div>
     <div class="block lg:hidden">
