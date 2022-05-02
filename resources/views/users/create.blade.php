@@ -1,11 +1,4 @@
-<?php
 
-use App\Models\User;
-
-/** @var User $user */
-$user = Auth::user();
-
-?>
 
 <x-app-layout>
     <div class="py-12">
@@ -19,38 +12,8 @@ $user = Auth::user();
                     <form method="POST" action="{{route('users.store')}}" name="users_create_form">
                         @csrf
 
-                        <div class="pt-2">
-                            <p>User Name and Surname</p>
-                            <label for="name">
-                                <input class="rounded-md " name="name" type="text" id="name" required/>
-                            </label>
-                        </div>
+                        <x-users.main-data :user="$user"/>
 
-                        <div class="pt-2">
-                            <p>User Email</p>
-                                <label for="email">
-                                <input class="rounded-md" type="email" id="email" name="email" required/>
-                            </label>
-                        </div>
-
-
-                        <div class="pt-2">
-                            <p>User Password</p>
-                            <label for="password">
-                                <input class="rounded-md " type="password" id="password" name="password" required/>
-                            </label>
-                        </div>
-
-                        <div class="pt-2">
-                            <p>Role</p>
-                            <label>
-                                <select id="role" name="role" required>
-                                        <option>Operator</option>
-                                        <option>Admin</option>
-                                        <option>Super Admin</option>
-                                </select>
-                            </label>
-                        </div>
 
                         <button
                             class="w-1/5 bg-green-200 mt-3 h-10 rounded-md border border-green-400 hover:bg-green-400 type="

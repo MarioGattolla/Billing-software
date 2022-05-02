@@ -26,6 +26,8 @@ test('only authorized user can see index page', function () {
 
 test('users create return correct view', function () {
 
+    Role::create(['name' => 'Operator']);
+
     allow_authorize('createUser', User::class);
 
     $response = app(UserController::class)->create();

@@ -8,9 +8,11 @@ use App\Models\User;
 use DefStudio\Actions\Exceptions\ActionException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Role;
 use Throwable;
 
 class UserController extends Controller
@@ -38,7 +40,10 @@ class UserController extends Controller
     {
         $this->authorize('createUser', User::class);
 
-        return \view('users.create');
+        $new_user = User::make();
+        $new_user->setRelation('roles', Collection::make([Role::findByName(\App\Enums\Role::operator->value)]));
+
+        return \view('users.create')->with('user', $new_user);
     }
 
     /**
@@ -118,6 +123,7 @@ class UserController extends Controller
      * @return RedirectResponse
      * @throws ActionException
      * @throws AuthorizationException
+     * @throws ValidationException
      */
     public function update(Request $request, User $user): RedirectResponse
     {
@@ -128,6 +134,22 @@ class UserController extends Controller
             'Operator' => $this->authorize('editUser', $user),
             default => 'unknown role',
         };
+
+        if ($request->password == null){
+            $this->validate($request,[
+                'name' => 'required|string',
+                'email' => 'required|email',
+            ]);
+        }
+        else{
+            $this->validate($request,[
+                'name' => 'required|string',
+                'email' => 'required|email',
+                'password' => 'required'
+            ]);
+
+        }
+
         UpdateUser::run($request, $user) ;
 
         return redirect()->route('users.show',$user);

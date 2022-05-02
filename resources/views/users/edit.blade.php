@@ -16,40 +16,7 @@ $logged_user = Auth::user();
                         @csrf
                         @method('PUT')
 
-                        <div class="pt-2">
-                            <p>User Name and Surname</p>
-                            <label for="name">
-                                <input class="rounded-md " value="{{$user->name}}"  name="name" type="text" id="name"/>
-                            </label>
-                        </div>
-
-                        <div class="pt-2">
-                            <p>User Email</p>
-                            <label for="email">
-                                <input class="rounded-md" value="{{$user->email}}" type="email" id="email"
-                                       name="email"/>
-                            </label>
-                        </div>
-
-
-                        <div class="pt-2">
-                            <p>New Password</p>
-                            <label for="password">
-                                <input class="rounded-md " type="password" value="{{$user->password}}" id="password" name="password"/>
-                            </label>
-                        </div>
-
-                        <div class="pt-2">
-                            <p>Role</p>
-                            <label>
-                                <select id="role" name="role">
-                                        <option value="{{null}}">--Select--</option>
-                                        <option>Operator</option>
-                                        <option>Admin</option>
-                                        <option>Super Admin</option>
-                                </select>
-                            </label>
-                        </div>
+                       <x-users.main-data :user="$user"/>
 
                         <button
                             class="w-1/5 bg-green-200 mt-3 h-10 rounded-md border border-green-400 hover:bg-green-400 type="
