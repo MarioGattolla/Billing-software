@@ -21,7 +21,7 @@ $categories = Category::orderBy('name')->paginate(18);
                     <div class="m-7 ">
                         <a href="{{route('categories.create')}}"
                            class="p-3 border rounded-md border-green-400 hover:bg-green-400
-                            bg-green-200 text-sm">Add a new Category</a>
+                            bg-green-200 text-sm">Add a new Category/Subcategory</a>
                     </div>
                 </div>
 

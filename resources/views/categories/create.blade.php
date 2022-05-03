@@ -13,23 +13,36 @@ $user = Auth::user();
 
             <div class="pb-10 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class=" ml-20 mt-10 bg-white  text-xl ">
-                    Here you can create a new Category
+                    Here you can create a new Category/Subcategory
                 </div>
-                <div class="m-10 bg-gray-100 p-10 border rounded-md">
+                <div x-data="radioFilter()" class="m-10 bg-gray-100 p-10 border rounded-md">
                     <form method="POST" action="{{route('categories.store')}}" name="categories_create_form">
                         @csrf
 
+
                         <div class="pt-2">
-                            <p>Category Name</p>
+                            <p>Name</p>
                             <label for="name">
                                 <input class="rounded-md " name="name" type="text" id="name" required/>
                             </label>
                         </div>
 
                         <div class="pt-2">
-                            <p>Category Description</p>
-                                <label for="description">
-                                <input class="rounded-md" type="text" id="description" name="description" />
+                            <p>Description</p>
+                            <label for="description">
+                                <input class="rounded-md" type="text" id="description" name="description"/>
+                            </label>
+                        </div>
+
+                        <div class="pt-2">
+                            <p>Parent Category</p>
+                            <label>
+                                <select name="parent_id">
+                                    <option selected value="{{null}}">-- Root --</option>
+                                    @foreach(\App\Models\Category::orderBy('name')->get() as $category)
+                                        <option value="{{$category->id}}">{{$category->name }}</option>
+                                    @endforeach
+                                </select>
                             </label>
                         </div>
 

@@ -19,7 +19,7 @@ $countries = CountryListFacade::getList();
 
 
         }
-    };
+    }
 
 
 </script>

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('description')->nullable();
+            $table->foreignId('parent_id')->nullable()->references('id')->on('categories')->nullOnDelete();
         });
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Categories\CreateNewCategory;
 use App\Actions\Categories\UpdateCategory;
+use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Category;
 use DefStudio\Actions\Exceptions\ActionException;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -44,24 +45,23 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param StoreCategoryRequest $request
      * @return RedirectResponse
-     * @throws AuthorizationException
-     * @throws ValidationException
      * @throws ActionException
+     * @throws AuthorizationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreCategoryRequest $request): RedirectResponse
     {
-        $this->authorize('createCategory', Category::class);
 
-        $this->validate($request, [
-            'name' => 'required|string',
-        ]);
+       $this->authorize('createCategory', Category::class);
 
-        $name = $request->input('name');
-        $description = $request->input('description');
+        $validated = $request->validated();
 
-        CreateNewCategory::run($name, $description);
+        $parent_id = $validated['parent_id'];
+        $name = $validated['name'];
+        $description = $validated['description'];
+
+        CreateNewCategory::run($name, $description, $parent_id);
 
         return redirect()->route('categories.index');
     }

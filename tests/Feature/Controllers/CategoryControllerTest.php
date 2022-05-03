@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -46,9 +47,11 @@ test('can store category and return correct redirect', function () {
     $request = \Illuminate\Http\Request::create(route('categories.create'), 'POST', [
         'name' => 'Test Name',
         'description' => 'Test Description',
-
+        'parent_id' => null,
     ]);
 
+   $test = StoreCategoryRequest::create($request);
+    dd($test);
     $response = app(CategoryController::class)->store($request);
 
     /** @var Category $category */
@@ -56,6 +59,32 @@ test('can store category and return correct redirect', function () {
 
     expect($category->name)->toBe('Test Name');
     expect($category->description)->toBe('Test Description');
+    expect($category->parent_id)->toBe(null);
+
+    expect($response)->toHaveStatus(302);
+    expect($response)->toBeRedirect(route('categories.index'));
+})->only();
+
+test('can store subcategory and return correct redirect', function () {
+
+    allow_authorize('createCategory', Category::class);
+
+    Category::factory()->create(['name' => 'Test Category']);
+
+    $request = StoreCategoryRequest::create(route('categories.create'), 'POST', [
+        'name' => 'Test Name',
+        'description' => 'Test Description',
+        'parent_id' => 1,
+    ]);
+
+    $response = app(CategoryController::class)->store($request);
+
+    /** @var Category $subcategory */
+    $subcategory = Category::find(2);
+
+    expect($subcategory->name)->toBe('Test Name');
+    expect($subcategory->description)->toBe('Test Description');
+    expect($subcategory->parent->name)->toBe('Test Category');
 
     expect($response)->toHaveStatus(302);
     expect($response)->toBeRedirect(route('categories.index'));
