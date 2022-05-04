@@ -4,6 +4,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Translation\Translator;
+use Illuminate\Validation\Validator;
+
 
 uses(RefreshDatabase::class);
 
@@ -44,26 +47,24 @@ test('can store category and return correct redirect', function () {
 
     allow_authorize('createCategory', Category::class);
 
-    $request = \Illuminate\Http\Request::create(route('categories.create'), 'POST', [
-        'name' => 'Test Name',
-        'description' => 'Test Description',
-        'parent_id' => null,
-    ]);
+    $translator = $this->createMock(Translator::class);
+    $request = new StoreCategoryRequest();
+    $validator = new Validator($translator, ['name' => 'Test name', 'parent_id' => null, 'description' => null], $request->rules());
 
-   $test = StoreCategoryRequest::create($request);
-    dd($test);
-    $response = app(CategoryController::class)->store($request);
+     $validated = $request->setValidator($validator);
+
+     $response = app(CategoryController::class)->store($validated);
 
     /** @var Category $category */
     $category = Category::findOrFail(1);
 
-    expect($category->name)->toBe('Test Name');
-    expect($category->description)->toBe('Test Description');
+    expect($category->name)->toBe('Test name');
+    expect($category->description)->toBe(null);
     expect($category->parent_id)->toBe(null);
 
     expect($response)->toHaveStatus(302);
     expect($response)->toBeRedirect(route('categories.index'));
-})->only();
+});
 
 test('can store subcategory and return correct redirect', function () {
 
@@ -71,19 +72,19 @@ test('can store subcategory and return correct redirect', function () {
 
     Category::factory()->create(['name' => 'Test Category']);
 
-    $request = StoreCategoryRequest::create(route('categories.create'), 'POST', [
-        'name' => 'Test Name',
-        'description' => 'Test Description',
-        'parent_id' => 1,
-    ]);
+    $translator = $this->createMock(Translator::class);
+    $request = new StoreCategoryRequest();
+    $validator = new Validator($translator, ['name' => 'Test name', 'parent_id' => 1, 'description' => null], $request->rules());
 
-    $response = app(CategoryController::class)->store($request);
+    $validated = $request->setValidator($validator);
+
+    $response = app(CategoryController::class)->store($validated);
 
     /** @var Category $subcategory */
     $subcategory = Category::find(2);
 
-    expect($subcategory->name)->toBe('Test Name');
-    expect($subcategory->description)->toBe('Test Description');
+    expect($subcategory->name)->toBe('Test name');
+    expect($subcategory->description)->toBe(null);
     expect($subcategory->parent->name)->toBe('Test Category');
 
     expect($response)->toHaveStatus(302);

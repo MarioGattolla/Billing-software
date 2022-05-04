@@ -46,11 +46,17 @@ class Category extends Model
         'parent_id',
     ];
 
+    /**
+     * @return HasMany<Category>
+     */
     public function children(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_id', 'id');
     }
 
+    /**
+     * @return BelongsTo<Category, Category>
+     */
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'parent_id');

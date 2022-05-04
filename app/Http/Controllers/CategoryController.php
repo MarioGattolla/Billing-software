@@ -102,24 +102,24 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param StoreCategoryRequest $request
      * @param Category $category
      * @return RedirectResponse
+     * @throws ActionException
      * @throws AuthorizationException
-     * @throws ValidationException|ActionException
      */
-    public function update(Request $request, Category $category): RedirectResponse
+    public function update(StoreCategoryRequest $request, Category $category): RedirectResponse
     {
+
         $this->authorize('editCategory', $category);
 
-        $this->validate($request, [
-            'name' => 'required|string',
-        ]);
+        $validated = $request->validated();
 
-        $name = $request->input('name');
-        $description = $request->input('description');
+        $parent_id = $validated['parent_id'];
+        $name = $validated['name'];
+        $description = $validated['description'];
 
-        UpdateCategory::run($name, $description, $category);
+        UpdateCategory::run($name, $description, $parent_id , $category);
 
         return redirect()->route('categories.show', $category);
     }

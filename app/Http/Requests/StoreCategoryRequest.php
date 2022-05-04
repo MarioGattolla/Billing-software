@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use JetBrains\PhpStorm\ArrayShape;
 
 class StoreCategoryRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class StoreCategoryRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -22,12 +23,12 @@ class StoreCategoryRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+     public function rules(): array
     {
         return [
             'name' => 'required|string',
-            'description' => 'nullable' ,
-            'parent_id' => 'nullable',
+            'description' => 'string|nullable' ,
+            'parent_id' => 'integer|nullable',
         ];
     }
 }

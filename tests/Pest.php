@@ -85,3 +85,4 @@ function authorize_check_by_policy(string $permission_name,string $policy_name, 
     expect($response_admin)->toBe(true);
     expect($response_operator)->toBe(false);
 }
+

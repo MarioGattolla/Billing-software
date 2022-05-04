@@ -12,15 +12,18 @@ class CategorySeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         Category::factory()->create(['name' => 'Computers']);
-        Category::factory()->create(['name' => 'Mouses']);
+        Category::factory()->create(['name' => 'Storage Disks']);
         Category::factory()->create(['name' => 'Keyboards']);
-        Category::factory()->create(['name' => 'Laptops']);
-        Category::factory()->create(['name' => 'All In One']);
-        Category::factory()->create(['name' => 'Storage Drives']);
-        Category::factory()->create(['name' => 'Microphones']);
-
+        Category::factory()->create(['name' => 'All In One' , 'parent_id' => 1]);
+        Category::factory()->create(['name' => 'Notebook' , 'parent_id' => 1]);
+        Category::factory()->create(['name' => 'Desktop' , 'parent_id' => 1]);
+        Category::factory()->create(['name' => 'Hard Disk' , 'parent_id' => 2]);
+        Category::factory()->create(['name' => 'SSD' , 'parent_id' => 2]);
+        Category::factory()->create(['name' => 'SSD mini' , 'parent_id' => 2]);
+        Category::factory()->create(['name' => 'Mechanics' , 'parent_id' => 3]);
+        Category::factory()->create(['name' => 'Wireless' , 'parent_id' => 3]);
     }
 }

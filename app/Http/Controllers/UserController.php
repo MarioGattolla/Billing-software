@@ -40,7 +40,7 @@ class UserController extends Controller
     {
         $this->authorize('createUser', User::class);
 
-        $new_user = User::make();
+        $new_user = new User();
         $new_user->setRelation('roles', Collection::make([Role::findByName(\App\Enums\Role::operator->value)]));
 
         return \view('users.create')->with('user', $new_user);
