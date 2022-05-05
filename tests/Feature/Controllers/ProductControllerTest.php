@@ -2,8 +2,13 @@
 
 
 use App\Http\Controllers\ProductController;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\StoreProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Translation\Translator;
+use Illuminate\Validation\Validator;
 
 uses(RefreshDatabase::class);
 
@@ -44,20 +49,40 @@ test('can store product and return correct redirect', function () {
 
     allow_authorize('createProduct', Product::class);
 
-    $request = \Illuminate\Http\Request::create(route('products.create'), 'POST', [
-        'name' => 'Test Name',
-        'description' => 'Test Description',
-        'min_stock' => 10,
-    ]);
+    Category::factory()->create();
 
-    $response = app(ProductController::class)->store($request);
+    $translator = $this->createMock(Translator::class);
+    $request = new StoreProductRequest();
+    $validator = new Validator($translator,
+        [
+            'name' => 'Test name',
+            'description' => 'Test description',
+            'min_stock' => 10,
+            'weight' => 2,
+            'category_id' => 1,
+            'price' => 20.10,
+            'vat' => 20,
+            'department' => 2,
+
+        ],
+        $request->rules());
+
+    $validated = $request->setValidator($validator);
+
+    $response = app(ProductController::class)->store($validated);
 
     /** @var Product $product */
     $product = Product::findOrFail(1);
 
-    expect($product->name)->toBe('Test Name');
-    expect($product->description)->toBe('Test Description');
+    expect($product->name)->toBe('Test name');
+    expect($product->description)->toBe('Test description');
     expect($product->min_stock)->toBe(10);
+    expect($product->weight)->toBe(2);
+    expect($product->category_id)->toBe(1);
+    expect($product->price)->toBe(2010);
+    expect($product->vat)->toBe(20);
+    expect($product->department)->toBe(2);
+
 
     expect($response)->toHaveStatus(302);
     expect($response)->toBeRedirect(route('products.index'));
@@ -110,28 +135,43 @@ test('can update product and return correct redirect', function () {
 
 
     /** @var Product $old_product */
-    $old_product = Product::factory()->create([
-        'name' => 'Test Name',
-        'description' => 'Test Description',
-        'min_stock' => 10,
-    ]);
+    $old_product = Product::factory()->create();
 
     allow_authorize('editProduct', $old_product);
 
-    $request = \Illuminate\Http\Request::create(route('products.edit', $old_product), 'PUT', [
-        'name' => 'New Test Name',
-        'description' => 'New Test Description',
-        'min_stock' => 11,
-    ]);
+    Category::factory()->create();
 
-    $response = app(ProductController::class)->update($request, $old_product);
+    $translator = $this->createMock(Translator::class);
+    $request = new StoreProductRequest();
+    $validator = new Validator($translator,
+        [
+            'name' => 'Test name',
+            'description' => 'Test description',
+            'min_stock' => 10,
+            'weight' => 2,
+            'category_id' => 1,
+            'price' => 20.10,
+            'vat' => 20,
+            'department' => 2,
+
+        ],
+        $request->rules());
+
+    $validated = $request->setValidator($validator);
+    $response = app(ProductController::class)->update($validated, $old_product);
 
     /** @var Product $product */
     $product = Product::findOrFail(1);
 
-    expect($product->name)->toBe('New Test Name');
-    expect($product->description)->toBe('New Test Description');
-    expect($product->min_stock)->toBe(11);
+    expect($product->name)->toBe('Test name');
+    expect($product->description)->toBe('Test description');
+    expect($product->min_stock)->toBe(10);
+    expect($product->weight)->toBe(2);
+    expect($product->category_id)->toBe(1);
+    expect($product->price)->toBe(2010);
+    expect($product->vat)->toBe(20);
+    expect($product->department)->toBe(2);
+
 
     expect($response)->toHaveStatus(302);
     expect($response)->toBeRedirect(route('products.show', $product));

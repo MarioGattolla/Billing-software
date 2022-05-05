@@ -18,27 +18,7 @@ use App\Models\Product;
                         @csrf
                         @method('PUT')
 
-                        <div class="pt-2">
-                            <p>Product Name</p>
-                            <label for="name">
-                                <input class="rounded-md " value="{{$product->name}}"  name="name" type="text" id="name"/>
-                            </label>
-                        </div>
-
-                        <div class="pt-2">
-                            <p>Product Description</p>
-                            <label for="description">
-                                <input class="rounded-md" value="{{$product-> description}}" type="text" id="description"
-                                       name="description"/>
-                            </label>
-                        </div>
-
-                        <div class="pt-2">
-                            <p>Product Minimum Stock</p>
-                            <label for="min_stock">
-                                <input class="rounded-md " value="{{$product->min_stock}}" type="number" id="min_stock" name="min_stock" required/>
-                            </label>
-                        </div>
+                        <x-products.main-data :product="$product"/>
 
                         <button
                             class="w-1/5 bg-green-200 mt-3 h-10 rounded-md border border-green-400 hover:bg-green-400 type="

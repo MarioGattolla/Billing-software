@@ -10,8 +10,7 @@ use DefStudio\Actions\Exceptions\ActionException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+
 use Throwable;
 
 class CategoryController extends Controller
@@ -39,7 +38,9 @@ class CategoryController extends Controller
     {
         $this->authorize('createCategory', Category::class);
 
-        return \view('categories.create');
+        $category = Category::factory()->make(['parent_id' => null]);
+
+        return \view('categories.create' , ['category' => $category]);
     }
 
     /**

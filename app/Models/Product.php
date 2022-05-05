@@ -6,6 +6,8 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -28,6 +30,19 @@ use Illuminate\Support\Carbon;
  * @property string $name
  * @method static \Database\Factories\ProductFactory factory(...$parameters)
  * @method static Builder|Product whereName($value)
+ * @property int $weight
+ * @property string $department
+ * @property int $category_id
+ * @property int $price
+ * @property int $vat
+ * @property-read \App\Models\Category $category
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read int|null $orders_count
+ * @method static Builder|Product whereCategoryId($value)
+ * @method static Builder|Product whereDepartment($value)
+ * @method static Builder|Product wherePrice($value)
+ * @method static Builder|Product whereVat($value)
+ * @method static Builder|Product whereWeight($value)
  */
 class Product extends Model
 {
@@ -37,5 +52,21 @@ class Product extends Model
         'name',
         'description',
         'min_stock',
+        'department',
+        'category_id',
+        'weight',
+        'price',
+        'vat',
     ];
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class);
+    }
 }
+

@@ -19,33 +19,7 @@ $user = Auth::user();
                     <form method="POST" action="{{route('categories.store')}}" name="categories_create_form">
                         @csrf
 
-
-                        <div class="pt-2">
-                            <p>Name</p>
-                            <label for="name">
-                                <input class="rounded-md " name="name" type="text" id="name" required/>
-                            </label>
-                        </div>
-
-                        <div class="pt-2">
-                            <p>Description</p>
-                            <label for="description">
-                                <input class="rounded-md" type="text" id="description" name="description"/>
-                            </label>
-                        </div>
-
-                        <div class="pt-2">
-                            <p>Parent Category</p>
-                            <label>
-                                <select name="parent_id">
-                                    <option selected value="{{null}}">-- Root --</option>
-                                    @foreach(\App\Models\Category::orderBy('name')->get() as $category)
-                                        <option value="{{$category->id}}">{{$category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </label>
-                        </div>
-
+                        <x-categories.main-data :category="$category"/>
 
                         <button
                             class="w-1/5 bg-green-200 mt-3 h-10 rounded-md border border-green-400 hover:bg-green-400 type="

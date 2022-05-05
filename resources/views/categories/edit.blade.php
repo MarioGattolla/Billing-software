@@ -18,20 +18,7 @@ use App\Models\Category;
                         @csrf
                         @method('PUT')
 
-                        <div class="pt-2">
-                            <p>Category Name</p>
-                            <label for="name">
-                                <input class="rounded-md " value="{{$category->name}}"  name="name" type="text" id="name"/>
-                            </label>
-                        </div>
-
-                        <div class="pt-2">
-                            <p>Category Description</p>
-                            <label for="description">
-                                <input class="rounded-md" value="{{$category-> description}}" type="text" id="description"
-                                       name="description"/>
-                            </label>
-                        </div>
+                        <x-categories.main-data :category="$category"/>
 
                         <button
                             class="w-1/5 bg-green-200 mt-3 h-10 rounded-md border border-green-400 hover:bg-green-400 type="

@@ -136,32 +136,56 @@ test('only authorized user can see user edit page', function () {
 
 test('can update category and return correct redirect', function () {
 
+    allow_authorize('editCategory', Category::class);
 
-    /** @var Category $old_category */
-    $old_category = Category::factory()->create([
-        'name' => 'Test Name',
-        'description' => 'Test Description',
-    ]);
+    $category = Category::factory()->create(['name' => 'Test', 'parent_id' => null]);
 
-    allow_authorize('editCategory', $old_category);
+    $translator = $this->createMock(Translator::class);
+    $request = new StoreCategoryRequest();
+    $validator = new Validator($translator, ['name' => 'Test name', 'parent_id' => null, 'description' => null], $request->rules());
 
-    $request = \Illuminate\Http\Request::create(route('categories.edit', $old_category), 'PUT', [
-        'name' => 'New Test Name',
-        'description' => 'New Test Description',
-    ]);
+    $validated = $request->setValidator($validator);
 
-    $response = app(CategoryController::class)->update($request, $old_category);
+    $response = app(CategoryController::class)->update($validated, $category);
 
     /** @var Category $category */
     $category = Category::findOrFail(1);
 
-    expect($category->name)->toBe('New Test Name');
-    expect($category->description)->toBe('New Test Description');
+    expect($category->name)->toBe('Test name');
+    expect($category->description)->toBe(null);
+    expect($category->parent_id)->toBe(null);
 
     expect($response)->toHaveStatus(302);
     expect($response)->toBeRedirect(route('categories.show', $category));
-
 });
+
+test('can update subcategory and return correct redirect', function () {
+
+    allow_authorize('editCategory', Category::class);
+
+    Category::factory()->create(['name' => 'Parent', 'parent_id' => null]);
+
+    $subcategory = Category::factory()->create(['name' => 'Test', 'parent_id' => null]);
+
+    $translator = $this->createMock(Translator::class);
+    $request = new StoreCategoryRequest();
+    $validator = new Validator($translator, ['name' => 'Test name', 'parent_id' => 1, 'description' => null], $request->rules());
+
+    $validated = $request->setValidator($validator);
+
+    $response = app(CategoryController::class)->update($validated, $subcategory);
+
+    /** @var Category $subcategory */
+    $subcategory = Category::find(2);
+
+    expect($subcategory->name)->toBe('Test name');
+    expect($subcategory->description)->toBe(null);
+    expect($subcategory->parent->name)->toBe('Parent');
+
+    expect($response)->toHaveStatus(302);
+    expect($response)->toBeRedirect(route('categories.show', $subcategory));
+});
+
 
 
 test('can delete category and return correct redirect', function () {

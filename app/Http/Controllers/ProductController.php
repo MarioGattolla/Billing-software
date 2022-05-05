@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Actions\Products\CreateNewProduct;
 use App\Actions\Products\UpdateProduct;
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Product;
 use DefStudio\Actions\Exceptions\ActionException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
-use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class ProductController extends Controller
@@ -38,33 +37,25 @@ class ProductController extends Controller
     {
         $this->authorize('createProduct', Product::class);
 
-        return view('products.create');
+        $product = new  Product();
+        return view('products.create', ['product' => $product]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param StoreProductRequest $request
      * @return RedirectResponse
-     * @throws AuthorizationException
-     * @throws ValidationException
      * @throws ActionException
+     * @throws AuthorizationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreProductRequest $request): RedirectResponse
     {
         $this->authorize('createProduct', Product::class);
 
-        $this->validate($request, [
-            'name' => 'required|string',
-            'description' => 'required|string',
-            'min_stock' => 'required|integer',
-        ]);
+        $validated = $request->validated();
 
-        $name = $request->input('name');
-        $description = $request->input('description');
-        $min_stock = $request->input('min_stock');
-
-        CreateNewProduct::run($name, $description, $min_stock);
+        CreateNewProduct::run($validated);
 
         return redirect()->route('products.index');
     }
@@ -103,27 +94,19 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param StoreProductRequest $request
      * @param Product $product
      * @return RedirectResponse
-     * @throws AuthorizationException|ValidationException
      * @throws ActionException
+     * @throws AuthorizationException
      */
-    public function update(Request $request, Product $product): RedirectResponse
+    public function update(StoreProductRequest $request, Product $product): RedirectResponse
     {
         $this->authorize('editProduct', $product);
 
-        $this->validate($request, [
-            'name' => 'required|string',
-            'description' => 'required|string',
-            'min_stock' => 'required|integer',
-        ]);
+        $validated = $request->validated();
 
-        $name = $request->input('name');
-        $description = $request->input('description');
-        $min_stock = $request->input('min_stock');
-
-        UpdateProduct::run($name, $description, $min_stock, $product);
+        UpdateProduct::run($validated, $product);
 
         return redirect()->route('products.show', $product);
     }

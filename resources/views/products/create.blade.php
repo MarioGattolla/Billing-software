@@ -19,28 +19,7 @@ $user = Auth::user();
                     <form method="POST" action="{{route('products.store')}}" name="products_create_form">
                         @csrf
 
-                        <div class="pt-2">
-                            <p>Product Name</p>
-                            <label for="name">
-                                <input class="rounded-md " name="name" type="text" id="name" required/>
-                            </label>
-                        </div>
-
-                        <div class="pt-2">
-                            <p>Product Description</p>
-                                <label for="description">
-                                <input class="rounded-md" type="text" id="description" name="description" required/>
-                            </label>
-                        </div>
-
-
-                        <div class="pt-2">
-                            <p>Product Minimum Stock</p>
-                            <label for="min_stock">
-                                <input class="rounded-md " type="number" id="min_stock" name="min_stock" required/>
-                            </label>
-                        </div>
-
+                        <x-products.main-data :product="$product"/>
 
                         <button
                             class="w-1/5 bg-green-200 mt-3 h-10 rounded-md border border-green-400 hover:bg-green-400 type="
