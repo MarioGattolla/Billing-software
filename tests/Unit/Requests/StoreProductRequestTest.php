@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\StoreProductRequest;
 use Illuminate\Translation\Translator;
 use Illuminate\Validation\Validator;
@@ -61,4 +60,4 @@ test('validation pass with correct data', function (array $data, bool $valid) {
 
             ];
     }
-)->only();
+);

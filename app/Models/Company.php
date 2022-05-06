@@ -7,6 +7,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -37,6 +38,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Company whereVatNumber($value)
  * @mixin Eloquent
  * @method static CompanyFactory factory(...$parameters)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read int|null $orders_count
  */
 class Company extends Model
 {
@@ -51,4 +54,10 @@ class Company extends Model
         'phone',
         'vat_number',
     ];
+
+    /** @return HasMany<Order> */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'company_id', 'id');
+    }
 }

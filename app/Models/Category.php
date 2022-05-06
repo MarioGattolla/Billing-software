@@ -35,7 +35,7 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $children_count
  * @property-read Category|null $parent
  * @method static Builder|Category whereParentId($value)
- * @property-read Collection|\App\Models\Product[] $products
+ * @property-read Collection|Product[] $products
  * @property-read int|null $products_count
  */
 class Category extends Model
@@ -64,6 +64,7 @@ class Category extends Model
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
+    /** @return HasMany<Product> */
     public function products(): HasMany
     {
         return $this->hasMany(Product::class, 'category_id', 'id');

@@ -40,6 +40,7 @@ class InvoiceRaw extends Model
         'order_product_id',
     ];
 
+    /** @return BelongsTo<Invoice, InvoiceRaw> */
     public function invoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class, 'invoice_id');

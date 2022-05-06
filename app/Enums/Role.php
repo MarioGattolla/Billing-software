@@ -64,6 +64,10 @@ enum Role: string
                 Permission::delete_subcategory,
                 Permission::edit_subcategory,
                 Permission::show_subcategory,
+                Permission::create_order,
+                Permission::edit_order,
+                Permission::delete_order,
+                Permission::show_order,
             ],
             self::admin => [
                 Permission::create_user,
@@ -82,6 +86,10 @@ enum Role: string
                 Permission::edit_category,
                 Permission::show_category,
                 Permission::show_subcategory,
+                Permission::create_order,
+                Permission::edit_order,
+                Permission::delete_order,
+                Permission::show_order,
 
 
             ],
@@ -91,6 +99,7 @@ enum Role: string
                 Permission::show_product,
                 Permission::show_category,
                 Permission::show_subcategory,
+                Permission::show_order,
             ],
 
         };

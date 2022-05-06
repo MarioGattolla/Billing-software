@@ -32,6 +32,10 @@ enum Permission: string
     case show_subcategory = 'show subcategory';
     case edit_subcategory = 'edit subcategory';
     case delete_subcategory = 'delete subcategory';
+    case create_order = 'create order';
+    case show_order = 'show order';
+    case edit_order = 'edit order';
+    case delete_order = 'delete order';
 
 
     public static function get_permissions_cases_values(): array

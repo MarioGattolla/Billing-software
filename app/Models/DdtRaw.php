@@ -34,6 +34,7 @@ class DdtRaw extends Model
         'order_product_id',
     ];
 
+    /** @return BelongsTo<Ddt , DdtRaw> */
     public function ddt(): BelongsTo
     {
         return $this->belongsTo(Ddt::class, 'ddt_id');

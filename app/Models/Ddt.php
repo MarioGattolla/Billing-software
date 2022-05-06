@@ -48,11 +48,13 @@ class Ddt extends Model
         'date' => 'datetime:d-m-Y',
     ];
 
+    /** @return BelongsToMany<Order> */
     public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class);
     }
 
+    /** @return HasMany<DdtRaw> */
     public function ddtRaws(): HasMany
     {
         return $this->hasMany(DdtRaw::class, 'ddt_id', 'id');

@@ -57,11 +57,13 @@ class Invoice extends Model
         'order_date' => 'datetime:d-m-Y',
     ];
 
+    /** @return BelongsToMany<Order> */
     public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class);
     }
 
+    /** @return HasMany<InvoiceRaw> */
     public function invoiceRaws(): HasMany
     {
         return $this->hasMany(InvoiceRaw::class, 'invoice_id', 'id');

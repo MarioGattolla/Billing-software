@@ -3,83 +3,107 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
+     * @throws AuthorizationException
      */
-    public function index()
+    public function index(): View
     {
-        //
+        $this->authorize('showAny', Order::class);
+
+        return view('orders.index');
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
+     * @throws AuthorizationException
      */
-    public function create()
+    public function create(): View
     {
-        //
+        $this->authorize('createOrder', Order::class);
+
+        return \view('orders.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws AuthorizationException
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $this->authorize('createOrder', Order::class);
+
+        return redirect()->route('orders.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
+     * @param Order $order
+     * @return View
+     * @throws AuthorizationException
      */
-    public function show(Order $order)
+    public function show(Order $order): View
     {
-        //
+        $this->authorize('show', $order);
+
+        return \view('orders.show', ['order' => $order]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
+     * @param Order $order
+     * @return View
+     * @throws AuthorizationException
      */
-    public function edit(Order $order)
+    public function edit(Order $order): View
     {
-        //
+        $this->authorize('editOrder', $order);
+
+        return \view('orders.edit', ['order' => $order]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Order $order
+     * @return RedirectResponse
+     * @throws AuthorizationException
      */
-    public function update(Request $request, Order $order)
+    public function update(Request $request, Order $order): RedirectResponse
     {
-        //
+        $this->authorize('editOrder', $order);
+
+        return redirect()->route('orders.show', ['order' => $order]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
+     * @param Order $order
+     * @return RedirectResponse
+     * @throws AuthorizationException
      */
-    public function destroy(Order $order)
+    public function destroy(Order $order): RedirectResponse
     {
-        //
+        $this->authorize('deleteOrder', $order);
+
+        return redirect()->route('orders.index');
     }
 }

@@ -59,11 +59,13 @@ class Product extends Model
         'vat',
     ];
 
+    /** @return BelongsTo<Category, Product> */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    /** @return BelongsToMany<Order> */
     public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class);
