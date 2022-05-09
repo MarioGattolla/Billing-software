@@ -5,15 +5,19 @@
                 [{id: 1, name: 'Ingoing Order'},
                     {id: 2, name: 'Outgoing Order'}],
             selectedRadioID: 1,
-
-
-        }
-    }
-
-    function table() {
-        return {
             fields: [],
             modal: false,
+            search: '',
+            selectedProductIndex: 0,
+            product: {
+                id: null,
+                name: null,
+                description: null,
+                price: null,
+                vat: null,
+            },
+            filteredProduct: [],
+
             addNewField() {
                 this.fields.push({
                     name: '',
@@ -26,9 +30,57 @@
             },
             removeField(index) {
                 this.fields.splice(index, 1);
-            }
+            },
+
+            searchProduct(event) {
+
+                if (event.keyCode > 36 && event.keyCode < 41) {
+                    return event.preventDefault();
+                }
+
+                if (this.search === '') {
+                    return this.filteredProduct = '';
+                }
+                axios.get('{{URL::to('/orders/search')}}', {
+                    'params': {'search': this.search}
+                }).then(response => {
+                    this.filteredProduct = response.data;
+                });
+
+                this.selectedProductIndex = 0;
+            },
+
+            reset() {
+                this.search = '';
+                this.filteredProduct = '';
+            },
+
+            selectNextProduct() {
+                if (this.selectedProductIndex === '') {
+                    this.selectedProductIndex = 0;
+                } else {
+                    if (this.selectedProductIndex < this.filteredProduct.length - 1) {
+                        this.selectedProductIndex++;
+
+                    }
+                }
+            },
+
+            selectPreviousProduct() {
+                if (this.selectedProductIndex === '') {
+                    this.selectedProductIndex = 0;
+                } else {
+
+                    if (this.selectedProductIndex > 0) {
+                        this.selectedProductIndex--;
+                    }
+                }
+            },
         }
+
+
     }
+
 
 </script>
 
@@ -50,14 +102,15 @@
                             @csrf
                             <template x-for="item in radioItem" :key="item.id">
                                 <div class="p-1">
-                                    <input x-model="selectedRadioID" type="radio" :value="item.id" :id="item.name">
+                                    <label>
+                                        <input x-model="selectedRadioID" type="radio" :value="item.id" :id="item.name">
+                                    </label>
                                     <label x-text="item.name"></label>
 
                                 </div>
                             </template>
                             <div x-show="selectedRadioID == 1
                                 " class="pt-1"
-                                 x-show="open"
                                  x-transition:enter="transition ease-out duration-300"
                                  x-transition:enter-start="opacity-0 scale-90"
                                  x-transition:enter-end="opacity-100 scale-100"
@@ -65,12 +118,11 @@
                                  x-transition:leave-start="opacity-100 scale-100"
                                  x-transition:leave-end="opacity-0 scale-90">
                                 <p>Business</p>
-                                <input class="rounded-md  " type="text" id="business_name" name="business_name"/>
+                                <label for="business_name"></label><input class="rounded-md  " type="text" id="business_name" name="business_name"/>
                             </div>
 
                             <div x-show="selectedRadioID == 2"
                                  class="pt-1"
-                                 x-show="open"
                                  x-transition:enter="transition ease-out duration-300"
                                  x-transition:enter-start="opacity-0 scale-90"
                                  x-transition:enter-end="opacity-100 scale-100"
@@ -78,11 +130,11 @@
                                  x-transition:leave-start="opacity-100 scale-100"
                                  x-transition:leave-end="opacity-0 scale-90">
                                 <p>Contact Name</p>
-                                <input class="rounded-md  " type="text" id="contact_name" name="contact_name"/>
+                                <label for="contact_name"></label><input class="rounded-md  " type="text" id="contact_name" name="contact_name"/>
                             </div>
 
 
-                            <div class="row" x-data="table()">
+                            <div class="row">
                                 <div class="mt-4">
                                     <table class="table-fixed w-full  bg-white table-bordered rounded-md
                                      align-items-center table-sm border-gray-400 border">
@@ -101,19 +153,31 @@
                                         <tbody>
                                         <template x-for="(field, index) in fields" :key="index">
                                             <tr class=" ">
-                                                <td class=""><input x-model="field.name" type="text" name="name[]"
-                                                                    class="w-full border-gray-400"/></td>
-                                                <td class=""><input x-model="field.description" type="text"
-                                                                    name="description[]"
-                                                                    class="w-full border-gray-400"/></td>
-                                                <td class=""><input x-model="field.price" type="number" name="price[]"
-                                                                    class="w-full border-gray-400"/></td>
-                                                <td class=""><input x-model="field.vat" type="number" name="vat[]"
-                                                                    class="w-full border-gray-400"/></td>
-                                                <td><input x-model="field.quantity" type="number" name="quantity[]"
-                                                           class="w-full border-gray-400"/></td>
-                                                <td><input x-model="field.total" type="number" name="total[]"
-                                                           class="w-full border-gray-400"/></td>
+                                                <td class=""><label>
+                                                        <input x-model="field.name" type="text" name="name[]"
+                                                                            class="w-full border-gray-400"/>
+                                                    </label></td>
+                                                <td class=""><label>
+                                                        <input x-model="field.description" type="text"
+                                                                            name="description[]"
+                                                                            class="w-full border-gray-400"/>
+                                                    </label></td>
+                                                <td class=""><label>
+                                                        <input x-model="field.price" type="number" name="price[]"
+                                                                            class="w-full border-gray-400"/>
+                                                    </label></td>
+                                                <td class=""><label>
+                                                        <input x-model="field.vat" type="number" name="vat[]"
+                                                                            class="w-full border-gray-400"/>
+                                                    </label></td>
+                                                <td><label>
+                                                        <input x-model="field.quantity" type="number" name="quantity[]"
+                                                                   class="w-full border-gray-400"/>
+                                                    </label></td>
+                                                <td><label>
+                                                        <input x-model="field.total" type="number" name="total[]"
+                                                                   class="w-full border-gray-400"/>
+                                                    </label></td>
                                                 <td class="text-center">
                                                     <button type="button" class="w-full" @click="removeField(index)">
                                                         &times;
@@ -147,6 +211,33 @@
                                             </div>
                                         </div>
 
+                                        <div class=" rounded-md  flex-col w-1/3 p-2 ">
+                                            <label for="search"></label><input class="w-full flex-col "
+                                                                               autocomplete="off"
+                                                                               type="search"
+                                                                               id="search"
+                                                                               x-model="search" placeholder="Search for Product"
+                                                                               @click.away="reset()"
+                                                                               x-on:keyup="searchProduct"
+                                                                               x-on:keyup.down="selectNextProduct()"
+                                                                               x-on:keyup.up="selectPreviousProduct()"
+
+                                            />
+
+
+                                            <div class="overflow-y-auto max-h-52 border-2"
+                                                 x-show="filteredProduct.length>0">
+                                                <template x-for="(selected_product, index) in filteredProduct">
+                                                    <option class=" p-2   rounded-md hover:bg-indigo-100"
+                                                            @click="product = selected_product"
+                                                            x-text="selected_product.name + ' ' + selected_product.description"
+                                                            :class="{'bg-indigo-100': index===selectedProductIndex}">
+                                                    </option>
+
+                                                </template>
+                                            </div>
+                                        </div>
+
                                         <div class="col-span-1 items-center ">
                                             <button class="p-3 border rounded-md border-green-400 hover:bg-green-400
                                             bg-green-200 text-sm" x-on:click="modal = false">
@@ -160,18 +251,18 @@
 
                             <div class="pt-2">
                                 <p>Address</p>
-                                <input class="rounded-md  " type="text" id="address" name="address" required/>
+                                <label for="address"></label><input class="rounded-md  " type="text" id="address" name="address" required/>
                             </div>
 
                             <div class="pt-2">
                                 <p>Email</p>
-                                <input class="rounded-md  " type="email" id="email" name="email" required/>
+                                <label for="email"></label><input class="rounded-md  " type="email" id="email" name="email" required/>
                             </div>
 
 
                             <div class="pt-2">
                                 <p>Phone Number</p>
-                                <input class="rounded-md " type="text" id="phone" name="phone" required/>
+                                <label for="phone"></label><input class="rounded-md " type="text" id="phone" name="phone" required/>
                             </div>
 
                             <button

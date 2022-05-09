@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
+
 class PermissionSeeder extends Seeder
 {
     /**
@@ -37,9 +38,10 @@ class PermissionSeeder extends Seeder
 
     private function revoke_old_permissions(Role $role, \App\Enums\Role $role_enum)
     {
-        $role_permissions = $role->get_all_permissions_values_by_role();
+        $role_permissions = collect($role->getPermissionNames())->toArray();
 
         $enum_permissions = $role_enum->get_permissions_values_by_role();
+
         $permissions_diff = array_diff($role_permissions, $enum_permissions);
 
         foreach ($permissions_diff as $permission_diff) {
@@ -50,16 +52,17 @@ class PermissionSeeder extends Seeder
 
     private function delete_old_rules_and_permissions()
     {
-        $roles = Role::get_all_roles_name();
+        $roles = Role::all()->map(fn(Role $role) => $role->name)->toArray();
 
         $roles_enum = \App\Enums\Role::get_roles_cases_values();
+
         $roles_diff = array_diff($roles, $roles_enum);
 
         foreach ($roles_diff as $role_diff) {
             Role::findByName($role_diff)->deleteOrFail();
         }
 
-        $permissions = Permission::get_all_permissions_name();
+        $permissions = Permission::all()->map(fn(Permission $permission) => $permission->name)->toArray();
 
         $permissions_enum = \App\Enums\Permission::get_permissions_cases_values();
         $permissions_diff = array_diff($permissions, $permissions_enum);

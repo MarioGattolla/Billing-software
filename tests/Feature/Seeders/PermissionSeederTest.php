@@ -43,7 +43,7 @@ test('seeder remove old role ', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    expect(Role::get_all_roles_name())
+    expect(Role::all()->map(fn(Role $role) => $role->name)->toArray())
         ->toMatchArray(\App\Enums\Role::get_roles_cases_values());
 });
 
@@ -57,7 +57,8 @@ test('seeder revoke old permissions', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    expect(Role::findByName($role_enum->value)->get_all_permissions_values_by_role())
+    $role = Role::findByName($role_enum->value);
+    expect($role->getPermissionNames()->toArray())
         ->toMatchArray($role_enum->get_permissions_values_by_role());
 });
 
@@ -67,7 +68,7 @@ test('seeder remove old permissions', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-$permissions = Permission::get_all_permissions_name();
-$enum_permissions = \App\Enums\Permission::get_permissions_cases_values();
+    $permissions = Permission::all()->map(fn(Permission $permission) => $permission->name)->toArray();
+    $enum_permissions = \App\Enums\Permission::get_permissions_cases_values();
     expect(array_diff($enum_permissions, $permissions))->toBe([]);
 });

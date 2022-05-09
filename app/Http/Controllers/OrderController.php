@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use DB;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class OrderController extends Controller
@@ -105,5 +109,13 @@ class OrderController extends Controller
         $this->authorize('deleteOrder', $order);
 
         return redirect()->route('orders.index');
+    }
+
+    public function search(Request $request): Response|Application|ResponseFactory
+    {
+        $products = DB::table('products')->where('name', 'like', "%" . $request->search . "%" )
+            ->get(['id', 'name', 'description', 'price', 'vat']);
+
+        return response($products);
     }
 }
