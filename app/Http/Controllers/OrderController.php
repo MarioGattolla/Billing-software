@@ -111,11 +111,5 @@ class OrderController extends Controller
         return redirect()->route('orders.index');
     }
 
-    public function search(Request $request): Response|Application|ResponseFactory
-    {
-        $products = DB::table('products')->where('name', 'like', "%" . $request->search . "%" )
-            ->get(['id', 'name', 'description', 'price', 'vat']);
 
-        return response($products);
-    }
 }

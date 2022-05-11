@@ -18,7 +18,10 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('order_id')->nullable()->references('id')->on('orders')->nullOnDelete();
             $table->foreignId('product_id')->nullable()->references('id')->on('products')->nullOnDelete();
+            $table->integer('price_ex_vat');
+            $table->integer('total');
             $table->integer('quantity');
+            $table->integer('company_id');
         });
     }
 

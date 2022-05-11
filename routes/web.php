@@ -8,6 +8,8 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceRawController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SearchCompanyController;
+use App\Http\Controllers\SearchProductController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -37,7 +39,13 @@ Route::resource('orders', OrderController::class)->middleware(['auth']);
 Route::resource('ddts/{id}/ddtRaws', DdtRawController::class)->middleware(['auth']);
 Route::resource('invoices/{id}/invoiceRaws', InvoiceRawController::class)->middleware(['auth']);
 
-Route::get('/orders/search', [OrderController::class , 'search'])->name('search_product');
+Route::get('/search/product', [SearchProductController::class , 'search_products'])->name('search_product');
+Route::get('/search/product_by_company', [SearchProductController::class , 'search_products_by_company'])->name('search_product');
+
+
+Route::get('/search/company/all', [SearchCompanyController::class , 'search_companies_privates'])->name('search_company');
+Route::get('/search/company/companies', [SearchCompanyController::class , 'search_companies'])->name('search_company');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

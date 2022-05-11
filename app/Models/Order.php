@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -37,7 +38,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Order whereType($value)
  * @method static Builder|Order whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read \App\Models\Company|null $company
+ * @property-read Company|null $company
+ * @method static OrderFactory factory(...$parameters)
  */
 class Order extends Model
 {
@@ -57,7 +59,7 @@ class Order extends Model
     /** @return BelongsToMany<Product> */
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->using(OrdersProducts::class);
     }
 
     /** @return BelongsToMany<Invoice> */

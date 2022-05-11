@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('type');
-            $table->foreignId('companies_id')->references('id')->on('companies');
+            $table->foreignId('companies_id')->nullable()->references('id')->on('companies');
             $table->integer('discount')->nullable();
             $table->date('date');
         });

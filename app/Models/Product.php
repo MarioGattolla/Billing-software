@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -68,7 +69,24 @@ class Product extends Model
     /** @return BelongsToMany<Order> */
     public function orders(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class);
+        return $this->belongsToMany(Order::class)->using(OrdersProducts::class);
     }
+
+    public function price(): Attribute
+    {
+        return Attribute::make(
+            get: fn(int $price) => round($price/100, 2),
+            set: fn(float $price) => $this->attributes['price'] = floor($price*100),
+        );
+    }
+
+    public function vat_price(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->price*(100+$this-> vat)/100
+        );
+    }
+
+
 }
 
