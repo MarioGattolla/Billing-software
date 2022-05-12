@@ -18,7 +18,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string $type
- * @property int $companies_id
  * @property int|null $discount
  * @property Carbon $date
  * @property-read Collection|Ddt[] $ddts
@@ -40,6 +39,8 @@ use Illuminate\Support\Carbon;
  * @mixin \Eloquent
  * @property-read Company|null $company
  * @method static OrderFactory factory(...$parameters)
+ * @property int|null $company_id
+ * @method static Builder|Order whereCompanyId($value)
  */
 class Order extends Model
 {
@@ -47,7 +48,7 @@ class Order extends Model
 
     protected $fillable = [
         'type',
-        'companies_id',
+        'company_id',
         'discount',
         'date',
     ];

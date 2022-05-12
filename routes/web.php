@@ -41,6 +41,7 @@ Route::resource('invoices/{id}/invoiceRaws', InvoiceRawController::class)->middl
 
 Route::get('/search/product', [SearchProductController::class , 'search_products'])->name('search_product');
 Route::get('/search/product_by_company', [SearchProductController::class , 'search_products_by_company'])->name('search_product');
+Route::get('/search/product_by_company_filtered', [SearchProductController::class , 'search_products_by_company_filtered'])->name('search_product');
 
 
 Route::get('/search/company/all', [SearchCompanyController::class , 'search_companies_privates'])->name('search_company');

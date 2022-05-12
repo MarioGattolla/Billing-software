@@ -21,7 +21,6 @@ return new class extends Migration
             $table->integer('price_ex_vat');
             $table->integer('total');
             $table->integer('quantity');
-            $table->integer('company_id');
         });
     }
 

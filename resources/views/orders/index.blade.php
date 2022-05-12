@@ -2,8 +2,8 @@
 
 use App\Models\Order;
 
-$ingoing_orders = Order::where('type', '==', 'ingoing')->paginate(18, ['*'], $pageName = 'ingoing', $page = null);
-$outgoing_orders = Order::where('type', '==', 'outgoing')->paginate(18, ['*'], $pageName = 'outgoing', $page = null);
+$ingoing_orders = Order::where('type', '=', 'ingoing')->paginate(18, ['*'], $pageName = 'ingoing', $page = null);
+$outgoing_orders = Order::where('type', '=', 'outgoing')->paginate(18, ['*'], $pageName = 'outgoing', $page = null);
 
 /** @var Order $ingoing_order */
 /** @var Order $outgoing_order */
@@ -28,7 +28,6 @@ $outgoing_orders = Order::where('type', '==', 'outgoing')->paginate(18, ['*'], $
                     </div>
                 </div>
 
-
                 <div class="  p-3 ml-10 mr-10  mb-10">
 
 
@@ -42,10 +41,17 @@ $outgoing_orders = Order::where('type', '==', 'outgoing')->paginate(18, ['*'], $
                                 <a class=" hover:bg-blue-50 p-3 m-2 border-green-400 border
                             rounded-md col-span-2  text-center bg-white"
                                    href="{{route('orders.show', $ingoing_order)}}">
-                                    <div>
-                                        <p> {{$ingoing_order->company->business_name}}</p>
-                                        <p> {{$ingoing_order->date}}</p>
-                                    </div>
+                                    @if($ingoing_order->company->business_name == null)
+                                        <div>
+                                            <p> {{$ingoing_order->company->contact_name}}</p>
+                                            <p> {{$ingoing_order->date}}</p>
+                                        </div>
+                                    @else
+                                        <div>
+                                            <p> {{$ingoing_order->company->business_name}}</p>
+                                            <p> {{$ingoing_order->date}}</p>
+                                        </div>
+                                    @endif
                                 </a>
                             @endforeach
                         </div>
@@ -65,11 +71,16 @@ $outgoing_orders = Order::where('type', '==', 'outgoing')->paginate(18, ['*'], $
                                    href="{{route('orders.show', $outgoing_order)}}">
                                     <div>
                                         @if($outgoing_order->company->business_name == null)
-                                            <p>{{$outgoing_order->company->contact_name}}</p>
+                                            <div>
+                                                <p> {{$outgoing_order->company->contact_name}}</p>
+                                                <p> {{$outgoing_order->date}}</p>
+                                            </div>
                                         @else
-                                            <p>{{$outgoing_order->company->contact_name}}</p>
+                                            <div>
+                                                <p> {{$outgoing_order->company->business_name}}</p>
+                                                <p> {{$outgoing_order->date}}</p>
+                                            </div>
                                         @endif
-                                        <p>{{$outgoing_order->date}}</p>
                                     </div>
                                 </a>
                             @endforeach

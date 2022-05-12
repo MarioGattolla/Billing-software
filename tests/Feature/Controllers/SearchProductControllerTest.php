@@ -2,8 +2,12 @@
 
 use App\Http\Controllers\SearchProductController;
 use App\Models\Company;
+use App\Models\Order;
+use App\Models\OrdersProducts;
 use App\Models\Product;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Pest\Laravel\seed;
 
 uses(RefreshDatabase::class);
 
@@ -23,7 +27,7 @@ it('can search products', function () {
         ]);
 
 
-    $request = Request::create('/search', 'GET', [
+    $request = Request::create('/search/product', 'GET', [
         'search' => 'tes',
     ]);
 
@@ -35,33 +39,23 @@ it('can search products', function () {
 });
 
 
-
 it('can search products_by_company', function () {
 
-    Company::factory()->count(2)->create();
+    seed(DatabaseSeeder::class);
 
-    Product::factory()->count(3)->create();
+    $id = Company::factory()->create()->id;
 
+    $order = Order::factory()->set_movements()->create(['company_id' => $id, 'type' =>'Test']);
 
+    $products_count = OrdersProducts::where('order_id', '=', $order->id)
+        ->get()->map(fn(OrdersProducts $movement) => $movement->product_id)->count();
 
-    $products = Product::factory()->count(5)->create(['name' => 'test'])
-        ->map(fn(Product $product) => [
-            'id' => $product->id,
-            'name' => $product->name,
-            'description' => $product->description,
-            'price' => $product->price,
-            'vat' => $product->vat,
-
-        ]);
-
-
-    $request = Request::create('/search', 'GET', [
-        'search' => 'tes',
+    $request = Request::create('/search/product_by_company', 'GET', [
+        'id' => $id,
     ]);
 
-    $response = app(SearchProductController::class)->search_products($request);
+    $response = app(SearchProductController::class)->search_products_by_company($request);
 
+    expect($response->count())->toBe($products_count);
 
-    expect($response->count())->toBe(5);
-
-})->only();
+});

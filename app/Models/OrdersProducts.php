@@ -44,7 +44,6 @@ class OrdersProducts extends Model
         'product_id',
         'quantity',
         'total',
-        'company_id',
         'price_ex_vat',
     ];
 }

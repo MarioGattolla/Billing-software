@@ -86,7 +86,7 @@ test('can store product and return correct redirect', function () {
 
     expect($response)->toHaveStatus(302);
     expect($response)->toBeRedirect(route('products.index'));
-});
+})->only();
 
 
 test('products show return correct view', function () {
