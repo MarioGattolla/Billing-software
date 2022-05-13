@@ -3,7 +3,7 @@
 use App\Http\Controllers\SearchProductController;
 use App\Models\Company;
 use App\Models\Order;
-use App\Models\OrdersProducts;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -47,8 +47,8 @@ it('can search products_by_company', function () {
 
     $order = Order::factory()->set_movements()->create(['company_id' => $id, 'type' =>'Test']);
 
-    $products_count = OrdersProducts::where('order_id', '=', $order->id)
-        ->get()->map(fn(OrdersProducts $movement) => $movement->product_id)->count();
+    $products_count = OrderProduct::where('order_id', '=', $order->id)
+        ->get()->map(fn(OrderProduct $movement) => $movement->product_id)->count();
 
     $request = Request::create('/search/product_by_company', 'GET', [
         'id' => $id,

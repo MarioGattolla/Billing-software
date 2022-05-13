@@ -17,7 +17,7 @@ class CreateNewProduct
         $weight = $validated['weight'];
         $department = $validated['department'];
         $category_id = $validated['category_id'];
-        $price = $validated['price']*100;
+        $price = $validated['price'];
         $vat = $validated['vat'];
 
         $product = Product::create([

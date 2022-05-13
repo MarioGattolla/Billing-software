@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ddts_orders', function (Blueprint $table) {
+        Schema::create('ddt_order', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->foreignId('ddt_id')->references('id')->on('ddts');

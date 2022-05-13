@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('invoices_orders', function (Blueprint $table) {
+        Schema::create('invoice_order', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->foreignId('invoice_id')->references('id')->on('invoices');

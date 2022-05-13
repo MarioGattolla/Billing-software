@@ -1,24 +1,17 @@
 <?php
 
-namespace App\Actions\Companies;
+namespace App\Actions\Orders ;
 
 use App\Models\Company;
 use DefStudio\Actions\Concerns\ActsAsAction;
 
-class CreateNewCompany
+class CreateNewOrder
 {
     use ActsAsAction;
 
-    public function handle($validated): void
+    public function handle(mixed $business_name,mixed $vat_number,string $country_select,string $address,
+                           string $email,string $phone,mixed $contact_name): void
     {
-        $business_name = $validated->businessname;
-        $contact_name = $validated->contact_name;
-        $vat_number = $validated->vat_number;
-        $country_select = $validated->country_select;
-        $address = $validated->address;
-        $email = $validated->email;
-        $phone = $validated->phone;
-
         Company::create([
             'business_name' => $business_name,
             'contact_name' => $contact_name,

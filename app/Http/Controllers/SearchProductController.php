@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
 use App\Models\Order;
-use App\Models\OrdersProducts;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -28,8 +28,8 @@ class SearchProductController extends Controller
         if ($orders_id->count() == 0) {
             return response(null);
         } else {
-            $products_id = OrdersProducts::where('order_id', '=', $orders_id)
-                ->get()->map(fn(OrdersProducts $movement) => $movement->product_id);
+            $products_id = OrderProduct::where('order_id', '=', $orders_id)
+                ->get()->map(fn(OrderProduct $movement) => $movement->product_id);
 
             /** @var Product[] $products */
             $products = Product::where('name', 'like', "%" . $request->search . "%")

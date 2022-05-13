@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Company;
 use App\Models\Order;
-use App\Models\OrdersProducts;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -53,7 +53,7 @@ class OrderFactory extends Factory
                 $product = Product::find($random_product);
 
                 $quantity = random_int(1, 10);
-                OrdersProducts::factory()->create([
+                OrderProduct::factory()->create([
                     'order_id' => $order->id,
                     'product_id' => $product->id,
                     'price_ex_vat' => $product->price * $quantity,

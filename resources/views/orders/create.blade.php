@@ -21,6 +21,7 @@
             searchCompanyOnly: '',
             selectedProductIndex: 0,
             selectedCompanyIndex: 0,
+            tempCompanyId: null,
 
             product: {
                 id: null,
@@ -198,6 +199,7 @@
                 this.searchProduct = '';
                 this.filteredProduct = [];
                 this.fields.push({
+                    id: product.id,
                     name: product.name,
                     description: product.description,
                     price: product.price,
@@ -205,6 +207,9 @@
                     quantity: '',
                     total: ''
                 });
+                if (this.tempCompanyId != null) {
+                    this.company.id = this.tempCompanyId;
+                }
             },
 
             company_all_click(company) {
@@ -234,10 +239,7 @@
                 this.company = [];
                 this.company_type = 1;
             },
-            submitButtonClick(event) {
-                event.preventDefault();
-                //other stuff you want to do instead...
-            }
+
 
         }
 
@@ -257,10 +259,11 @@
                 <div class="m-10 ">
 
 
-                    <div x-data="formFilter()"  class="bg-gray-100 p-10 max-w border rounded-md">
+                    <div x-data="formFilter()" class="bg-gray-100 p-10 max-w border rounded-md">
 
 
-                        <form method="POST"  x-on:keydown.enter="event.preventDefault()"  action="{{route('orders.store')}}" name="orders_create_form">
+                        <form method="POST" x-on:keydown.enter="event.preventDefault()"
+                              action="{{route('orders.store')}}" name="orders_create_form">
                             @csrf
                             <template x-for="item in radioItem" :key="item.id">
                                 <div class="p-1">
@@ -272,6 +275,9 @@
 
                                 </div>
                             </template>
+
+                            <input x-model="company.id" type="text" name="company.id" hidden/>
+
                             <div x-show="selectedRadioID == 1
                                 " class="pt-1"
                                  x-transition:enter="transition ease-out duration-300"
@@ -317,7 +323,6 @@
                                     </div>
                                 </div>
 
-                                <x-orders.create.order-product-table/>
 
                                 <div x-show="modal == true" class="fixed top-0 right-0 left-0 w-full
                                 h-full bg-gray-100 bg-opacity-75 flex items-center  "
@@ -379,7 +384,6 @@
 
                                 </div>
 
-                                <x-orders.create.order-product-table/>
 
                                 <div x-show="modal == true" class="fixed top-0 right-0 left-0 w-full
                                  h-full bg-gray-100 bg-opacity-75 flex items-center "
@@ -389,8 +393,11 @@
 
                                 </div>
                             </div>
+                            <div>
+                                <x-orders.create.order-product-table/>
+                            </div>
 
-                            <x-elements.button type="submit"  class="w-1/5 bg-green-200 mt-3 h-10 rounded-md
+                            <x-elements.button type="submit" class="w-1/5 bg-green-200 mt-3 h-10 rounded-md
                                   border border-green-400 hover:bg-green-400 ">
                                 Submit
                             </x-elements.button>

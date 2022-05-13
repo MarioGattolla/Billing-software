@@ -6,6 +6,7 @@ use App\Actions\Companies\CreateNewCompany;
 use App\Actions\Companies\CreateNewProduct;
 use App\Actions\Companies\UpdateCompany;
 use App\Actions\Companies\UpdateProduct;
+use App\Http\Requests\StoreCompanyRequest;
 use App\Models\Company;
 use DefStudio\Actions\Exceptions\ActionException;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -46,57 +47,26 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param StoreCompanyRequest $request
      * @return RedirectResponse
-     * @throws ValidationException
-     * @throws ActionException|AuthorizationException
+     * @throws ActionException
+     * @throws AuthorizationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreCompanyRequest $request): RedirectResponse
     {
 
         $this->authorize('createCompany', Company::class);
 
         // Request is a Company
-        if ($request->selectedRadioID == 1) {
-            $this->validate($request, [
-                'business_name' => 'required',
-                'vat_number' => 'required',
-                'country_select' => 'required',
-                'email' => 'required',
-                'phone' => 'required',
-                'address' => 'required',
-            ]);
-
-            $request->contact_name = null;
-
-        }
-
-        // Request is a Private
+        if ($request->validated()->selectedRadioID == 1) {
+            $request->validated()->contact_name = null;
+        } // Request is a Private
         else {
-            $this->validate($request, [
-                'contact_name' => 'required',
-                'country_select' => 'required',
-                'email' => 'required|email',
-                'phone' => 'required',
-                'address' => 'required'
-
-            ]);
-
-            $request->business_name = null;
-            $request->vat_number = null;
-
+            $request->validated()->business_name = null;
+            $request->validated()->vat_number = null;
         }
 
-        $business_name = $request->business_name;
-        $contact_name = $request->contact_name;
-        $vat_number = $request->vat_number;
-        $country_select = $request->country_select;
-        $email = $request->email;
-        $phone = $request->phone;
-        $address = $request->address;
-
-        CreateNewCompany::run($business_name, $vat_number, $country_select, $address,
-            $email, $phone, $contact_name);
+        CreateNewCompany::run($request->validated());
 
         return redirect()->route('companies.index');
     }
@@ -136,54 +106,23 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param StoreCompanyRequest $request
      * @param Company $company
      * @return RedirectResponse
-     * @throws AuthorizationException|ActionException
-     * @throws ValidationException
+     * @throws AuthorizationException
      */
-    public function update(Request $request, Company $company): RedirectResponse
+    public function update(StoreCompanyRequest $request, Company $company): RedirectResponse
     {
         $this->authorize('editCompany', $company);
 
-        if ($company->vat_number == null){
-            $this->validate($request, [
-                'contact_name' => 'required',
-                'country_select' => 'required',
-                'email' => 'required|email',
-                'phone' => 'required',
-                'address' => 'required'
-
-            ]);
-
-            $contact_name = $request->contact_name;
-            $business_name = null;
-            $vat_number = null;
+        dd($company);
+        if ($company->contact_name == null) {
+            $request->validated()->contact_name = null;
+        } // Request is a Private
+        else {
+            $request->validated()->business_name = null;
+            $request->validated()->vat_number = null;
         }
-        else{
-            $this->validate($request, [
-                'business_name' => 'required',
-                'vat_number' => 'required',
-                'country_select' => 'required',
-                'email' => 'required',
-                'phone' => 'required',
-                'address' => 'required',
-            ]);
-
-
-            $business_name = $request->business_name;
-            $vat_number = $request->vat_number;
-            $contact_name = null;
-        }
-
-
-        $country_select = $request->country_select;
-        $email = $request->email;
-        $phone = $request->phone;
-        $address = $request->address;
-
-        UpdateCompany::run($business_name, $vat_number, $country_select, $address,
-            $email, $phone, $contact_name, $company);
 
         return redirect()->route('companies.show', $company);
     }

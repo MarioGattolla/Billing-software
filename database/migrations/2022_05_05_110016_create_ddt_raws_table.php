@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('ddt_id')->references('id')->on('ddts');
-            $table->foreignId('order_product_id')->references('id')->on('orders_products');
+            $table->foreignId('order_product_id')->references('id')->on('order_product');
         });
     }
 

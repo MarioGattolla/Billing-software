@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('invoice_id')->references('id')->on('invoices');
             $table->integer('vat');
-            $table->foreignId('order_product_id')->references('id')->on('orders_products');
+            $table->foreignId('order_product_id')->references('id')->on('order_product');
         });
     }
 

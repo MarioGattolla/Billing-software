@@ -69,7 +69,7 @@ class Product extends Model
     /** @return BelongsToMany<Order> */
     public function orders(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class)->using(OrdersProducts::class);
+        return $this->belongsToMany(Order::class)->using(OrderProduct::class);
     }
 
     public function price(): Attribute

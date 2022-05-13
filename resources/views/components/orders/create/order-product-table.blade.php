@@ -19,7 +19,15 @@
             </thead>
             <tbody>
             <template x-for="(field, index) in fields" :key="index">
+
                 <tr class=" ">
+
+
+                    <td class="" hidden><label>
+                            <input x-model="field.id" type="number" name="id[]"
+                                    min="1" hidden/>
+                        </label></td>
+
                     <td class=""><label>
                             <input x-model="field.name" type="text" name="name[]"
                                    class="w-full border-gray-400" min="1"/>
@@ -27,11 +35,11 @@
                     <td class=""><label>
                             <input x-model="field.description" type="text"
                                    name="description[]"
-                                   class="w-full border-gray-400" min="1"/>
+                                   class="w-full border-gray-400"/>
                         </label></td>
                     <td class=""><label>
                             <input x-model="field.price" type="number" name="price[]"
-                                   class="w-full border-gray-400" min="1"/>
+                                   class="w-full border-gray-400" step="0.01"/>
                         </label></td>
                     <td class=""><label>
                             <input x-model="field.vat" type="number" name="vat[]"
@@ -45,7 +53,7 @@
                         </label></td>
                     <td><label>
                             <input x-model="field.total" type="number" name="total[]"
-                                   class="w-full border-gray-400" min="1"/>
+                                   class="w-full border-gray-400" step="0.01"/>
                         </label></td>
                     <td class="text-center">
                         <button type="button" class="w-full"

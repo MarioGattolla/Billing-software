@@ -60,7 +60,7 @@ class Order extends Model
     /** @return BelongsToMany<Product> */
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class)->using(OrdersProducts::class);
+        return $this->belongsToMany(Product::class)->using(OrderProduct::class);
     }
 
     /** @return BelongsToMany<Invoice> */

@@ -38,7 +38,7 @@
         </div>
 
         <div class=" p-2 rounded-md hover:bg-indigo-100 hover:cursor-pointer "
-             x-on:click="company.id = null ,searchProducts"
+             x-on:click="tempCompanyId = company.id , company.id = null ,searchProducts"
              x-show="company.id != null">
             Check on all product
         </div>
