@@ -16,7 +16,6 @@ class OrderSeeder extends Seeder
      */
     public function run()
     {
-        Order::factory()->set_movements()->count(60)
-            ->state(new Sequence(['type' => 'ingoing'],['type' => 'outgoing']))->create();
+        Order::factory()->set_movements()->count(60)->create();
     }
 }

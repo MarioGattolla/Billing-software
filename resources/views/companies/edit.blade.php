@@ -35,7 +35,7 @@ $countries = CountryListFacade::getList();
                                     </div>
 
                                     <p>Country</p>
-                                    <select class="w-1/5 rounded-md" name="country_select" id="country_select" required>
+                                    <select class="w-1/5 rounded-md" name="country" id="country" required>
                                         <option selected>{{$company->country}}</option>
                                         @foreach($countries as $country)
                                             <option value="{{$country}}"> {{$country}}</option>

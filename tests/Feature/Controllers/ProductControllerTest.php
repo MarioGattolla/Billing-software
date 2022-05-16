@@ -2,7 +2,6 @@
 
 
 use App\Http\Controllers\ProductController;
-use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
 use App\Models\Product;
@@ -60,7 +59,7 @@ test('can store product and return correct redirect', function () {
             'min_stock' => 10,
             'weight' => 2,
             'category_id' => 1,
-            'price' => 20.10,
+            'price' => 20.1,
             'vat' => 20,
             'department' => 2,
 
@@ -79,14 +78,14 @@ test('can store product and return correct redirect', function () {
     expect($product->min_stock)->toBe(10);
     expect($product->weight)->toBe(2);
     expect($product->category_id)->toBe(1);
-    expect($product->price)->toBe(2010);
+    expect($product->price)->toBe(20.1);
     expect($product->vat)->toBe(20);
     expect($product->department)->toBe(2);
 
 
     expect($response)->toHaveStatus(302);
     expect($response)->toBeRedirect(route('products.index'));
-})->only();
+});
 
 
 test('products show return correct view', function () {
@@ -150,7 +149,7 @@ test('can update product and return correct redirect', function () {
             'min_stock' => 10,
             'weight' => 2,
             'category_id' => 1,
-            'price' => 20.10,
+            'price' => 20.1,
             'vat' => 20,
             'department' => 2,
 
@@ -168,7 +167,7 @@ test('can update product and return correct redirect', function () {
     expect($product->min_stock)->toBe(10);
     expect($product->weight)->toBe(2);
     expect($product->category_id)->toBe(1);
-    expect($product->price)->toBe(2010);
+    expect($product->price)->toBe(20.1);
     expect($product->vat)->toBe(20);
     expect($product->department)->toBe(2);
 

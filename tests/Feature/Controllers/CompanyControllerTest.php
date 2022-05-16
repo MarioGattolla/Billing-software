@@ -1,9 +1,13 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Requests\StoreCompanyRequest;
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Translation\Translator;
+use Illuminate\Validation\Validator;
 
 uses(RefreshDatabase::class);
 
@@ -44,17 +48,26 @@ test('can store company and return correct redirect', function () {
 
     allow_authorize('createCompany', Company::class);
 
-    $request = \Illuminate\Http\Request::create(route('companies.create'), 'POST', [
-       'selectedRadioID' => 1,
-        'business_name' => 'Test Name',
-        'vat_number' => '123456789',
-        'country_select' => 'Test',
-        'address' => 'Test Address',
-        'email' => 'email@test.it',
-        'phone' => '392222222',
-    ]);
+    $translator = $this->createMock(Translator::class);
+    $request = new StoreCompanyRequest();
+    $validator = new Validator($translator,
+        [
+            'selectedRadioID' => 1,
+            'contact_name' => 'Test',
+            'business_name' => 'Test Name',
+            'vat_number' => '123456789',
+            'country_select' => 'Test',
+            'address' => 'Test Address',
+            'email' => 'email@test.it',
+            'phone' => '392222222',
 
-    $response = app(CompanyController::class)->store($request);
+        ],
+        $request->rules());
+
+
+    $validated = $request->setValidator($validator);
+
+    $response = app(CompanyController::class)->store($validated);
 
     /** @var User $user */
     $company = Company::findOrFail(1);
@@ -74,22 +87,32 @@ test('can store private and return correct redirect', function () {
 
     allow_authorize('createCompany', Company::class);
 
-    $request = \Illuminate\Http\Request::create(route('companies.create'), 'POST', [
-        'selectedRadioID' => 2,
-        'contact_name' => 'Test Name',
-        'country_select' => 'Test',
-        'address' => 'Test Address',
-        'email' => 'email@test.it',
-        'phone' => '392222222',
-    ]);
+    $translator = $this->createMock(Translator::class);
+    $request = new StoreCompanyRequest();
+    $validator = new Validator($translator,
+        [
+            'selectedRadioID' => 2,
+            'contact_name' => 'Test Name',
+            'business_name' => 'Test Name',
+            'vat_number' => '123456789',
+            'country_select' => 'Test',
+            'address' => 'Test Address',
+            'email' => 'email@test.it',
+            'phone' => '392222222',
 
-    $response = app(CompanyController::class)->store($request);
+        ],
+        $request->rules());
 
-    /** @var Company $company */
+
+    $validated = $request->setValidator($validator);
+
+    $response = app(CompanyController::class)->store($validated);
+
+    /** @var User $user */
     $company = Company::findOrFail(1);
 
-    expect($company->contact_name)->toBe('Test Name');
     expect($company->business_name)->toBe(null);
+    expect($company->contact_name)->toBe('Test Name');
     expect($company->vat_number)->toBe(null);
     expect($company->country)->toBe('Test');
     expect($company->address)->toBe('Test Address');
@@ -98,7 +121,6 @@ test('can store private and return correct redirect', function () {
     expect($response)->toHaveStatus(302);
     expect($response)->toBeRedirect(route('companies.index'));
 });
-
 
 test('companies show return correct view', function () {
 
@@ -144,7 +166,6 @@ test('only authorized user can see user edit page', function () {
 
 test('can update company and return correct redirect', function () {
 
-
     /** @var Company $old_company */
     $old_company = Company::factory()->create([
         'business_name' => 'Test Name',
@@ -157,17 +178,24 @@ test('can update company and return correct redirect', function () {
     ]);
 
     allow_authorize('editCompany', $old_company);
+    $translator = $this->createMock(Translator::class);
+    $request = new StoreCompanyRequest();
+    $validator = new Validator($translator,
+        [
+            'contact_name' => 'Test New Name',
+            'business_name' => 'Test New Name',
+            'vat_number' => '1234567891',
+            'country' => 'New Test',
+            'address' => 'New Address Test',
+            'email' => 'newemail@test.it',
+            'phone' => '3922222221',
 
-    $request = \Illuminate\Http\Request::create(route('companies.edit', $old_company), 'PUT', [
-        'business_name' => 'Test New Name',
-        'email' => 'newemail@test.it',
-        'phone' => '3922222221',
-        'vat_number' => '1234567891',
-        'address' => 'New Address Test',
-        'country_select' => 'New Test',
-    ]);
+        ],
+        $request->rules());
 
-    $response = app(CompanyController::class)->update($request, $old_company);
+    $validated = $request->setValidator($validator);
+
+    $response = app(CompanyController::class)->update($validated, $old_company);
 
     /** @var Company $company */
     $company = Company::findOrFail(1);
@@ -186,7 +214,6 @@ test('can update company and return correct redirect', function () {
 
 test('can update private and return correct redirect', function () {
 
-
     /** @var Company $old_private */
     $old_private = Company::factory()->create([
         'business_name' => null,
@@ -196,22 +223,27 @@ test('can update private and return correct redirect', function () {
         'vat_number' => null,
         'address' => 'Address Test',
         'country' => 'Test',
-
-
     ]);
 
     allow_authorize('editCompany', $old_private);
+    $translator = $this->createMock(Translator::class);
+    $request = new StoreCompanyRequest();
+    $validator = new Validator($translator,
+        [
+            'contact_name' => 'Test New Name',
+            'business_name' => 'Test New Name',
+            'vat_number' => '1234567891',
+            'country' => 'New Test',
+            'address' => 'New Address Test',
+            'email' => 'newemail@test.it',
+            'phone' => '3922222221',
 
-    $request = \Illuminate\Http\Request::create(route('companies.edit', $old_private), 'PUT', [
-        'contact_name' => 'Test New Name',
-        'email' => 'newemail@test.it',
-        'phone' => '3922222221',
-        'vat_number' => '1234567891',
-        'address' => 'New Address Test',
-        'country_select' => 'New Test',
-    ]);
+        ],
+        $request->rules());
 
-    $response = app(CompanyController::class)->update($request, $old_private);
+    $validated = $request->setValidator($validator);
+
+    $response = app(CompanyController::class)->update($validated, $old_private);
 
     /** @var Company $company */
     $company = Company::findOrFail(1);

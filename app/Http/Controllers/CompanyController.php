@@ -57,16 +57,18 @@ class CompanyController extends Controller
 
         $this->authorize('createCompany', Company::class);
 
+        $validated = $request->validated();
+
         // Request is a Company
-        if ($request->validated()->selectedRadioID == 1) {
-            $request->validated()->contact_name = null;
+        if ($validated['selectedRadioID'] == 1) {
+            $validated['contact_name'] = null;
         } // Request is a Private
         else {
-            $request->validated()->business_name = null;
-            $request->validated()->vat_number = null;
+            $validated['business_name'] = null;
+            $validated['vat_number'] = null;
         }
 
-        CreateNewCompany::run($request->validated());
+        CreateNewCompany::run($validated);
 
         return redirect()->route('companies.index');
     }
@@ -110,19 +112,15 @@ class CompanyController extends Controller
      * @param Company $company
      * @return RedirectResponse
      * @throws AuthorizationException
+     * @throws ActionException
      */
     public function update(StoreCompanyRequest $request, Company $company): RedirectResponse
     {
         $this->authorize('editCompany', $company);
 
-        dd($company);
-        if ($company->contact_name == null) {
-            $request->validated()->contact_name = null;
-        } // Request is a Private
-        else {
-            $request->validated()->business_name = null;
-            $request->validated()->vat_number = null;
-        }
+        $validated = $request->validated();
+
+        UpdateCompany::run($validated, $company);
 
         return redirect()->route('companies.show', $company);
     }

@@ -15,11 +15,11 @@ class OrderPolicy
      * Determine whether the user can view any models.
      *
      * @param User $user
-     * @return bool
+     * @return mixed
      */
     public function viewAny(User $user)
     {
-        if ($user->can('show order')){
+        if ($user->can('show order')) {
             return true;
         }
     }
@@ -29,14 +29,12 @@ class OrderPolicy
      *
      * @param User $user
      * @param Order $order
-     * @return bool
+     * @return mixed
      */
     public function view(User $user, Order $order)
     {
-        {
-            if ($user->can('show order')){
-                return true;
-            }
+        if ($user->can('show order')) {
+            return true;
         }
     }
 
@@ -44,14 +42,12 @@ class OrderPolicy
      * Determine whether the user can create models.
      *
      * @param User $user
-     * @return bool
+     * @return mixed
      */
     public function createOrder(User $user)
     {
-        {
-            if ($user->can('create order')){
-                return true;
-            }
+        if ($user->can('create order')) {
+            return true;
         }
     }
 
@@ -60,14 +56,12 @@ class OrderPolicy
      *
      * @param User $user
      * @param Order $order
-     * @return bool
+     * @return mixed
      */
     public function editOrder(User $user, Order $order)
     {
-        {
-            if ($user->can('edit order')){
-                return true;
-            }
+        if ($user->can('edit order')) {
+            return true;
         }
     }
 
@@ -76,14 +70,12 @@ class OrderPolicy
      *
      * @param User $user
      * @param Order $order
-     * @return bool
+     * @return mixed
      */
     public function deleteOrder(User $user, Order $order)
     {
-        {
-            if ($user->can('delete order')){
-                return true;
-            }
+        if ($user->can('delete order')) {
+            return true;
         }
     }
 

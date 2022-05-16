@@ -4,21 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Actions\Companies\CreateNewCompany;
 use App\Actions\Companies\UpdateCompany;
+use App\Actions\Orders\CreateNewOrder;
 use App\Actions\Products\UpdateProduct;
 use App\Http\Requests\StoreOrderRequest;
-use App\Http\Requests\StoreProductRequest;
 use App\Models\Company;
 use App\Models\Order;
-use App\Models\OrderProduct;
 use App\Models\Product;
-use DB;
 use DefStudio\Actions\Exceptions\ActionException;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class OrderController extends Controller
@@ -31,7 +26,7 @@ class OrderController extends Controller
      */
     public function index(): View
     {
-        $this->authorize('showAny', Order::class);
+        $this->authorize('viewAny', Order::class);
 
         return view('orders.index');
     }
@@ -61,49 +56,46 @@ class OrderController extends Controller
     {
         $this->authorize('createOrder', Order::class);
 
-        $validated = $request->validated(['company_business_name']);
-        $business_name = $request['company_business_name'];
-        $vat_number = $request['company_vat_number'];
-        $country_select = $request['company_country'];
-        $address = $request['company_address'];
-        $email = $request['company_email'];
-        $phone = $request['company_phone'];
-        $contact_name = $request['private_name'];
+        $validated = $request->validated();
 
-        if ($request['company_id'] == null) {
+        if ($validated['company_id'] == null) {
 
             // NEW COMPANY -> SAVING DATA
-            CreateNewCompany::run($business_name, $vat_number, $country_select, $address, $email, $phone, $contact_name);
+            CreateNewCompany::run($validated);
 
         } else {
 
             // EXISTING COMPANY -> UPDATING DATA
-            $company = Company::findOrFail($request['company_id']);
-            UpdateCompany::run($business_name, $vat_number, $country_select, $address, $email, $phone, $contact_name, $company);
+            $company = Company::findOrFail($validated['company_id']);
+            UpdateCompany::run($validated, $company);
         }
 
-        $count = 0;
+
 
         CreateNewCompany::run($request->validated());
 
+
         // FOREACH PRODUCT SELECTED
-        foreach ($request['id'] as $id) {
+        $count = 0;
+        foreach ($validated['id'] as $id) {
             $product = Product::findOrFail($id);
 
-            $name = $request['name'];
-            $description = $request['description'];
-            $min_stock = $product->min_stock;
-            $weight = $product->weight;
-            $department = $product->department;
-            $category_id = $product->category_id;
-            $price = $request['price'];
-            $vat = $request['vat'];
+            $validated_product = [
+                'name' => $validated['name'][$count],
+                'description' => $validated['description'][$count],
+                'min_stock' => $product->min_stock,
+                'weight' => $product->weight,
+                'department' => $product->department,
+                'category_id' => $product->category_id,
+                'price' => $validated['price'][$count],
+                'vat' => $validated['vat'][$count],
+            ];
 
             // UPDATE PRODUCT
-            UpdateProduct::run($name, $description, $min_stock, $weight, $department, $category_id, $price, $vat, $product);
+            UpdateProduct::run($validated_product, $product);
 
         }
-
+        CreateNewOrder::run($validated);
         return redirect()->route('orders.index');
     }
 
@@ -116,7 +108,7 @@ class OrderController extends Controller
      */
     public function show(Order $order): View
     {
-        $this->authorize('show', $order);
+        $this->authorize('view', $order);
 
         return \view('orders.show', ['order' => $order]);
     }

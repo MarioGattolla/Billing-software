@@ -11,26 +11,25 @@ class UpdateCompany
 
     public function handle(mixed $validated, Company $company): bool
     {
-        $old_company = Company::findOrFail($company->id);
 
-        $business_name = $validated['business_name'];
-        $contact_name = $validated['contact_name'];
-        $vat_number = $validated['vat_number'];
-        $country_select = $validated['country_select'];
-        $address = $validated['address'];
-        $email = $validated['email'];
-        $phone = $validated['phone'];
+        if ($company->contact_name == null) {
+            $validated['contact_name'] = null;
+        } // Request is a Private
+        else {
+            $validated['business_name'] = null;
+            $validated['vat_number'] = null;
+        }
 
-        $old_company->update([
-            'business_name' => $business_name,
-            'contact_name' => $contact_name,
-            'vat_number' => $vat_number,
-            'country' => $country_select,
-            'address' => $address,
-            'email' => $email,
-            'phone' => $phone,
+        $company->update([
+            'business_name' => $validated['business_name'],
+            'contact_name' => $validated['contact_name'],
+            'vat_number' => $validated['vat_number'],
+            'country' => $validated['country'],
+            'address' => $validated['address'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
         ]);
 
-        return $old_company->save();
+        return $company->save();
     }
 }

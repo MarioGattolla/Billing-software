@@ -29,7 +29,7 @@ class StoreCompanyRequest extends FormRequest
             'business_name' => 'string|nullable',
             'vat_number' => 'string|nullable',
             'contact_name' => 'string|nullable',
-            'country_select' => 'required',
+            'country' => 'required',
             'email' => 'required',
             'phone' => 'required',
             'address' => 'required',

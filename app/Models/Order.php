@@ -53,9 +53,7 @@ class Order extends Model
         'date',
     ];
 
-    protected $casts = [
-        'date' => 'datetime:d-m-Y',
-    ];
+
 
     /** @return BelongsToMany<Product> */
     public function products(): BelongsToMany

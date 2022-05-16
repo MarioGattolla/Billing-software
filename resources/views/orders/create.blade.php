@@ -3,8 +3,8 @@
         return {
             radioItem:
                 [
-                    {id: 1, name: 'Ingoing Order'},
-                    {id: 2, name: 'Outgoing Order'}
+                    {id: 1, name: 'ingoing'},
+                    {id: 2, name: 'outgoing'}
                 ],
             company_type:
                 [
@@ -270,12 +270,16 @@
                                     <label>
                                         <input x-model="selectedRadioID" type="radio" :value="item.id"
                                                x-on:click="reset()"/>
+
                                     </label>
                                     <label x-text="item.name"></label>
 
                                 </div>
                             </template>
 
+                            <input name="type" type="text"
+                                   x-model="radioItem[selectedRadioID-1].name"
+                                   hidden/>
                             <input x-model="company.id" type="text" name="company.id" hidden/>
 
                             <div x-show="selectedRadioID == 1
@@ -397,6 +401,11 @@
                                 <x-orders.create.order-product-table/>
                             </div>
 
+                            <div class="mt-3">
+                                <p class="mt-2">Date</p>
+                                <input type="date" name="date" value="{{today()->format('d-m-Y')}}"
+                                       min="{{today()->format('d-m-Y')}}">
+                            </div>
                             <x-elements.button type="submit" class="w-1/5 bg-green-200 mt-3 h-10 rounded-md
                                   border border-green-400 hover:bg-green-400 ">
                                 Submit

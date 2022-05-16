@@ -22,11 +22,10 @@ class OrderFactory extends Factory
     public function definition()
     {
         $count = Company::count();
-
         return [
-            'discount' => $this->faker->numberBetween(0, 10),
             'date' => $this->faker->date,
-            'company_id' => random_int(1,$count),
+            'company_id' => random_int(1, $count),
+            'type' =>$this->faker->randomElement(['ingoing', 'outgoing']),
         ];
 
     }
