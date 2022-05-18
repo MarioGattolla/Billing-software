@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Actions\Companies\CreateNewCompany;
 use App\Actions\Companies\UpdateCompany;
 use App\Actions\Orders\CreateNewOrder;
+use App\Actions\Orders\UpdateOrder;
 use App\Actions\Products\UpdateProduct;
 use App\Http\Requests\StoreOrderRequest;
+use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Company;
 use App\Models\Order;
 use App\Models\Product;
@@ -15,6 +17,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Throwable;
 
 class OrderController extends Controller
 {
@@ -70,10 +73,7 @@ class OrderController extends Controller
             UpdateCompany::run($validated, $company);
         }
 
-
-
         CreateNewCompany::run($request->validated());
-
 
         // FOREACH PRODUCT SELECTED
         $count = 0;
@@ -130,14 +130,22 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateOrderRequest $request
      * @param Order $order
      * @return RedirectResponse
      * @throws AuthorizationException
+     * @throws ActionException
      */
-    public function update(Request $request, Order $order): RedirectResponse
+    public function update(UpdateOrderRequest $request, Order $order): RedirectResponse
     {
         $this->authorize('editOrder', $order);
+
+        $company = Company::findOrFail($order->company_id);
+        $validated = $request->validated();
+
+        UpdateCompany::run($validated, $company);
+
+        UpdateOrder::run($validated, $order);
 
         return redirect()->route('orders.show', ['order' => $order]);
     }
@@ -148,10 +156,14 @@ class OrderController extends Controller
      * @param Order $order
      * @return RedirectResponse
      * @throws AuthorizationException
+     * @throws Throwable
      */
     public function destroy(Order $order): RedirectResponse
     {
         $this->authorize('deleteOrder', $order);
+
+
+        $order->deleteOrFail();
 
         return redirect()->route('orders.index');
     }

@@ -56,7 +56,7 @@ test('can store company and return correct redirect', function () {
             'contact_name' => 'Test',
             'business_name' => 'Test Name',
             'vat_number' => '123456789',
-            'country_select' => 'Test',
+            'country' => 'Test',
             'address' => 'Test Address',
             'email' => 'email@test.it',
             'phone' => '392222222',
@@ -95,14 +95,13 @@ test('can store private and return correct redirect', function () {
             'contact_name' => 'Test Name',
             'business_name' => 'Test Name',
             'vat_number' => '123456789',
-            'country_select' => 'Test',
+            'country' => 'Test',
             'address' => 'Test Address',
             'email' => 'email@test.it',
             'phone' => '392222222',
 
         ],
         $request->rules());
-
 
     $validated = $request->setValidator($validator);
 

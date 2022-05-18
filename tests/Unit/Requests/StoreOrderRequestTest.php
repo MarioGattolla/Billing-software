@@ -18,10 +18,10 @@ test('validation pass with correct data', function (array $data, bool $valid) {
                 'with full data' => [
                     'data' => [
                         'type' => 'ingoing',
-                        'data' => today()->format('d-m-Y'),
+                        'date' => today()->format('d-m-Y'),
                         'company_id' => 1,
                         'business_name' => 'Test',
-                        'email' => 'Test@email.it',
+                        'email' => 'test@email.com',
                         'country' => 'Test',
                         'address' => 'Test',
                         'phone' => '080808080',
@@ -41,7 +41,7 @@ test('validation pass with correct data', function (array $data, bool $valid) {
                 'without company_email' => [
                     'data' => [
                         'type' => 'ingoing',
-                        'data' => today()->format('d-m-Y'),
+                        'date' => today()->format('d-m-Y'),
                         'company_id' => 1,
                         'business_name' => 'Test',
                         'email' => null,
@@ -64,7 +64,7 @@ test('validation pass with correct data', function (array $data, bool $valid) {
                 'without company_country' => [
                     'data' => [
                         'type' => 'ingoing',
-                        'data' => today()->format('d-m-Y'),
+                        'date' => today()->format('d-m-Y'),
                         'company_id' => 1,
                         'business_name' => 'Test',
                         'email' => 'Test@email.it',
@@ -87,7 +87,7 @@ test('validation pass with correct data', function (array $data, bool $valid) {
                 'without company_phone' => [
                     'data' => [
                         'type' => 'ingoing',
-                        'data' => today()->format('d-m-Y'),
+                        'date' => today()->format('d-m-Y'),
                         'company_id' => 1,
                         'business_name' => 'Test',
                         'email' => 'Test@email.it',
@@ -110,7 +110,7 @@ test('validation pass with correct data', function (array $data, bool $valid) {
                 'without product id' => [
                     'data' => [
                         'type' => 'ingoing',
-                        'data' => today()->format('d-m-Y'),
+                        'date' => today()->format('d-m-Y'),
                         'company_id' => 1,
                         'business_name' => 'Test',
                         'email' => 'Test@email.it',
@@ -133,7 +133,7 @@ test('validation pass with correct data', function (array $data, bool $valid) {
                 'without product name' => [
                     'data' => [
                         'type' => 'ingoing',
-                        'data' => today()->format('d-m-Y'),
+                        'date' => today()->format('d-m-Y'),
                         'company_id' => 1,
                         'business_name' => 'Test',
                         'email' => 'Test@email.it',
@@ -156,7 +156,7 @@ test('validation pass with correct data', function (array $data, bool $valid) {
                 'without product description' => [
                     'data' => [
                         'type' => 'ingoing',
-                        'data' => today()->format('d-m-Y'),
+                        'date' => today()->format('d-m-Y'),
                         'company_id' => 1,
                         'company_business_name' => 'Test',
                         'company_email' => 'Test@email.it',
@@ -179,7 +179,7 @@ test('validation pass with correct data', function (array $data, bool $valid) {
                 'without product price' => [
                     'data' => [
                         'type' => 'ingoing',
-                        'data' => today()->format('d-m-Y'),
+                        'date' => today()->format('d-m-Y'),
                         'company_id' => 1,
                         'company_business_name' => 'Test',
                         'company_email' => 'Test@email.it',
@@ -202,7 +202,7 @@ test('validation pass with correct data', function (array $data, bool $valid) {
                 'without product vat' => [
                     'data' => [
                         'type' => 'ingoing',
-                        'data' => today()->format('d-m-Y'),
+                        'date' => today()->format('d-m-Y'),
                         'company_id' => 1,
                         'company_business_name' => 'Test',
                         'company_email' => 'Test@email.it',
@@ -225,7 +225,7 @@ test('validation pass with correct data', function (array $data, bool $valid) {
                 'without product total' => [
                     'data' => [
                         'type' => 'ingoing',
-                        'data' => today()->format('d-m-Y'),
+                        'date' => today()->format('d-m-Y'),
                         'company_id' => 1,
                         'company_business_name' => 'Test',
                         'company_email' => 'Test@email.it',
@@ -248,7 +248,7 @@ test('validation pass with correct data', function (array $data, bool $valid) {
                 'without product quantity' => [
                     'data' => [
                         'type' => 'ingoing',
-                        'data' => today()->format('d-m-Y'),
+                        'date' => today()->format('d-m-Y'),
                         'company_id' => 1,
                         'business_name' => 'Test',
                         'email' => 'Test@email.it',
@@ -269,7 +269,7 @@ test('validation pass with correct data', function (array $data, bool $valid) {
                 ],
 
                 'without date' => [
-                    'data' => [
+                    'date' => [
                         'type' => 'ingoing',
                         'data' => null,
                         'company_id' => 1,
@@ -292,7 +292,7 @@ test('validation pass with correct data', function (array $data, bool $valid) {
                 ],
 
                 'without type' => [
-                    'data' => [
+                    'date' => [
                         'type' => null,
                         'data' => today()->format('d-m-Y'),
                         'company_id' => 1,

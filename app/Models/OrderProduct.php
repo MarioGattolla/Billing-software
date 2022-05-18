@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Database\Factories\OrderProductFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 
@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property int $price_ex_vat
  * @property int $total
  * @property int $quantity
- * @method static \Database\Factories\OrderProductFactory factory(...$parameters)
+ * @method static OrderProductFactory factory(...$parameters)
  * @method static Builder|OrderProduct newModelQuery()
  * @method static Builder|OrderProduct newQuery()
  * @method static Builder|OrderProduct query()

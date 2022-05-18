@@ -1,8 +1,13 @@
 <?php
 
-/** @var Category $category */
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Product;
 
-use App\Models\Category;
+/** @var Order $order */
+/** @var Product $product */
+
+$movements = OrderProduct::whereOrderId($order->id)->get();
 
 
 ?>
@@ -19,33 +24,96 @@ use App\Models\Category;
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class=" ml-10 p-6 bg-white border-b border-gray-200 text-xl">
-                    Category : {{$category->name}}
+                    Order N. {{$order->id}}
                 </div>
 
                 <div class="  p-3 ml-10 mr-10  mb-10" x-data="modal()">
                     <div class="bg-gray-100 p-3 border rounded-md">
-                        <div class="bg-white p-3 m-3 rounded-md border-2 w-1/3">Description
-                            : {{ $category->description }}</div>
-
-                        @if($category->parent_id == null)
-                            <div class="bg-white p-3 m-3 rounded-md border-2 w-1/3">Subcategories :
-                                @foreach($category->children as $subcategory)
-                                    <li>{{$subcategory->name}}</li>
-                                @endforeach
+                        @if($order->company->contact_name == null)
+                            <p class="m-3 text-lg">Company</p>
+                            <div class="flex">
+                                <div class="bg-white p-3 m-2 rounded-md border-2 w-1/3">
+                                    Name : {{ $order->company->business_name }}
+                                </div>
+                                <div class="bg-white p-3 m-2 rounded-md border-2 w-1/3">
+                                    Vat : {{ $order->company->vat_number }}
+                                </div>
                             </div>
                         @else
-                            <div class="bg-white p-3 m-3 rounded-md border-2 w-1/3">Parent Category : {{$category->parent->name}}</div>
-
+                            <p class="m-3">Private</p>
+                            <div class="bg-white p-3 m-2 rounded-md border-2 w-1/3">
+                                Name : {{ $order->company->contact_name }}
+                            </div>
                         @endif
+
+                        <div class="flex">
+                            <div class="bg-white p-3 m-2 rounded-md border-2 w-1/3">
+                                Email : {{ $order->company->email }}
+                            </div>
+                            <div class="bg-white p-3 m-2 rounded-md border-2 w-1/3">
+                                Phone : {{ $order->company->phone }}
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="bg-white p-3 m-2 rounded-md border-2 w-1/3">
+                                Country : {{ $order->company->country }}
+                            </div>
+                            <div class="bg-white p-3 m-2 rounded-md border-2 w-1/3">
+                                Address : {{ $order->company->address }}
+                            </div>
+                        </div>
                         <div>
-                            <a href="{{route('categories.edit',$category)}}" class="p-3 border rounded-md border-green-400 hover:bg-green-400
+
+                            <p class="m-3 text-lg">Order</p>
+                            <div class="flex">
+                                <div class="bg-white p-3 m-2 rounded-md border-2 w-1/3">
+                                    Date : {{ $order->date }}
+                                </div>
+                                <div class="bg-white p-3 m-2 rounded-md border-2 w-1/3">
+                                    Type : {{ $order->type }}
+                                </div>
+                            </div>
+
+                            <p class="m-3 text-lg">Products</p>
+                            <div class="m-3">
+                                <table class="table-fixed w-full  bg-white table-bordered rounded-md
+                                    align-items-center table-sm border-gray-400 border">
+                                    <thead>
+                                    <tr class=" bg-green-200">
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Price Ex Vat</th>
+                                        <th>Vat</th>
+                                        <th>Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($movements as $movement)
+                                        @php $product = \App\Models\Product::findOrFail($movement->product_id)@endphp
+                                        <tr class="border border-gray-400 h-10">
+                                            <th class="hover:bg-blue-50 cursor-pointer"><a
+                                                    href="{{route('products.show', $product)}}">{{$product->name}}</a>
+                                            </th>
+                                            <th>{{$product->price}}</th>
+                                            <th class="w-1/12">{{$movement->quantity}}</th>
+                                            <th class="w-1/12">{{$movement->price_ex_vat}}</th>
+                                            <th class="w-1/12">{{$product->vat}}</th>
+                                            <th class="w-1/12">{{$movement->total}}</th>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <a href="{{route('orders.edit',$order)}}" class="p-3 border rounded-md border-green-400 hover:bg-green-400
                             bg-green-200 text-sm ml-3 mr-5 mt-2 mb-2">
-                                Edit Category
+                                Edit Order
                             </a>
 
                             <button class="p-3 border rounded-md border-green-400 hover:bg-green-400
                             bg-green-200 text-sm ml-3 mr-5 mt-2 mb-2 modal" x-on:click="modal = true">
-                                Delete Category
+                                Delete Order
                             </button>
                         </div>
 
@@ -57,11 +125,11 @@ use App\Models\Category;
                             rounded-md border-2 p-3 ">
                                 <div class="m-3">
                                     <div>
-                                        You are trying to cancel the current Category.
+                                        You are trying to cancel the current Order.
 
                                     </div>
                                     <div>
-                                        By clicking "DELETE" , Category will be permanently deleted. Are you sure?
+                                        By clicking "DELETE" , Order will be permanently deleted. Are you sure?
 
                                     </div>
                                 </div>
@@ -72,7 +140,7 @@ use App\Models\Category;
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="mt-1   p-3 border rounded-md border-green-400 hover:bg-green-400
-                                            bg-green-200 text-sm"> Delete Category
+                                            bg-green-200 text-sm"> Delete Order
                                             </button>
                                         </form>
 

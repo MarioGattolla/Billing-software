@@ -52,7 +52,7 @@ class CompanyController extends Controller
      * @throws ActionException
      * @throws AuthorizationException
      */
-    public function store(StoreCompanyRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
 
         $this->authorize('createCompany', Company::class);
