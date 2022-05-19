@@ -9,7 +9,7 @@ class CreateNewCompany
 {
     use ActsAsAction;
 
-    public function handle($validated): void
+    public function handle(array $validated): void
     {
 
         Company::create([

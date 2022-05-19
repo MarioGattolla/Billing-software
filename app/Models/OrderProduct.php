@@ -4,17 +4,18 @@ namespace App\Models;
 
 use Database\Factories\OrderProductFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
-
+use Illuminate\Support\Carbon;
 
 
 /**
  * App\Models\OrderProduct
  *
  * @property int $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property int|null $order_id
  * @property int|null $product_id
  * @property int $price_ex_vat
@@ -47,4 +48,22 @@ class OrderProduct extends Pivot
         'total',
         'price_ex_vat',
     ];
+
+    public function priceExVat(): Attribute
+    {
+        return Attribute::make(
+            get: fn(int $price_ex_vat) => round($price_ex_vat/100, 2),
+            set: fn(float $price_ex_vat) => $this->attributes['price_ex_vat'] = floor($price_ex_vat*100),
+        );
+    }
+
+    public function total(): Attribute
+    {
+        return Attribute::make(
+            get: fn(int $total) => round($total/100, 2),
+            set: fn(float $total) => $this->attributes['total'] = floor($total*100),
+        );
+    }
 }
+
+

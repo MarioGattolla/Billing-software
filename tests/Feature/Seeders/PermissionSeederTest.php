@@ -4,6 +4,7 @@ namespace Tests\Feature\Seeders;
 
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
+use Database\Seeders\PermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -12,7 +13,7 @@ uses(RefreshDatabase::class);
 
 test('seeder create roles with relative permissions', function ($role_enum) {
 
-    $this->seed(DatabaseSeeder::class);
+    $this->seed(PermissionSeeder::class);
 
     /** @var Role $role */
     $role = Role::findByName($role_enum->value);
@@ -41,7 +42,7 @@ test('seeder create roles with relative permissions', function ($role_enum) {
 test('seeder remove old role ', function () {
     Role::create(['name' => 'Test']);
 
-    $this->seed(DatabaseSeeder::class);
+    $this->seed(PermissionSeeder::class);
 
     expect(Role::all()->map(fn(Role $role) => $role->name)->toArray())
         ->toMatchArray(\App\Enums\Role::get_roles_cases_values());
@@ -55,7 +56,7 @@ test('seeder revoke old permissions', function () {
     Role::create(['name' => $role_enum->value])
         ->givePermissionTo(Permission::create(['name' => 'Can Test']));
 
-    $this->seed(DatabaseSeeder::class);
+    $this->seed(PermissionSeeder::class);
 
     $role = Role::findByName($role_enum->value);
     expect($role->getPermissionNames()->toArray())
@@ -66,7 +67,7 @@ test('seeder remove old permissions', function () {
 
     Permission::create(['name' => 'Can Test']);
 
-    $this->seed(DatabaseSeeder::class);
+    $this->seed(PermissionSeeder::class);
 
     $permissions = Permission::all()->map(fn(Permission $permission) => $permission->name)->toArray();
     $enum_permissions = \App\Enums\Permission::get_permissions_cases_values();

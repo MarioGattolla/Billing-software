@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Database\Factories\ProductFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,15 +31,15 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Product whereUpdatedAt($value)
  * @mixin Eloquent
  * @property string $name
- * @method static \Database\Factories\ProductFactory factory(...$parameters)
+ * @method static ProductFactory factory(...$parameters)
  * @method static Builder|Product whereName($value)
  * @property int $weight
  * @property string $department
  * @property int $category_id
  * @property int $price
  * @property int $vat
- * @property-read \App\Models\Category $category
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read Category $category
+ * @property-read Collection|Order[] $orders
  * @property-read int|null $orders_count
  * @method static Builder|Product whereCategoryId($value)
  * @method static Builder|Product whereDepartment($value)

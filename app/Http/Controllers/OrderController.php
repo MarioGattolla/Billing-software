@@ -1,9 +1,10 @@
-<?php
+<?php /** @noinspection PhpUnhandledExceptionInspection */
 
 namespace App\Http\Controllers;
 
 use App\Actions\Companies\CreateNewCompany;
 use App\Actions\Companies\UpdateCompany;
+use App\Actions\OrderProduct\CreateNewOrderProduct;
 use App\Actions\Orders\CreateNewOrder;
 use App\Actions\Orders\UpdateOrder;
 use App\Actions\Products\UpdateProduct;
@@ -15,7 +16,6 @@ use App\Models\Product;
 use DefStudio\Actions\Exceptions\ActionException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Throwable;
 
@@ -44,7 +44,28 @@ class OrderController extends Controller
     {
         $this->authorize('createOrder', Order::class);
 
-        return \view('orders.create');
+        return view('orders.create');
+    }
+
+    public function store_fabio(StoreOrderRequest $request): RedirectResponse
+    {
+        $this->authorize('createOrder', Order::class);
+
+        $validated = $request->validated();
+
+        $company = $validated['company_id']
+            ? UpdateCompany::run($validated)
+            : CreateNewCompany::run($validated);
+
+        /** @var Order $order */
+       $order = $company->orders()->create($validated);
+
+        collect($request->validated('products'))
+            ->each(fn(array $product_data) => UpdateProduct::run($product_data))
+            ->each(fn(array $product_data) => $order->products()->create($product_data));
+
+        return redirect()->route('orders.index');
+
     }
 
     /**
@@ -75,9 +96,13 @@ class OrderController extends Controller
 
         CreateNewCompany::run($request->validated());
 
+        // SAVING ORDER
+        $order_id = CreateNewOrder::run($validated);
+
         // FOREACH PRODUCT SELECTED
         $count = 0;
         foreach ($validated['id'] as $id) {
+            /** @var Product $product */
             $product = Product::findOrFail($id);
 
             $validated_product = [
@@ -94,8 +119,16 @@ class OrderController extends Controller
             // UPDATE PRODUCT
             UpdateProduct::run($validated_product, $product);
 
+            // CREATING ORDER-PRODUCT RAWS
+            $price_ex_vat = $validated['price'][$count] * $validated['quantity'][$count];
+            $quantity = $validated['quantity'][$count];
+            $total = $validated['total'][$count];
+            CreateNewOrderProduct::run($id, $quantity, $price_ex_vat, $total, $order_id);
+
+            $count++;
         }
-        CreateNewOrder::run($validated);
+
+
         return redirect()->route('orders.index');
     }
 

@@ -12,7 +12,7 @@
         <div class="ml-10"><a href="{{route('users.index')}}">Users</a></div>
         <div class="ml-10"><a href="{{route('companies.index')}}">Companies</a></div>
         <div class="ml-10"><a href="{{route('products.index')}}">Products</a></div>
-        <div class="ml-10"><a href="{{route('categories.index')}}">Categories/Subcategories</a></div>
+        <div class="ml-10"><a href="{{route('categories.index')}}">Categories</a></div>
         <div class="ml-10"><a href="{{route('orders.index')}}">Orders</a></div>
 
 

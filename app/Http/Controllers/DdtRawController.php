@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DdtRaw;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
-
+use Illuminate\Contracts\View\View;
 class DdtRawController extends Controller
 {
     /**
@@ -54,7 +53,7 @@ class DdtRawController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param DdtRaw $ddtRaw
+     * @param DdtRaw $ddt_raw
      * @return View
      */
     public function edit(DdtRaw $ddt_raw): View

@@ -188,9 +188,10 @@
             },
 
             set_total(index) {
-                no_vat_total = this.fields[index].price * this.fields[index].quantity;
+                no_vat_total = (this.fields[index].price * 100) * this.fields[index].quantity;
                 vat_total = Math.round((no_vat_total * this.fields[index].vat) / 100);
-                this.fields[index].total = no_vat_total + vat_total;
+                this.fields[index].total = (no_vat_total + vat_total) / 100;
+
             },
 
             product_click(selected_product) {
@@ -406,7 +407,7 @@
                                 <input type="date" name="date" value="{{today()->format('d-m-Y')}}"
                                        min="{{today()->format('d-m-Y')}}">
                             </div>
-                            <x-elements.button type="submit" class="w-1/5 bg-green-200 mt-3 h-10 rounded-md
+                            <x-elements.button type="submit" class="w-20 bg-green-200 mt-3 h-10 rounded-md
                                   border border-green-400 hover:bg-green-400 ">
                                 Submit
                             </x-elements.button>
