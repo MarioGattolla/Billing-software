@@ -18,41 +18,37 @@
             </tr>
             </thead>
             <tbody>
-            <template x-for="(field, index) in fields" :key="index">
+            <template x-for="(product, index) in products" :key="index">
 
-                <tr class=" ">
-
-
+                <tr>
                     <td class="" hidden><label>
-                            <input x-model="field.id" type="number" name="id[]"
-                                    min="1" hidden/>
+                            <input x-model="product.id" type="number" x-bind:name="'products'+'['+index+']'+'[id]'"
+                                   min="1" hidden/>
                         </label></td>
 
                     <td class=""><label>
-                            <input x-model="field.name" type="text" name="name[]"
+                            <input x-model="product.name" type="text" x-bind:name="'products'+'['+index+']'+'[name]'"
                                    class="w-full border-gray-400" min="1"/>
                         </label></td>
                     <td class=""><label>
-                            <input x-model="field.description" type="text"
-                                   name="description[]"
+                            <input x-model="product.description" type="text" x-bind:name="'products'+'['+index+']'+'[description]'"
                                    class="w-full border-gray-400"/>
                         </label></td>
                     <td class=""><label>
-                            <input x-model="field.price" type="number" name="price[]"
+                            <input x-model="product.price" type="number" x-bind:name="'products'+'['+index+']'+'[price]'"
                                    class="w-full border-gray-400" step="0.01"/>
                         </label></td>
                     <td class=""><label>
-                            <input x-model="field.vat" type="number" name="vat[]"
+                            <input x-model="product.vat" type="number" x-bind:name="'products'+'['+index+']'+'[vat]'"
                                    class="w-full border-gray-400" min="1"/>
                         </label></td>
                     <td><label>
-                            <input x-model="field.quantity" type="number"
-                                   name="quantity[]" min="1"
+                            <input x-model="product.quantity" type="number" x-bind:name="'products'+'['+index+']'+'[quantity]'" min="1"
                                    x-on:input="set_total(index)"
                                    class="w-full border-gray-400"/>
                         </label></td>
                     <td><label>
-                            <input x-model="field.total" type="number" name="total[]"
+                            <input x-model="product.total" type="number" x-bind:name="'products'+'['+index+']'+'[total]'"
                                    class="w-full border-gray-400" step="0.01"/>
                         </label></td>
                     <td class="text-center">

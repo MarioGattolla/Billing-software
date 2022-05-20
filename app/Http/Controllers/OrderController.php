@@ -16,6 +16,7 @@ use App\Models\Product;
 use DefStudio\Actions\Exceptions\ActionException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Throwable;
 
@@ -47,8 +48,9 @@ class OrderController extends Controller
         return view('orders.create');
     }
 
-    public function store_fabio(StoreOrderRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
+        dd($request);
         $this->authorize('createOrder', Order::class);
 
         $validated = $request->validated();
@@ -76,7 +78,7 @@ class OrderController extends Controller
      * @throws AuthorizationException
      * @throws ActionException
      */
-    public function store(StoreOrderRequest $request): RedirectResponse
+    public function store_old(StoreOrderRequest $request): RedirectResponse
     {
         $this->authorize('createOrder', Order::class);
 

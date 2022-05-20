@@ -13,7 +13,6 @@
                     {id: 2, name: 'business'}
                 ],
             selectedRadioID: 1,
-            fields: [],
             modal: false,
             searchProductShow: false,
             searchProduct: '',
@@ -23,14 +22,8 @@
             selectedCompanyIndex: 0,
             tempCompanyId: null,
 
-            product: {
-                id: null,
-                name: null,
-                description: null,
-                quantity: null,
-                price: null,
-                vat: null,
-            },
+            products: [],
+
             company: {
                 id: null,
                 business_name: null,
@@ -46,12 +39,13 @@
 
 
             removeField(index) {
-                this.fields.splice(index, 1);
+                this.products.splice(index, 1)
             },
 
 
             searchProducts(event) {
 
+                console.log(this.products)
                 if (event.keyCode > 36 && event.keyCode < 41) {
                     return event.preventDefault();
                 }
@@ -135,7 +129,7 @@
                 this.searchCompanyAll = '';
                 this.company = [];
                 this.company_type = 0;
-                this.fields = [];
+                this.products = [];
                 this.searchProductShow = false;
                 this.searchProduct = '';
                 this.filteredProduct = [];
@@ -188,9 +182,9 @@
             },
 
             set_total(index) {
-                no_vat_total = (this.fields[index].price * 100) * this.fields[index].quantity;
-                vat_total = Math.round((no_vat_total * this.fields[index].vat) / 100);
-                this.fields[index].total = (no_vat_total + vat_total) / 100;
+                no_vat_total = (this.products[index].price * 100) * this.products[index].quantity;
+                vat_total = Math.round((no_vat_total * this.products[index].vat) / 100);
+                this.products[index].total = (no_vat_total + vat_total) / 100;
 
             },
 
@@ -199,7 +193,8 @@
                 this.modal = false;
                 this.searchProduct = '';
                 this.filteredProduct = [];
-                this.fields.push({
+
+                this.products.push({
                     id: product.id,
                     name: product.name,
                     description: product.description,
@@ -211,6 +206,8 @@
                 if (this.tempCompanyId != null) {
                     this.company.id = this.tempCompanyId;
                 }
+
+                console.log(this.products);
             },
 
             company_all_click(company) {
@@ -407,6 +404,8 @@
                                 <input type="date" name="date" value="{{today()->format('d-m-Y')}}"
                                        min="{{today()->format('d-m-Y')}}">
                             </div>
+
+
                             <x-elements.button type="submit" class="w-20 bg-green-200 mt-3 h-10 rounded-md
                                   border border-green-400 hover:bg-green-400 ">
                                 Submit
