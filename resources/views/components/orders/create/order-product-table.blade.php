@@ -31,11 +31,13 @@
                                    class="w-full border-gray-400" min="1"/>
                         </label></td>
                     <td class=""><label>
-                            <input x-model="product.description" type="text" x-bind:name="'products'+'['+index+']'+'[description]'"
+                            <input x-model="product.description" type="text"
+                                   x-bind:name="'products'+'['+index+']'+'[description]'"
                                    class="w-full border-gray-400"/>
                         </label></td>
                     <td class=""><label>
-                            <input x-model="product.price" type="number" x-bind:name="'products'+'['+index+']'+'[price]'"
+                            <input x-model="product.price" type="number"
+                                   x-bind:name="'products'+'['+index+']'+'[price]'"
                                    class="w-full border-gray-400" step="0.01"/>
                         </label></td>
                     <td class=""><label>
@@ -43,12 +45,13 @@
                                    class="w-full border-gray-400" min="1"/>
                         </label></td>
                     <td><label>
-                            <input x-model="product.quantity" type="number" x-bind:name="'products'+'['+index+']'+'[quantity]'" min="1"
+                            <input x-model="product.quantity" type="number"
+                                   x-bind:name="'products'+'['+index+']'+'[quantity]'" min="1"
                                    x-on:input="set_total(index)"
                                    class="w-full border-gray-400"/>
                         </label></td>
                     <td><label>
-                            <input x-model="product.total" type="number" x-bind:name="'products'+'['+index+']'+'[total]'"
+                            <input x-model="product.total" type="number"
                                    class="w-full border-gray-400" step="0.01"/>
                         </label></td>
                     <td class="text-center">

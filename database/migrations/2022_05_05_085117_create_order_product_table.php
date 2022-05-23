@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -18,8 +17,8 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('order_id')->nullable()->references('id')->on('orders')->nullOnDelete();
             $table->foreignId('product_id')->nullable()->references('id')->on('products')->nullOnDelete();
-            $table->integer('price_ex_vat');
-            $table->integer('total');
+            $table->integer('price');
+            $table->integer('vat');
             $table->integer('quantity');
         });
     }

@@ -57,7 +57,7 @@ function allow_authorize(string $ability, mixed ...$params): void
         ->andReturn(\Illuminate\Auth\Access\Response::allow());
 }
 
-function authorize_check_by_policy(string $permission_name,string $policy_name, mixed $params ): void
+function authorize_check_by_policy(string $permission_name, string $policy_name, mixed $params): void
 {
 
     Permission::create(['name' => $permission_name]);
@@ -86,3 +86,49 @@ function authorize_check_by_policy(string $permission_name,string $policy_name, 
     expect($response_operator)->toBe(false);
 }
 
+
+function privateOrderData(): array
+{
+    return [
+
+        'type' => 'ingoing',
+        'date' => today()->format('d-m-Y'),
+        'company' => [ ],
+        'products' => [
+    [
+        'id' => 1,
+        'price' => '20',
+        'vat' => '22',
+        'quantity' => '1',
+    ]
+],
+    ];
+}
+
+function companyOrderData(): array
+{
+    return [
+
+        'type' => 'ingoing',
+        'date' => today()->format('d-m-Y'),
+
+        'company' => [
+            'company_id' => null,
+            'business_name' => 'name',
+            'email' => 'email@test.it',
+            'country' => 'country',
+            'address' => 'address',
+            'phone' => 'phone',
+            'vat_number' => 'vat',
+            'contact_name' => null,
+        ],
+        'products' => [
+            [
+                'id' => 1,
+                'price' => '20',
+                'vat' => '22',
+                'quantity' => '1',
+            ]
+        ],
+    ];
+}

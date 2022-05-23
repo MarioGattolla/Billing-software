@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Carbon;
 
 
+
 /**
  * App\Models\OrderProduct
  *
@@ -18,21 +19,21 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property int|null $order_id
  * @property int|null $product_id
- * @property int $price_ex_vat
- * @property int $total
+ * @property int $price
+ * @property int $vat
  * @property int $quantity
- * @method static OrderProductFactory factory(...$parameters)
+ * @method static \Database\Factories\OrderProductFactory factory(...$parameters)
  * @method static Builder|OrderProduct newModelQuery()
  * @method static Builder|OrderProduct newQuery()
  * @method static Builder|OrderProduct query()
  * @method static Builder|OrderProduct whereCreatedAt($value)
  * @method static Builder|OrderProduct whereId($value)
  * @method static Builder|OrderProduct whereOrderId($value)
- * @method static Builder|OrderProduct wherePriceExVat($value)
+ * @method static Builder|OrderProduct wherePrice($value)
  * @method static Builder|OrderProduct whereProductId($value)
  * @method static Builder|OrderProduct whereQuantity($value)
- * @method static Builder|OrderProduct whereTotal($value)
  * @method static Builder|OrderProduct whereUpdatedAt($value)
+ * @method static Builder|OrderProduct whereVat($value)
  * @mixin \Eloquent
  */
 class OrderProduct extends Pivot
@@ -45,23 +46,23 @@ class OrderProduct extends Pivot
         'order_id',
         'product_id',
         'quantity',
-        'total',
-        'price_ex_vat',
+        'price',
+        'vat',
     ];
 
-    public function priceExVat(): Attribute
+    public function vat(): Attribute
     {
         return Attribute::make(
-            get: fn(int $price_ex_vat) => round($price_ex_vat/100, 2),
-            set: fn(float $price_ex_vat) => $this->attributes['price_ex_vat'] = floor($price_ex_vat*100),
+            get: fn(int $vat) => round($vat/100, 2),
+            set: fn(float $vat) => $this->attributes['vat'] = floor($vat*100),
         );
     }
 
     public function total(): Attribute
     {
         return Attribute::make(
-            get: fn(int $total) => round($total/100, 2),
-            set: fn(float $total) => $this->attributes['total'] = floor($total*100),
+            get: fn(int $price) => round($price/100, 2),
+            set: fn(float $price) => $this->attributes['price'] = floor($price*100),
         );
     }
 }

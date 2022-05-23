@@ -34,13 +34,7 @@ class StoreOrderRequest extends FormRequest
             'phone' => 'required|string',
             'vat_number' => 'string|nullable',
             'contact_name' => 'string|nullable',
-            'id' => 'required|array',
-            'name' => 'required|array',
-            'description' => 'required|array',
-            'price' => 'required|array',
-            'vat' => 'required|array',
-            'total' => 'required|array',
-            'quantity' => 'required|array',
+            'products' => 'required|array'
         ];
     }
 }

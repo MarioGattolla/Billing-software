@@ -24,9 +24,9 @@ class UpdateCompany
             $validated['vat_number'] = null;
         }
 
-        $company->update([$validated]);
+        $company->update($validated);
+        $company->save();
 
-
-        return $company->tap(fn($company) => $company->save());
+        return $company;
     }
 }

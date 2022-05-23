@@ -5,26 +5,22 @@ namespace App\Actions\Products;
 use App\Models\Product;
 use DefStudio\Actions\Concerns\ActsAsAction;
 
+/**
+ * @method static Product run(array $validate, Product $product = null)
+ */
 class UpdateProduct
 {
     use ActsAsAction;
 
-    public function handle(mixed $validated, Product $product): bool
+    public function handle(array $validated): Product
     {
 
-        $old_product = Product::findOrFail($product->id);
+        $product = Product::findOrFail($validated['id']);
 
-        $old_product->update([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'min_stock' => $validated['min_stock'],
-            'weight' => $validated['weight'],
-            'department' => $validated['department'],
-            'category_id' => $validated['category_id'],
-            'price' => $validated['price'],
-            'vat' => $validated['vat'],
-        ]);
+        $product->update($validated);
 
-        return $old_product->save();
+        $product->save();
+
+        return  $product;
     }
 }

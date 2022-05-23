@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\CompanyFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -38,7 +39,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Company whereVatNumber($value)
  * @mixin Eloquent
  * @method static CompanyFactory factory(...$parameters)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read Collection|Order[] $orders
  * @property-read int|null $orders_count
  */
 class Company extends Model

@@ -55,9 +55,9 @@ class OrderFactory extends Factory
                 OrderProduct::factory()->create([
                     'order_id' => $order->id,
                     'product_id' => $product->id,
-                    'price_ex_vat' => $product->price * $quantity,
+                    'vat' => $product->vat,
                     'quantity' => $quantity,
-                    'total' => ($product->price * $quantity) + ((($product->price * $quantity) * $product->vat) / 100)
+                    'price' => $product->price,
                 ]);
             }
 
