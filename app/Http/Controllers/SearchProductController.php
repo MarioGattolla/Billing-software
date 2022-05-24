@@ -8,11 +8,13 @@ use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
+use phpDocumentor\Reflection\Types\Collection;
 use function _PHPStan_7bd9fb728\React\Promise\all;
 
 class SearchProductController extends Controller
 {
-    public function search_products(Request $request)
+    public function search_products(Request $request): AnonymousResourceCollection
     {
         $products = Product::query()
             ->where('name', 'like', "%" . $request->search . "%")
@@ -21,7 +23,7 @@ class SearchProductController extends Controller
         return ProductResource::collection($products);
     }
 
-    public function search_products_by_company(Request $request)
+    public function search_products_by_company(Request $request): AnonymousResourceCollection|Response
     {
         $orders_id = Order::where('company_id', '=', $request->id)
             ->get()->map(fn(Order $order) => $order->id);

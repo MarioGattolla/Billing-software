@@ -14,12 +14,12 @@ class CreateNewOrderProduct
 
     public function handle(array $validated, int $order_id): OrderProduct
     {
-
         return OrderProduct::create([
             'order_id' => $order_id,
             'product_id' => $validated['id'],
             'quantity' => $validated['quantity'],
-
+            'price' => $validated['price'],
+            'vat' => $validated['vat'],
         ]);
     }
 }

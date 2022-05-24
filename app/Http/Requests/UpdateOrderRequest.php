@@ -26,14 +26,7 @@ class UpdateOrderRequest extends FormRequest
         return [
             'type' => 'required|string',
             'date' => 'required',
-            'business_name' => 'string|nullable',
-            'email' => 'required|email',
-            'country' => 'required|string',
-            'address' => 'required|string',
-            'phone' => 'required|string',
-            'vat_number' => 'string|nullable',
-            'contact_name' => 'string|nullable',
-
+            'company' => 'required|array',
         ];
     }
 }

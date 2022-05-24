@@ -12,14 +12,15 @@ class UpdateCompany
 {
     use ActsAsAction;
 
-    public function handle(mixed $validated, Company $company = null): Company
+    public function handle(array $validated, Company $company = null): Company
     {
+        /** @var Company $company */
+        /** @phpstan-ignore-next-line */
         $company ??= Company::findOrFail($validated['company_id']);
 
         if ($company->contact_name == null) {
             $validated['contact_name'] = null;
-        } // Request is a Private
-        else {
+        } else {
             $validated['business_name'] = null;
             $validated['vat_number'] = null;
         }

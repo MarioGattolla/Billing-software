@@ -97,7 +97,6 @@ class ProductController extends Controller
      * @param StoreProductRequest $request
      * @param Product $product
      * @return RedirectResponse
-     * @throws ActionException
      * @throws AuthorizationException
      */
     public function update(StoreProductRequest $request, Product $product): RedirectResponse

@@ -15,6 +15,15 @@ class CreateNewCompany
     public function handle(array $validated): Company
     {
 
-        return Company::create([$validated]);
+        // Request is a Company
+        if ($validated['selectedRadioID'] == 1) {
+            $validated['contact_name'] = null;
+        } // Request is a Private
+        else {
+            $validated['business_name'] = null;
+            $validated['vat_number'] = null;
+        }
+
+        return Company::create($validated);
     }
 }

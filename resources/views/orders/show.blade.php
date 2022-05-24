@@ -98,9 +98,9 @@ $movements = OrderProduct::whereOrderId($order->id)->get();
                                             </th>
                                             <th>{{$product->price}}</th>
                                             <th class="w-1/12">{{$movement->quantity}}</th>
-                                            <th class="w-1/12">{{$movement->price_ex_vat}}</th>
+                                            <th class="w-1/12">{{$movement->total_ex_vat()}}</th>
                                             <th class="w-1/12">{{$product->vat}}</th>
-                                            <th class="w-1/12">{{$movement->total}}</th>
+                                            <th class="w-1/12">{{$movement->total()}}</th>
                                         </tr>
                                     @endforeach
                                     </tbody>

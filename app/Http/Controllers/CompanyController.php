@@ -49,7 +49,6 @@ class CompanyController extends Controller
      *
      * @param StoreCompanyRequest $request
      * @return RedirectResponse
-     * @throws ActionException
      * @throws AuthorizationException
      */
     public function store(Request $request): RedirectResponse
@@ -59,14 +58,6 @@ class CompanyController extends Controller
 
         $validated = $request->validated();
 
-        // Request is a Company
-        if ($validated['selectedRadioID'] == 1) {
-            $validated['contact_name'] = null;
-        } // Request is a Private
-        else {
-            $validated['business_name'] = null;
-            $validated['vat_number'] = null;
-        }
 
         CreateNewCompany::run($validated);
 

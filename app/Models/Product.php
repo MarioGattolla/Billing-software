@@ -74,6 +74,7 @@ class Product extends Model
         return $this->belongsToMany(Order::class)->using(OrderProduct::class);
     }
 
+    /** @return Attribute<int, float> */
     public function price(): Attribute
     {
         return Attribute::make(
@@ -82,6 +83,7 @@ class Product extends Model
         );
     }
 
+    /** @return Attribute<int,float> */
     public function vat_price(): Attribute
     {
         return Attribute::make(

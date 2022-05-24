@@ -24,21 +24,22 @@ $movements = OrderProduct::whereOrderId($order->id)->get();
                     @csrf
                     @method('PUT')
                     <div class="  p-3 ml-10 mr-10  mb-10" x-data="modal()">
+                        <input type="text" value="{{$order->company_id}}" name="company[company_id]" hidden/>
                         <div class="bg-gray-100 p-3 border rounded-md">
                             @if($order->company->contact_name == null)
                                 <p class="m-3 text-lg">Company</p>
-                                <input type="text" value="{{null}}" name="contact_name" hidden/>
+                                <input type="text" value="{{null}}" name="company[contact_name]" hidden/>
                                 <div class="flex">
                                     <div class="m-3"><p>Name</p>
                                         <label>
-                                            <input type="text" name="business_name"
+                                            <input type="text" name="company[business_name]"
                                                    value="{{$order->company->business_name}}"/>
                                         </label>
                                     </div>
 
                                     <div class="m-3"><p>Vat</p>
                                         <label>
-                                            <input type="text" name="vat_number"
+                                            <input type="text" name="company[vat_number]"
                                                    value="{{$order->company->vat_number}}"/>
                                         </label>
                                     </div>
@@ -46,11 +47,11 @@ $movements = OrderProduct::whereOrderId($order->id)->get();
                                 </div>
                             @else
                                 <p class="m-3">Private</p>
-                                <input type="text" value="{{null}}" name="business_name" hidden/>
-                                <input type="text" value="{{null}}" name="vat_number" hidden/>
+                                <input type="text" value="{{null}}" name="company[business_name]" hidden/>
+                                <input type="text" value="{{null}}" name="company[vat_number]" hidden/>
                                 <div class="m-3"><p>Name</p>
                                     <label>
-                                        <input type="text" name="contact_name"
+                                        <input type="text" name="company[contact_name]"
                                                value="{{$order->company->contact_name}}"/>
                                     </label>
                                 </div>
@@ -59,12 +60,12 @@ $movements = OrderProduct::whereOrderId($order->id)->get();
                             <div class="flex">
                                 <div class="m-3"><p>Email</p>
                                     <label>
-                                        <input type="text" name="email" value="{{$order->company->email}}"/>
+                                        <input type="text" name="company[email]" value="{{$order->company->email}}"/>
                                     </label>
                                 </div>
                                 <div class="m-3"><p>Phone</p>
                                     <label>
-                                        <input type="text" name="phone" value="{{$order->company->phone}}"/>
+                                        <input type="text" name="company[phone]" value="{{$order->company->phone}}"/>
                                     </label>
                                 </div>
                             </div>
@@ -72,12 +73,14 @@ $movements = OrderProduct::whereOrderId($order->id)->get();
                             <div class="flex">
                                 <div class="m-3"><p>Country</p>
                                     <label>
-                                        <input type="text" name="country" value="{{$order->company->country}}"/>
+                                        <input type="text" name="company[country]"
+                                               value="{{$order->company->country}}"/>
                                     </label>
                                 </div>
                                 <div class="m-3"><p>Address</p>
                                     <label>
-                                        <input type="text" name="address" value="{{$order->company->address}}"/>
+                                        <input type="text" name="company[address]"
+                                               value="{{$order->company->address}}"/>
                                     </label>
                                 </div>
                             </div>
@@ -119,9 +122,9 @@ $movements = OrderProduct::whereOrderId($order->id)->get();
                                                 </th>
                                                 <th>{{$product->price}}</th>
                                                 <th class="w-1/12">{{$movement->quantity}}</th>
-                                                <th class="w-1/12">{{$movement->price_ex_vat}}</th>
+                                                <th class="w-1/12">{{$movement->total_ex_vat()}}</th>
                                                 <th class="w-1/12">{{$product->vat}}</th>
-                                                <th class="w-1/12">{{$movement->total}}</th>
+                                                <th class="w-1/12">{{$movement->total()}}</th>
                                             </tr>
                                         @endforeach
                                         </tbody>

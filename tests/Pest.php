@@ -11,10 +11,14 @@
 |
 */
 
+use App\Models\Company;
+use App\Models\Product;
 use App\Models\User;
+use Illuminate\Translation\Translator;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use function Pest\Laravel\actingAs;
+use Illuminate\Validation\Validator;
 
 uses(Tests\TestCase::class)->in('Feature');
 
@@ -87,31 +91,39 @@ function authorize_check_by_policy(string $permission_name, string $policy_name,
 }
 
 
-function privateOrderData(): array
+function newPrivateOrderData(): array
 {
     return [
 
         'type' => 'ingoing',
         'date' => today()->format('d-m-Y'),
-        'company' => [ ],
+        'company' => [
+            'company_id' => null,
+            'business_name' => null,
+            'email' => 'email@test.it',
+            'country' => 'country',
+            'address' => 'address',
+            'phone' => 'phone',
+            'vat_number' => null,
+            'contact_name' => 'name',
+        ],
         'products' => [
-    [
-        'id' => 1,
-        'price' => '20',
-        'vat' => '22',
-        'quantity' => '1',
-    ]
-],
+            [
+                'id' => 1,
+                'price' => '20',
+                'vat' => '22',
+                'quantity' => '1',
+            ]
+        ],
     ];
 }
 
-function companyOrderData(): array
+function newCompanyOrderData(): array
 {
     return [
 
         'type' => 'ingoing',
         'date' => today()->format('d-m-Y'),
-
         'company' => [
             'company_id' => null,
             'business_name' => 'name',
@@ -130,5 +142,115 @@ function companyOrderData(): array
                 'quantity' => '1',
             ]
         ],
+    ];
+}
+
+function multipleProductsOrderData(): array
+{
+    return [
+
+        'type' => 'ingoing',
+        'date' => today()->format('d-m-Y'),
+        'company' => [
+            'company_id' => null,
+            'business_name' => null,
+            'email' => 'email@test.it',
+            'country' => 'country',
+            'address' => 'address',
+            'phone' => 'phone',
+            'vat_number' => null,
+            'contact_name' => 'name',
+        ],
+        'products' => [
+            [
+                'id' => 1,
+                'price' => '10',
+                'vat' => '22',
+                'quantity' => '2',
+            ],
+            [
+                'id' => 2,
+                'price' => '15',
+                'vat' => '18',
+                'quantity' => '1',
+            ],
+            [
+                'id' => 3,
+                'price' => '20',
+                'vat' => '21',
+                'quantity' => '3',
+            ]
+        ],
+    ];
+}
+
+function create_order_product(int $count = 1)
+{
+    return Product::factory()->count($count)->create([
+        'name' => 'product',
+        'description' => 'description',
+        'price' => '20',
+        'vat' => '22'
+    ]);
+}
+
+function create_validated_request(array $data, $resource)
+{
+    $translator = Mockery::mock(Translator::class);
+    $request = new $resource;
+    $validator = new Validator($translator, $data, $request->rules());
+
+    return $request->setValidator($validator);
+}
+
+function dataset_private_company_raw(): Closure
+{
+    return fn() => Company::factory()->for_private()->raw();
+}
+
+function dataset_business_company_raw(): Closure
+{
+    return fn() => Company::factory()->for_business()->raw();
+}
+
+function newPrivateData(): array
+{
+    return [
+        'selectedRadioID' => 2,
+        'contact_name' => 'Test Name',
+        'business_name' => 'Test Name',
+        'vat_number' => '123456789',
+        'country' => 'Test',
+        'address' => 'Test Address',
+        'email' => 'email@test.it',
+        'phone' => '392222222',
+    ];
+}
+
+function newBusinessData(): array
+{
+    return [
+        'selectedRadioID' => 1,
+        'contact_name' => 'Test',
+        'business_name' => 'Test Name',
+        'vat_number' => '123456789',
+        'country' => 'Test',
+        'address' => 'Test Address',
+        'email' => 'email@test.it',
+        'phone' => '392222222',
+    ];
+}
+
+function productData(): array
+{
+    return [
+        'name' => 'Test name',
+        'description' => 'Test description',
+        'min_stock' => 10,
+        'weight' => 2,
+        'category_id' => 1,
+        'price' => 20.1,
+        'vat' => 20,
+        'department' => 2,
     ];
 }

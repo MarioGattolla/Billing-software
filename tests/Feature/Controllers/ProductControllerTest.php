@@ -50,23 +50,7 @@ test('can store product and return correct redirect', function () {
 
     Category::factory()->create();
 
-    $translator = $this->createMock(Translator::class);
-    $request = new StoreProductRequest();
-    $validator = new Validator($translator,
-        [
-            'name' => 'Test name',
-            'description' => 'Test description',
-            'min_stock' => 10,
-            'weight' => 2,
-            'category_id' => 1,
-            'price' => 20.1,
-            'vat' => 20,
-            'department' => 2,
-
-        ],
-        $request->rules());
-
-    $validated = $request->setValidator($validator);
+    $validated = create_validated_request(productData(), StoreProductRequest::class);
 
     $response = app(ProductController::class)->store($validated);
 
@@ -140,23 +124,8 @@ test('can update product and return correct redirect', function () {
 
     Category::factory()->create();
 
-    $translator = $this->createMock(Translator::class);
-    $request = new StoreProductRequest();
-    $validator = new Validator($translator,
-        [
-            'name' => 'Test name',
-            'description' => 'Test description',
-            'min_stock' => 10,
-            'weight' => 2,
-            'category_id' => 1,
-            'price' => 20.1,
-            'vat' => 20,
-            'department' => 2,
+    $validated = create_validated_request(productData(), StoreProductRequest::class);
 
-        ],
-        $request->rules());
-
-    $validated = $request->setValidator($validator);
     $response = app(ProductController::class)->update($validated, $old_product);
 
     /** @var Product $product */

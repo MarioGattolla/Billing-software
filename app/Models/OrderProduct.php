@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 
 
 
+
 /**
  * App\Models\OrderProduct
  *
@@ -50,21 +51,30 @@ class OrderProduct extends Pivot
         'vat',
     ];
 
-    public function vat(): Attribute
+
+    /**
+     * @return Attribute<int , float>
+     */
+    public function price(): Attribute
     {
         return Attribute::make(
-            get: fn(int $vat) => round($vat/100, 2),
-            set: fn(float $vat) => $this->attributes['vat'] = floor($vat*100),
+            get: fn(int $price) => round($price / 100, 2),
+            set: fn(float $price) => $this->attributes['price'] = floor($price * 100),
         );
     }
 
-    public function total(): Attribute
+    public function total(): float|int
     {
-        return Attribute::make(
-            get: fn(int $price) => round($price/100, 2),
-            set: fn(float $price) => $this->attributes['price'] = floor($price*100),
-        );
+        $total_ex_vat = $this->price * $this->quantity;
+        $vat_total = ($total_ex_vat * $this->vat) / 100;
+        return round($vat_total + $total_ex_vat,2);
     }
+
+    public function total_ex_vat(): float|int
+    {
+        return round($this->price * $this->quantity,2);
+    }
+
 }
 
 

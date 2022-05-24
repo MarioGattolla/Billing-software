@@ -24,16 +24,9 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'company' => 'required|array',
             'type' => 'required|string',
             'date' => 'required',
-            'company_id' => 'integer|nullable',
-            'business_name' => 'string|nullable',
-            'email' => 'required|email',
-            'country' => 'required|string',
-            'address' => 'required|string',
-            'phone' => 'required|string',
-            'vat_number' => 'string|nullable',
-            'contact_name' => 'string|nullable',
             'products' => 'required|array'
         ];
     }

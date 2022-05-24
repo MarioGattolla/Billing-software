@@ -15,6 +15,7 @@ use DefStudio\Actions\Exceptions\ActionException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Throwable;
 
@@ -52,16 +53,18 @@ class OrderController extends Controller
 
         $validated = $request->validated();
 
-        $company = $validated['company_id']
-            ? UpdateCompany::run($validated)
-            : Company::create($validated);
+        $company_data = collect($validated['company'])->toArray();
+
+        $company = $company_data['company_id']
+            ? UpdateCompany::run($company_data)
+            : Company::create($company_data);
 
         /** @var Order $order */
         $order = $company->orders()->create($validated);
 
         collect($request->validated('products'))
-            ->each(fn(array $product_data) => UpdateProduct::run($product_data))
-            ->each(fn(array $product_data) => $order->products()->syncWithPivotValues($product_data['id'], $product_data));
+            ->each(fn(array $product_data) => UpdateProduct::run($product_data, Product::findOrFail($product_data['id'])))
+            ->each(fn(array $product_data) => CreateNewOrderProduct::run($product_data, $order->id));
 
         return redirect()->route('orders.index');
     }
@@ -101,18 +104,18 @@ class OrderController extends Controller
      * @param Order $order
      * @return RedirectResponse
      * @throws AuthorizationException
-     * @throws ActionException
      */
     public function update(UpdateOrderRequest $request, Order $order): RedirectResponse
     {
         $this->authorize('editOrder', $order);
 
-        $company = Company::findOrFail($order->company_id);
         $validated = $request->validated();
 
-        UpdateCompany::run($validated, $company);
+        $company_data = collect($request->validated('company'))->toArray();
 
-        UpdateOrder::run($validated, $order);
+        $company = UpdateCompany::run($company_data);
+
+        $order->update($validated);
 
         return redirect()->route('orders.show', ['order' => $order]);
     }
