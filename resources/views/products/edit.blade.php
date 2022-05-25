@@ -2,8 +2,11 @@
 
 /** @var Product $product */
 
+use App\Models\Category;
 use App\Models\Product;
 
+/** @var Category[] $child_categories */
+$child_categories = Category::where('parent_id', '!=', null)->get()->except($product->category->id );
 ?>
 <x-app-layout>
     <div class="py-12">
@@ -19,6 +22,16 @@ use App\Models\Product;
                         @method('PUT')
 
                         <x-products.main-data :product="$product"/>
+
+                        <div>
+                            <p> Category</p>
+                            <select name="category_id">
+                                <option value="{{$product->category->id}}">{{$product->category->name}}</option>
+                                @foreach($child_categories as $category)
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <button
                             class="w-1/5 bg-green-200 mt-3 h-10 rounded-md border border-green-400 hover:bg-green-400 type="

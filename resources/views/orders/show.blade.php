@@ -68,7 +68,7 @@ $movements = OrderProduct::whereOrderId($order->id)->get();
                             <p class="m-3 text-lg">Order</p>
                             <div class="flex">
                                 <div class="bg-white p-3 m-2 rounded-md border-2 w-1/3">
-                                    Date : {{ $order->date }}
+                                    Date : {{$order->date}}
                                 </div>
                                 <div class="bg-white p-3 m-2 rounded-md border-2 w-1/3">
                                     Type : {{ $order->type }}

@@ -37,7 +37,7 @@ class ProductController extends Controller
     {
         $this->authorize('createProduct', Product::class);
 
-        $product = new  Product();
+        $product = new  Product(['price'=> 0]);
         return view('products.create', ['product' => $product]);
     }
 
@@ -57,7 +57,7 @@ class ProductController extends Controller
 
         CreateNewProduct::run($validated);
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('success', 'Product created !!');
     }
 
     /**
@@ -107,7 +107,7 @@ class ProductController extends Controller
 
         UpdateProduct::run($validated, $product);
 
-        return redirect()->route('products.show', $product);
+        return redirect()->route('products.show', $product)->with('success', 'Product updated !!');
     }
 
     /**
@@ -124,6 +124,6 @@ class ProductController extends Controller
 
         $product->deleteOrFail();
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('success', 'Product deleted !!');
     }
 }

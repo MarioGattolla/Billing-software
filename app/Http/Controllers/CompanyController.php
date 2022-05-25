@@ -51,7 +51,7 @@ class CompanyController extends Controller
      * @return RedirectResponse
      * @throws AuthorizationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreCompanyRequest $request): RedirectResponse
     {
 
         $this->authorize('createCompany', Company::class);
@@ -61,7 +61,7 @@ class CompanyController extends Controller
 
         CreateNewCompany::run($validated);
 
-        return redirect()->route('companies.index');
+        return redirect()->route('companies.index')->with('success', 'Company created !!');
     }
 
     /**
@@ -103,7 +103,6 @@ class CompanyController extends Controller
      * @param Company $company
      * @return RedirectResponse
      * @throws AuthorizationException
-     * @throws ActionException
      */
     public function update(StoreCompanyRequest $request, Company $company): RedirectResponse
     {
@@ -113,7 +112,7 @@ class CompanyController extends Controller
 
         UpdateCompany::run($validated, $company);
 
-        return redirect()->route('companies.show', $company);
+        return redirect()->route('companies.show', $company)->with('success', 'Company updated !!');
     }
 
     /**
@@ -130,6 +129,6 @@ class CompanyController extends Controller
 
         $company->deleteOrFail();
 
-        return redirect()->route('companies.index');
+        return redirect()->route('companies.index')->with('success', 'Company deleted !!');
     }
 }

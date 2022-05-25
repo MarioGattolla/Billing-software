@@ -15,6 +15,8 @@ $countries = CountryListFacade::getList();
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <x-elements.validation-errors :errors="$errors"/>
+
                 @if($company->vat_number == null)
                     <div class=" ml-20 mt-10 bg-white  text-xl">
                         Here you can Edit the current Private : {{$company->contact_name}}
@@ -30,7 +32,8 @@ $countries = CountryListFacade::getList();
 
                                     <div class="pt-2">
                                         <p>Contact Name</p>
-                                        <input class="rounded-md " value="{{$company->contact_name}}" type="text" id="contact_name"
+                                        <input class="rounded-md " value="{{$company->contact_name}}" type="text"
+                                               id="contact_name"
                                                name="contact_name" required>
                                     </div>
 
@@ -85,12 +88,13 @@ $countries = CountryListFacade::getList();
 
                                     <div class="pt-2">
                                         <p>Business Name</p>
-                                        <input class="rounded-md " value="{{$company->business_name}}" type="text" id="business_name"
+                                        <input class="rounded-md " value="{{$company->business_name}}" type="text"
+                                               id="business_name"
                                                name="business_nam" required>
                                     </div>
 
                                     <p>Country</p>
-                                    <select class="w-1/5 rounded-md" name="country_select" id="country_select" required>
+                                    <select class="w-1/5 rounded-md" name="country" id="country" required>
                                         <option selected>{{$company->country}}</option>
                                         @foreach($countries as $country)
                                             <option value="{{$country}}"> {{$country}}</option>

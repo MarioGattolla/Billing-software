@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Companies\CreateNewCompany;
 use App\Actions\Companies\UpdateCompany;
 use App\Actions\OrderProduct\CreateNewOrderProduct;
 use App\Actions\Products\UpdateProduct;
@@ -11,11 +10,8 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Company;
 use App\Models\Order;
 use App\Models\Product;
-use DefStudio\Actions\Exceptions\ActionException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Throwable;
 
@@ -66,7 +62,7 @@ class OrderController extends Controller
             ->each(fn(array $product_data) => UpdateProduct::run($product_data, Product::findOrFail($product_data['id'])))
             ->each(fn(array $product_data) => CreateNewOrderProduct::run($product_data, $order->id));
 
-        return redirect()->route('orders.index');
+        return redirect()->route('orders.index')->with('success','Order created !!');
     }
 
     /**
@@ -113,11 +109,11 @@ class OrderController extends Controller
 
         $company_data = collect($request->validated('company'))->toArray();
 
-        $company = UpdateCompany::run($company_data);
+        UpdateCompany::run($company_data);
 
         $order->update($validated);
 
-        return redirect()->route('orders.show', ['order' => $order]);
+        return redirect()->route('orders.show', ['order' => $order])->with('success', 'Order updated !!');
     }
 
     /**
@@ -135,7 +131,7 @@ class OrderController extends Controller
 
         $order->deleteOrFail();
 
-        return redirect()->route('orders.index');
+        return redirect()->route('orders.index')->with('success', 'Order deleted !!');
     }
 
 

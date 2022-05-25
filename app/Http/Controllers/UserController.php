@@ -80,7 +80,7 @@ class UserController extends Controller
 
         CreateNewUser::run($name, $email, $password, $role) ;
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', 'User created !!');
     }
 
     /**
@@ -152,7 +152,7 @@ class UserController extends Controller
 
         UpdateUser::run($request, $user) ;
 
-        return redirect()->route('users.show',$user);
+        return redirect()->route('users.show',$user)->with('success', 'User updated !!');
     }
 
     /**
@@ -174,6 +174,6 @@ class UserController extends Controller
 
         $user->deleteOrFail();
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', 'User deleted !!');
     }
 }

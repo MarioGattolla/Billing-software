@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -54,7 +55,6 @@ class Order extends Model
     ];
 
 
-
     /** @return BelongsToMany<Product> */
     public function products(): BelongsToMany
     {
@@ -77,5 +77,15 @@ class Order extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
+
+    /**
+     * @return Attribute<string , Carbon>
+     */
+    public function date(): Attribute
+    {
+        return Attribute::make(
+            get: fn(string $date) => \Carbon\Carbon::make( $date)->format('d-m-Y'),
+        );
     }
 }

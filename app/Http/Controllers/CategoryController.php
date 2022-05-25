@@ -64,7 +64,7 @@ class CategoryController extends Controller
 
         CreateNewCategory::run($name, $description, $parent_id);
 
-        return redirect()->route('categories.index');
+        return redirect()->route('categories.index')->with('success', 'Category created !!');
     }
 
     /**
@@ -122,7 +122,7 @@ class CategoryController extends Controller
 
         UpdateCategory::run($name, $description, $parent_id , $category);
 
-        return redirect()->route('categories.show', $category);
+        return redirect()->route('categories.show', $category)->with('success', 'Category updated !!');
     }
 
     /**
@@ -139,6 +139,6 @@ class CategoryController extends Controller
 
         $category->deleteOrFail();
 
-        return redirect()->route('categories.index');
+        return redirect()->route('categories.index')->with('success', 'Category deleted !!');
     }
 }

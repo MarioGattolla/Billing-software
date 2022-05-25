@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateOrderRequest extends FormRequest
@@ -29,4 +30,7 @@ class UpdateOrderRequest extends FormRequest
             'company' => 'required|array',
         ];
     }
+
+
+
 }

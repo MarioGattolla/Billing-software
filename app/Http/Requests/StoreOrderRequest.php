@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreOrderRequest extends FormRequest
@@ -30,4 +31,5 @@ class StoreOrderRequest extends FormRequest
             'products' => 'required|array'
         ];
     }
+
 }

@@ -51,7 +51,7 @@ use App\Models\Product;
     <div class="m-2">
         <p>Price</p>
         <label for="price">
-            <input class="rounded-md " value="{{$product->price/100}}" type="number" id="price" name="price" required/>
+            <input class="rounded-md " value="{{$product->price}}" type="number" id="price" name="price" required/>
         </label>
     </div>
 </div>

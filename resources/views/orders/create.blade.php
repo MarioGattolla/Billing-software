@@ -248,173 +248,174 @@
 
 <x-app-layout>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class=" ml-20 mt-10 bg-white  text-xl">
-                    New Order
-                </div>
-                <div class="m-10 ">
+    <div class="max-w-7xl mx-auto sm:px-6 mt-2 lg:px-8 py-12">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
+            <x-elements.validation-errors :errors="$errors"/>
+
+            <div class=" ml-20 mt-10 bg-white  text-xl">
+                New Order
+            </div>
+            <div class="m-10 ">
+
+                <div x-data="formFilter()" class="bg-gray-100 p-10 max-w border rounded-md">
 
 
-                    <div x-data="formFilter()" class="bg-gray-100 p-10 max-w border rounded-md">
+                    <form method="POST" x-on:keydown.enter="event.preventDefault()"
+                          action="{{route('orders.store')}}" name="orders_create_form">
+                        @csrf
+                        <template x-for="item in radioItem" :key="item.id">
+                            <div class="p-1">
+                                <label>
+                                    <input x-model="selectedRadioID" type="radio" :value="item.id"
+                                           x-on:click="reset()"/>
 
+                                </label>
+                                <label x-text="item.name"></label>
 
-                        <form method="POST" x-on:keydown.enter="event.preventDefault()"
-                              action="{{route('orders.store')}}" name="orders_create_form">
-                            @csrf
-                            <template x-for="item in radioItem" :key="item.id">
-                                <div class="p-1">
-                                    <label>
-                                        <input x-model="selectedRadioID" type="radio" :value="item.id"
-                                               x-on:click="reset()"/>
+                            </div>
+                        </template>
 
-                                    </label>
-                                    <label x-text="item.name"></label>
+                        <input name="type" type="text"
+                               x-model="radioItem[selectedRadioID-1].name"
+                               hidden/>
+                        <input x-model="company.id" type="text" name="company[company_id]" hidden/>
 
-                                </div>
-                            </template>
-
-                            <input name="type" type="text"
-                                   x-model="radioItem[selectedRadioID-1].name"
-                                   hidden/>
-                            <input x-model="company.id" type="text" name="company.id" hidden/>
-
-                            <div x-show="selectedRadioID == 1
+                        <div x-show="selectedRadioID == 1
                                 " class="pt-1"
-                                 x-transition:enter="transition ease-out duration-300"
-                                 x-transition:enter-start="opacity-0 scale-90"
-                                 x-transition:enter-end="opacity-100 scale-100"
-                                 x-transition:leave="transition ease-in duration-300"
-                                 x-transition:leave-start="opacity-100 scale-100"
-                                 x-transition:leave-end="opacity-0 scale-90">
-                                <div class=" rounded-md  flex-col  pt-2 ">
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-90"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-300"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-90">
+                            <div class=" rounded-md  flex-col  pt-2 ">
 
-                                    <p>Select the Company</p>
-                                    <input class="w-1/3 flex-col "
-                                           autocomplete="off"
-                                           type="search"
-                                           id="searchCompanyOnly"
-                                           x-model="searchCompanyOnly"
-                                           placeholder="Search for Company"
-                                           @click.away="searchCompanyOnly = '' , filteredCompany = 0"
-                                           x-on:keyup="searchCompaniesOnly"
-                                           x-on:keyup.down="selectNextCompany()"
-                                           x-on:keyup.up="selectPreviousCompany()"
+                                <p>Select the Company</p>
+                                <input class="w-1/3 flex-col "
+                                       autocomplete="off"
+                                       type="search"
+                                       id="searchCompanyOnly"
+                                       x-model="searchCompanyOnly"
+                                       placeholder="Search for Company"
+                                       @click.away="searchCompanyOnly = '' , filteredCompany = 0"
+                                       x-on:keyup="searchCompaniesOnly"
+                                       x-on:keyup.down="selectNextCompany()"
+                                       x-on:keyup.up="selectPreviousCompany()"
 
-                                    />
+                                />
 
 
-                                    <div class="overflow-y-auto bg-white w-1/3 h-1/2 border-2"
-                                         x-show="filteredCompany.length>0">
-                                        <template x-for="(selected_company, index) in filteredCompany">
-                                            <option class=" p-2 hover:cursor-pointer   rounded-md hover:bg-indigo-100"
-                                                    x-on:keyup.enter.window="company = selected_company ,  company_only_click(company)"
-                                                    @click="company = selected_company ,  company_only_click(company)"
-                                                    x-text="selected_company.contact_name + selected_company.business_name "
-                                                    :class="{'bg-indigo-100': index===selectedCompanyIndex}">
-                                            </option>
+                                <div class="overflow-y-auto bg-white w-1/3 h-1/2 border-2"
+                                     x-show="filteredCompany.length>0">
+                                    <template x-for="(selected_company, index) in filteredCompany">
+                                        <option class=" p-2 hover:cursor-pointer   rounded-md hover:bg-indigo-100"
+                                                x-on:keyup.enter.window="company = selected_company ,  company_only_click(company)"
+                                                @click="company = selected_company ,  company_only_click(company)"
+                                                x-text="selected_company.contact_name + selected_company.business_name "
+                                                :class="{'bg-indigo-100': index===selectedCompanyIndex}">
+                                        </option>
 
-                                        </template>
-                                    </div>
-
-                                    <x-elements.button x-on:click="new_business">New Company</x-elements.button>
-
-                                    <div class="flex" x-show="company_type == 2">
-                                        <x-companies.business-main-data/>
-                                    </div>
+                                    </template>
                                 </div>
 
+                                <x-elements.button x-on:click="new_business">New Company</x-elements.button>
 
-                                <div x-show="modal == true" class="fixed top-0 right-0 left-0 w-full
+                                <div class="flex" x-show="company_type == 2">
+                                    <x-companies.business-main-data/>
+                                </div>
+                            </div>
+
+
+                            <div x-show="modal == true" class="fixed top-0 right-0 left-0 w-full
                                 h-full bg-gray-100 bg-opacity-75 flex items-center  "
-                                     x-on:keyup.escape.window="modal = false">
+                                 x-on:keyup.escape.window="modal = false">
 
-                                    <x-orders.create.product-search-with-modal/>
+                                <x-orders.create.product-search-with-modal/>
 
+                            </div>
+                        </div>
+
+                        <div x-show="selectedRadioID == 2"
+                             class="pt-1"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-90"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-300"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-90">
+                            <div class=" rounded-md  flex-col  pt-2 ">
+
+                                <p>Select the Company/Private</p>
+                                <input class="w-1/3 flex-col "
+                                       autocomplete="off"
+                                       type="search"
+                                       id="searchCompanyAll"
+                                       x-model="searchCompanyAll"
+                                       placeholder="Search for Company"
+                                       @click.away="searchCompanyAll = '', filteredCompany = 0 "
+                                       x-on:keyup="searchCompaniesPrivates"
+                                       x-on:keyup.down="selectNextCompany()"
+                                       x-on:keyup.up="selectPreviousCompany()"
+
+                                />
+
+
+                                <div class="overflow-y-auto w-1/3    bg-white h-1/2 border-2"
+                                     x-show="filteredCompany.length>0">
+                                    <template x-for="(selected_company, index) in filteredCompany">
+                                        <option class=" p-2   rounded-md hover:bg-indigo-100"
+                                                @click="company = selected_company ,  company_all_click(company)"
+                                                x-text="selected_company.contact_name + selected_company.business_name "
+                                                :class="{'bg-indigo-100': index===selectedCompanyIndex}">
+                                        </option>
+
+                                    </template>
                                 </div>
+
+                                <x-elements.button x-on:click="new_business">New Company</x-elements.button>
+
+                                <x-elements.button x-on:click="new_private">New Private</x-elements.button>
+
+                                <div class="flex" x-show="company_type == 1">
+                                    <x-companies.private-main-data/>
+                                </div>
+
+                                <div class="flex" x-show="company_type == 2">
+                                    <x-companies.business-main-data/>
+                                </div>
+
                             </div>
 
-                            <div x-show="selectedRadioID == 2"
-                                 class="pt-1"
-                                 x-transition:enter="transition ease-out duration-300"
-                                 x-transition:enter-start="opacity-0 scale-90"
-                                 x-transition:enter-end="opacity-100 scale-100"
-                                 x-transition:leave="transition ease-in duration-300"
-                                 x-transition:leave-start="opacity-100 scale-100"
-                                 x-transition:leave-end="opacity-0 scale-90">
-                                <div class=" rounded-md  flex-col  pt-2 ">
 
-                                    <p>Select the Company/Private</p>
-                                    <input class="w-1/3 flex-col "
-                                           autocomplete="off"
-                                           type="search"
-                                           id="searchCompanyAll"
-                                           x-model="searchCompanyAll"
-                                           placeholder="Search for Company"
-                                           @click.away="searchCompanyAll = '', filteredCompany = 0 "
-                                           x-on:keyup="searchCompaniesPrivates"
-                                           x-on:keyup.down="selectNextCompany()"
-                                           x-on:keyup.up="selectPreviousCompany()"
-
-                                    />
-
-
-                                    <div class="overflow-y-auto w-1/3    bg-white h-1/2 border-2"
-                                         x-show="filteredCompany.length>0">
-                                        <template x-for="(selected_company, index) in filteredCompany">
-                                            <option class=" p-2   rounded-md hover:bg-indigo-100"
-                                                    @click="company = selected_company ,  company_all_click(company)"
-                                                    x-text="selected_company.contact_name + selected_company.business_name "
-                                                    :class="{'bg-indigo-100': index===selectedCompanyIndex}">
-                                            </option>
-
-                                        </template>
-                                    </div>
-
-                                    <x-elements.button x-on:click="new_business">New Company</x-elements.button>
-
-                                    <x-elements.button x-on:click="new_private">New Private</x-elements.button>
-
-                                    <div class="flex" x-show="company_type == 1">
-                                        <x-companies.private-main-data/>
-                                    </div>
-
-                                    <div class="flex" x-show="company_type == 2">
-                                        <x-companies.business-main-data/>
-                                    </div>
-
-                                </div>
-
-
-                                <div x-show="modal == true" class="fixed top-0 right-0 left-0 w-full
+                            <div x-show="modal == true" class="fixed top-0 right-0 left-0 w-full
                                  h-full bg-gray-100 bg-opacity-75 flex items-center "
-                                     x-on:keyup.escape.window="modal = false">
+                                 x-on:keyup.escape.window="modal = false">
 
-                                    <x-orders.create.product-search-with-modal/>
+                                <x-orders.create.product-search-with-modal/>
 
-                                </div>
                             </div>
-                            <div>
-                                <x-orders.create.order-product-table/>
-                            </div>
+                        </div>
+                        <div>
+                            <x-orders.create.order-product-table/>
+                        </div>
 
-                            <div class="mt-3">
-                                <p class="mt-2">Date</p>
-                                <input type="date" name="date" value="{{today()->format('d-m-Y')}}"
-                                       min="{{today()->format('d-m-Y')}}">
-                            </div>
+                        <div class="mt-3">
+                            <p class="mt-2">Date</p>
+                            <input type="date" name="date" value="{{today()->format('d-m-Y')}}"
+                                   min="{{today()->format('d-m-Y')}}">
+                        </div>
 
 
-                            <x-elements.button type="submit" class="w-20 bg-green-200 mt-3 h-10 rounded-md
+                        <x-elements.button type="submit" class="w-20 bg-green-200 mt-3 h-10 rounded-md
                                   border border-green-400 hover:bg-green-400 ">
-                                Submit
-                            </x-elements.button>
-                        </form>
-                    </div>
+                            Submit
+                        </x-elements.button>
+                    </form>
                 </div>
             </div>
-
         </div>
+
+    </div>
     </div>
 </x-app-layout>

@@ -12,6 +12,8 @@ $user = Auth::user();
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <div class="pb-10 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <x-elements.validation-errors :errors="$errors"/>
+
                 <div class=" ml-20 mt-10 bg-white  text-xl ">
                     Here you can create a new Category/Subcategory
                 </div>
