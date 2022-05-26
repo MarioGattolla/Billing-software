@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Carbon;
 
 
-
-
 /**
  * App\Models\OrderProduct
  *
@@ -63,18 +61,26 @@ class OrderProduct extends Pivot
         );
     }
 
+
     public function total(): float|int
     {
         $total_ex_vat = $this->price * $this->quantity;
         $vat_total = ($total_ex_vat * $this->vat) / 100;
-        return round($vat_total + $total_ex_vat,2);
+        return round($vat_total + $total_ex_vat, 2);
     }
 
     public function total_ex_vat(): float|int
     {
-        return round($this->price * $this->quantity,2);
+        return round($this->price * $this->quantity, 2);
     }
 
+    public function quantity(): Attribute
+    {
+        return Attribute::make(
+            get: fn(int $quantity) => $quantity < 0 ? $quantity * -1 : $quantity,
+
+    );
+    }
 }
 
 

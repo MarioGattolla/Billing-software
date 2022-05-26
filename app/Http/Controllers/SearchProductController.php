@@ -23,6 +23,16 @@ class SearchProductController extends Controller
         return ProductResource::collection($products);
     }
 
+    public function search_products_with_available_stock(Request $request): AnonymousResourceCollection
+    {
+        $products = collect(Product::query()->where('name', 'like', "%" . $request->search . "%"))
+            ->where()
+            ->each(fn(Product $product ) => $product->available_stock() > 0)
+            ->get();
+
+        return ProductResource::collection($products);
+    }
+
     public function search_products_by_company(Request $request): AnonymousResourceCollection|Response
     {
         $orders_id = Order::where('company_id', '=', $request->id)

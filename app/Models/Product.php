@@ -78,8 +78,8 @@ class Product extends Model
     public function price(): Attribute
     {
         return Attribute::make(
-            get: fn(int $price) => round($price/100, 2),
-            set: fn(float $price) => $this->attributes['price'] = floor($price*100),
+            get: fn(int $price) => round($price / 100, 2),
+            set: fn(float $price) => $this->attributes['price'] = floor($price * 100),
         );
     }
 
@@ -87,10 +87,14 @@ class Product extends Model
     public function vat_price(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->price*(100+$this-> vat)/100
+            get: fn() => $this->price * (100 + $this->vat) / 100
         );
     }
 
+    public function available_stock()
+    {
+        return OrderProduct::whereProductId($this->id)->sum('quantity');
 
+    }
 }
 

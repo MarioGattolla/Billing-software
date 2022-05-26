@@ -40,6 +40,7 @@ Route::resource('ddts/{id}/ddtRaws', DdtRawController::class)->middleware(['auth
 Route::resource('invoices/{id}/invoiceRaws', InvoiceRawController::class)->middleware(['auth']);
 
 Route::get('/search/product', [SearchProductController::class , 'search_products'])->name('search_product');
+Route::get('/search/products_with_available_stock', [SearchProductController::class , 'search_products_with_available_stock'])->name('search_products_with_available_stock');
 Route::get('/search/product_by_company', [SearchProductController::class , 'search_products_by_company'])->name('search_product');
 Route::get('/search/product_by_company_filtered', [SearchProductController::class , 'search_products_by_company_filtered'])->name('search_product');
 

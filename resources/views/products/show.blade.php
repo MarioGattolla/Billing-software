@@ -4,7 +4,8 @@
 
 use App\Models\Product;
 
-?><script>
+?>
+<script>
     function modal() {
         return {
             modal: false,
@@ -26,8 +27,12 @@ use App\Models\Product;
                         <div class="flex">
                             <div class="bg-white p-3 m-3 rounded-md border-2 w-1/3">Description
                                 : {{ $product->description }}</div>
+                        </div>
+                        <div class="flex">
                             <div class="bg-white p-3 m-3 rounded-md border-2 w-1/3">Minimum Stock
                                 : {{ $product->min_stock }}</div>
+                            <div class="bg-white p-3 m-3 rounded-md border-2 w-1/3">Available Stock
+                                : {{ dd($product->available_stock()) }}</div>
                         </div>
                         <div class="flex">
                             <div class="bg-white p-3 m-3 rounded-md border-2 w-1/3">Price

@@ -62,7 +62,7 @@ class OrderController extends Controller
             ->each(fn(array $product_data) => UpdateProduct::run($product_data, Product::findOrFail($product_data['id'])))
             ->each(fn(array $product_data) => CreateNewOrderProduct::run($product_data, $order->id));
 
-        return redirect()->route('orders.index')->with('success','Order created !!');
+        return redirect()->route('orders.index')->with('success', 'Order created !!');
     }
 
     /**

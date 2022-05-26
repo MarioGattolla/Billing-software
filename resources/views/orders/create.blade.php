@@ -55,7 +55,7 @@
                 }
 
                 if (this.selectedRadioID == 2) {
-                    axios.get('{{URL::to('/search/product')}}', {
+                    axios.get('{{URL::to('/search/products_with_available_stock')}}', {
                         'params': {'search': this.searchProduct}
                     }).then(response => {
                         this.filteredProduct = response.data.data;
