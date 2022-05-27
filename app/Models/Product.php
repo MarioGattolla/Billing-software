@@ -74,6 +74,11 @@ class Product extends Model
         return $this->belongsToMany(Order::class)->using(OrderProduct::class);
     }
 
+    public function order_rows(): BelongsToMany
+    {
+        return $this->belongsToMany(OrderProduct::class, 'order_product');
+    }
+
     /** @return Attribute<int, float> */
     public function price(): Attribute
     {

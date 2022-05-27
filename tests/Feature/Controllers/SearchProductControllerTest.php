@@ -38,6 +38,43 @@ it('can search products', function () {
 
 });
 
+it('can search products with available stock', function () {
+
+
+    Product::factory()->count(10)->create(['name' => 'test']);
+
+    /** @var Company $company */
+    $company = Company::factory()->create();
+
+    $company->orders()->create(['type' => 'ingoing', 'date' => today()]);
+
+    OrderProduct::factory()->create([
+        'product_id' => 1,
+        'order_id' => 1,
+        'quantity' => 10,
+        'price' => 10,
+        'vat' => 20
+    ]);
+
+    OrderProduct::factory()->create([
+        'product_id' => 2,
+        'order_id' => 1,
+        'quantity' => -10,
+        'price' => 10,
+        'vat' => 20
+    ]);
+
+
+    $request = Request::create('/search/product_with_available_stock', 'GET', [
+        'search' => 'tes',
+    ]);
+
+    $response = app(SearchProductController::class)->search_products_with_available_stock($request);
+
+    expect($response->count())->toBe(1);
+
+})->only();
+
 
 it('can search products_by_company', function () {
 
@@ -45,7 +82,7 @@ it('can search products_by_company', function () {
 
     $id = Company::factory()->create()->id;
 
-    $order = Order::factory()->set_movements()->create(['company_id' => $id, 'type' =>'Test']);
+    $order = Order::factory()->set_movements()->create(['company_id' => $id, 'type' => 'Test']);
 
     $products_count = OrderProduct::where('order_id', '=', $order->id)
         ->get()->map(fn(OrderProduct $movement) => $movement->product_id)->count();

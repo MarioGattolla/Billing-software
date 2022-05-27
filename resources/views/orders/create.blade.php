@@ -55,11 +55,12 @@
                 }
 
                 if (this.selectedRadioID == 2) {
-                    axios.get('{{URL::to('/search/products_with_available_stock')}}', {
+                    axios.get('{{URL::to('/search/product_with_available_stock')}}', {
                         'params': {'search': this.searchProduct}
                     }).then(response => {
                         this.filteredProduct = response.data.data;
                     });
+
 
                     this.selectedProductIndex = 0;
 

@@ -39,18 +39,18 @@ Route::resource('orders', OrderController::class)->middleware(['auth']);
 Route::resource('ddts/{id}/ddtRaws', DdtRawController::class)->middleware(['auth']);
 Route::resource('invoices/{id}/invoiceRaws', InvoiceRawController::class)->middleware(['auth']);
 
-Route::get('/search/product', [SearchProductController::class , 'search_products'])->name('search_product');
-Route::get('/search/products_with_available_stock', [SearchProductController::class , 'search_products_with_available_stock'])->name('search_products_with_available_stock');
-Route::get('/search/product_by_company', [SearchProductController::class , 'search_products_by_company'])->name('search_product');
-Route::get('/search/product_by_company_filtered', [SearchProductController::class , 'search_products_by_company_filtered'])->name('search_product');
+Route::get('/search/product', [SearchProductController::class, 'search_products']);
+Route::get('/search/product_with_available_stock', [SearchProductController::class, 'search_products_with_available_stock']);
+Route::get('/search/product_by_company', [SearchProductController::class, 'search_products_by_company']);
+Route::get('/search/product_by_company_filtered', [SearchProductController::class, 'search_products_by_company_filtered']);
 
 
-Route::get('/search/company/all', [SearchCompanyController::class , 'search_companies_privates'])->name('search_company');
-Route::get('/search/company/companies', [SearchCompanyController::class , 'search_companies'])->name('search_company');
+Route::get('/search/company/all', [SearchCompanyController::class, 'search_companies_privates']);
+Route::get('/search/company/companies', [SearchCompanyController::class, 'search_companies']);
 
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

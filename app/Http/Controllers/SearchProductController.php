@@ -6,11 +6,15 @@ use App\Http\Resources\ProductResource;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use phpDocumentor\Reflection\Types\Collection;
 use function _PHPStan_7bd9fb728\React\Promise\all;
+use function Pest\Laravel\get;
 
 class SearchProductController extends Controller
 {
@@ -25,9 +29,11 @@ class SearchProductController extends Controller
 
     public function search_products_with_available_stock(Request $request): AnonymousResourceCollection
     {
-        $products = collect(Product::query()->where('name', 'like', "%" . $request->search . "%"))
-            ->where()
-            ->each(fn(Product $product ) => $product->available_stock() > 0)
+        $products = Product::query()
+            ->leftJoin('order_product', fn(JoinClause $join) => $join->on('products.id', '=', 'order_product.product_id'))
+            ->where('name', 'like', "%" . $request->search . "%")
+            ->groupBy('order_product.quantity')
+            ->havingRaw('SUM(order_product.quantity) > 0')
             ->get();
 
         return ProductResource::collection($products);
