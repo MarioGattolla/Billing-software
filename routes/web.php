@@ -12,6 +12,8 @@ use App\Http\Controllers\SearchCompanyController;
 use App\Http\Controllers\SearchProductController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
+use App\Models\Product;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +31,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/test', function () {
+
+
+});
+
 Route::resource('users', UserController::class)->middleware(['auth']);
 Route::resource('companies', CompanyController::class)->middleware(['auth']);
 Route::resource('products', ProductController::class)->middleware(['auth']);
@@ -36,8 +43,6 @@ Route::resource('categories', CategoryController::class)->middleware(['auth']);
 Route::resource('invoices', InvoiceController::class)->middleware(['auth']);
 Route::resource('dtts', DdtController::class)->middleware(['auth']);
 Route::resource('orders', OrderController::class)->middleware(['auth']);
-Route::resource('ddts/{id}/ddtRaws', DdtRawController::class)->middleware(['auth']);
-Route::resource('invoices/{id}/invoiceRaws', InvoiceRawController::class)->middleware(['auth']);
 
 Route::get('/search/product', [SearchProductController::class, 'search_products']);
 Route::get('/search/product_with_available_stock', [SearchProductController::class, 'search_products_with_available_stock']);

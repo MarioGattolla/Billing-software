@@ -29,12 +29,16 @@ class SearchProductController extends Controller
 
     public function search_products_with_available_stock(Request $request): AnonymousResourceCollection
     {
-        $products = Product::query()
+
+
+        $available_product_ids = Product::query()
             ->leftJoin('order_product', fn(JoinClause $join) => $join->on('products.id', '=', 'order_product.product_id'))
             ->where('name', 'like', "%" . $request->search . "%")
-            ->groupBy('order_product.quantity')
+            ->groupBy('products.id')
             ->havingRaw('SUM(order_product.quantity) > 0')
-            ->get();
+            ->pluck('products.id');
+
+        $products = Product::whereIn('id', $available_product_ids)->get();
 
         return ProductResource::collection($products);
     }

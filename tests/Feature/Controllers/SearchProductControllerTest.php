@@ -73,7 +73,7 @@ it('can search products with available stock', function () {
 
     expect($response->count())->toBe(1);
 
-})->only();
+});
 
 
 it('can search products_by_company', function () {

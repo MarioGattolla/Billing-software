@@ -54,11 +54,12 @@
                     return this.filteredProduct = '';
                 }
 
-                if (this.selectedRadioID == 2) {
+                if (this.selectedRadioID === '2') {
                     axios.get('{{URL::to('/search/product_with_available_stock')}}', {
                         'params': {'search': this.searchProduct}
                     }).then(response => {
                         this.filteredProduct = response.data.data;
+                        console.log(this.filteredProduct)
                     });
 
 
@@ -183,14 +184,14 @@
             },
 
             set_total(index) {
-                no_vat_total = (this.products[index].price * 100) * this.products[index].quantity;
-                vat_total = Math.round((no_vat_total * this.products[index].vat) / 100);
+                let no_vat_total = (this.products[index].price * 100) * this.products[index].quantity;
+                let vat_total = Math.round((no_vat_total * this.products[index].vat) / 100);
                 this.products[index].total = (no_vat_total + vat_total) / 100;
 
             },
 
             product_click(selected_product) {
-                product = selected_product;
+                let product = selected_product;
                 this.modal = false;
                 this.searchProduct = '';
                 this.filteredProduct = [];
@@ -277,10 +278,14 @@
                             </div>
                         </template>
 
-                        <input name="type" type="text"
-                               x-model="radioItem[selectedRadioID-1].name"
-                               hidden/>
-                        <input x-model="company.id" type="text" name="company[company_id]" hidden/>
+                        <label>
+                            <input name="type" type="text"
+                                   x-model="radioItem[selectedRadioID-1].name"
+                                   hidden/>
+                        </label>
+                        <label>
+                            <input x-model="company.id" type="text" name="company[company_id]" hidden/>
+                        </label>
 
                         <div x-show="selectedRadioID == 1
                                 " class="pt-1"
@@ -293,16 +298,16 @@
                             <div class=" rounded-md  flex-col  pt-2 ">
 
                                 <p>Select the Company</p>
-                                <input class="w-1/3 flex-col "
-                                       autocomplete="off"
-                                       type="search"
-                                       id="searchCompanyOnly"
-                                       x-model="searchCompanyOnly"
-                                       placeholder="Search for Company"
-                                       @click.away="searchCompanyOnly = '' , filteredCompany = 0"
-                                       x-on:keyup="searchCompaniesOnly"
-                                       x-on:keyup.down="selectNextCompany()"
-                                       x-on:keyup.up="selectPreviousCompany()"
+                                <label for="searchCompanyOnly"></label><input class="w-1/3 flex-col "
+                                                                              autocomplete="off"
+                                                                              type="search"
+                                                                              id="searchCompanyOnly"
+                                                                              x-model="searchCompanyOnly"
+                                                                              placeholder="Search for Company"
+                                                                              @click.away="searchCompanyOnly = '' , filteredCompany = 0"
+                                                                              x-on:keyup="searchCompaniesOnly"
+                                                                              x-on:keyup.down="selectNextCompany()"
+                                                                              x-on:keyup.up="selectPreviousCompany()"
 
                                 />
 
@@ -348,6 +353,7 @@
                             <div class=" rounded-md  flex-col  pt-2 ">
 
                                 <p>Select the Company/Private</p>
+                                <label for="searchCompanyAll"></label>
                                 <input class="w-1/3 flex-col "
                                        autocomplete="off"
                                        type="search"
@@ -403,8 +409,10 @@
 
                         <div class="mt-3">
                             <p class="mt-2">Date</p>
-                            <input type="date" name="date" value="{{today()->format('d-m-Y')}}"
-                                   min="{{today()->format('d-m-Y')}}">
+                            <label>
+                                <input type="date" name="date" value="{{today()->format('d-m-Y')}}"
+                                       min="{{today()->format('d-m-Y')}}">
+                            </label>
                         </div>
 
 
@@ -417,6 +425,5 @@
             </div>
         </div>
 
-    </div>
     </div>
 </x-app-layout>
