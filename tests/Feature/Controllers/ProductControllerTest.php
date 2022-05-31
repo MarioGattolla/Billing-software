@@ -5,11 +5,12 @@ use App\Http\Controllers\ProductController;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Translation\Translator;
 use Illuminate\Validation\Validator;
 
-uses(RefreshDatabase::class);
+uses(LazilyRefreshDatabase::class);
 
 
 test('products index return correct view', function () {
