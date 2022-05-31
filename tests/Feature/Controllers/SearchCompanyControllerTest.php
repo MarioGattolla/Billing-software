@@ -42,3 +42,30 @@ it('can search all companies', function () {
     expect($response->count())->toBe(5);
 
 });
+
+it('search company with orders', function (string $type) {
+
+    Company::factory()->count(3)->create(['contact_name' => 'test']);
+    Company::factory()->count(10)->create();
+
+    Company::findMany([1, 3])
+        ->each(fn(Company $company) => $company->orders()->create(['type' => $type, 'date' => today()]));
+
+    Company::find(2)->orders()->create(['type' => 'prova', 'date' => today()]);
+
+    $request = Request::create('/search/company_with_orders', 'GET', [
+        'search' => 'test',
+        'type' => $type,
+    ]);
+
+    $response = app(SearchCompanyController::class)->search_company_with_orders($request);
+
+    expect($response->count())->toBe(2);
+})->with([
+    'ingoing' => [
+        'type' => 'ingoing',
+    ],
+    'outgoing' => [
+        'type' => 'outgoing',
+    ]
+]);

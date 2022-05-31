@@ -46,6 +46,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Product wherePrice($value)
  * @method static Builder|Product whereVat($value)
  * @method static Builder|Product whereWeight($value)
+ * @property-read Collection|\App\Models\OrderProduct[] $order_rows
+ * @property-read int|null $order_rows_count
  */
 class Product extends Model
 {

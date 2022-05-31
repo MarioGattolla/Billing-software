@@ -76,7 +76,7 @@ class Order extends Model
     /** @return BelongsTo<Company, Order> */
     public function company(): BelongsTo
     {
-        return $this->belongsTo(Company::class, 'company_id', 'id');
+        return $this->belongsTo(Company::class);
     }
 
     /**
@@ -85,7 +85,7 @@ class Order extends Model
     public function date(): Attribute
     {
         return Attribute::make(
-            get: fn(string $date) => \Carbon\Carbon::make( $date)->format('d-m-Y'),
+            get: fn(string $date) => \Carbon\Carbon::make($date)->format('d-m-Y'),
         );
     }
 }

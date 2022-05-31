@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreDdtRequest;
 use App\Models\Ddt;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class DdtController extends Controller
      */
     public function index(): View
     {
-        return view('ddts.index');
+        return \view('ddts.index');
     }
 
     /**
@@ -32,11 +33,12 @@ class DdtController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param StoreDdtRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreDdtRequest $request): RedirectResponse
     {
+
         return redirect()->route('ddts.index');
     }
 

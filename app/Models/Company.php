@@ -59,6 +59,6 @@ class Company extends Model
     /** @return HasMany<Order> */
     public function orders(): HasMany
     {
-        return $this->hasMany(Order::class, 'company_id', 'id');
+        return $this->hasMany(Order::class);
     }
 }

@@ -3,17 +3,12 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DdtController;
-use App\Http\Controllers\DdtRawController;
 use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\InvoiceRawController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchCompanyController;
 use App\Http\Controllers\SearchProductController;
-use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
-use App\Models\Product;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +28,7 @@ Route::get('/', function () {
 
 Route::get('/test', function () {
 
+    echo asset('storage/file.txt');
 
 });
 
@@ -41,7 +37,7 @@ Route::resource('companies', CompanyController::class)->middleware(['auth']);
 Route::resource('products', ProductController::class)->middleware(['auth']);
 Route::resource('categories', CategoryController::class)->middleware(['auth']);
 Route::resource('invoices', InvoiceController::class)->middleware(['auth']);
-Route::resource('dtts', DdtController::class)->middleware(['auth']);
+Route::resource('ddts', DdtController::class)->middleware(['auth']);
 Route::resource('orders', OrderController::class)->middleware(['auth']);
 
 Route::get('/search/product', [SearchProductController::class, 'search_products']);
@@ -52,6 +48,8 @@ Route::get('/search/product_by_company_filtered', [SearchProductController::clas
 
 Route::get('/search/company/all', [SearchCompanyController::class, 'search_companies_privates']);
 Route::get('/search/company/companies', [SearchCompanyController::class, 'search_companies']);
+
+Route::get('/search/company_with_orders', [SearchCompanyController::class, 'search_company_with_orders']);
 
 
 Route::get('/dashboard', function () {

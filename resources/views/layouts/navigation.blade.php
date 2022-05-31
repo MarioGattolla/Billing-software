@@ -14,7 +14,7 @@
         <div class="ml-10"><a href="{{route('products.index')}}">Products</a></div>
         <div class="ml-10"><a href="{{route('categories.index')}}">Categories</a></div>
         <div class="ml-10"><a href="{{route('orders.index')}}">Orders</a></div>
-
+        <div class="ml-10"><a href="{{route('ddts.index')}}">DDTs</a></div>
 
     </div>
     <div class="block lg:hidden">
