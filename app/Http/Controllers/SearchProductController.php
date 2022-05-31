@@ -33,7 +33,7 @@ class SearchProductController extends Controller
         $available_product_ids = Product::query()
             ->leftJoin('order_product', fn(JoinClause $join) => $join->on('products.id', '=', 'order_product.product_id'))
             ->where('name', 'like', "%" . $request->search . "%")
-            ->groupBy('order_product.quantity', 'products.id')
+            ->groupBy('products.id')
             ->havingRaw('SUM(order_product.quantity) > 0')
             ->pluck('products.id');
 
@@ -41,16 +41,8 @@ class SearchProductController extends Controller
             return ProductResource::collection([]);
         }
 
-        $products = Product::whereIn('id', $available_product_ids)->get();
 
-//        $available_product_ids = Product::query()
-//            ->leftJoin('order_product', fn(JoinClause $join) => $join->on('products.id', '=', 'order_product.product_id'))
-//            ->where('name', 'like', "%" . $request->search . "%")
-//            ->groupBy('products.id')
-//            ->havingRaw('SUM(order_product.quantity) > 0')
-//            ->pluck('products.id');
-//
-//        $products = Product::whereIn('id', $available_product_ids)->get();
+        $products = Product::whereIn('id', $available_product_ids)->get();
 
         return ProductResource::collection($products);
     }

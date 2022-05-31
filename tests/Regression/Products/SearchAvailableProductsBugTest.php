@@ -59,4 +59,4 @@ it('should return correct products', function () {
 
     expect($response->count())->toBe(1);
 
-})->only();
+});
