@@ -20,7 +20,10 @@ use Spatie\Permission\Models\Role;
 use function Pest\Laravel\actingAs;
 use Illuminate\Validation\Validator;
 
-uses(Tests\TestCase::class)->in('Feature');
+uses(Tests\TestCase::class)->group('feature')->in('Feature');
+
+uses(Tests\TestCase::class)->group('unit')->in('Regression');
+uses(Tests\TestCase::class)->group('unit')->in('Unit');
 
 /*
 |--------------------------------------------------------------------------
