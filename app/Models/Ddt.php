@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,21 +20,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Support\Carbon $date
  * @property string $causal
  * @property string $type
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\DdtRaw[] $ddtRaws
+ * @property-read Collection|DdtRaw[] $ddtRaws
  * @property-read int|null $ddt_raws_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read Collection|Order[] $orders
  * @property-read int|null $orders_count
- * @method static \Illuminate\Database\Eloquent\Builder|Ddt newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Ddt newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Ddt query()
- * @method static \Illuminate\Database\Eloquent\Builder|Ddt whereCausal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Ddt whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Ddt whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Ddt whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Ddt whereProgressive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Ddt whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Ddt whereUpdatedAt($value)
+ * @method static Builder|Ddt newModelQuery()
+ * @method static Builder|Ddt newQuery()
+ * @method static Builder|Ddt query()
+ * @method static Builder|Ddt whereCausal($value)
+ * @method static Builder|Ddt whereCreatedAt($value)
+ * @method static Builder|Ddt whereDate($value)
+ * @method static Builder|Ddt whereId($value)
+ * @method static Builder|Ddt whereProgressive($value)
+ * @method static Builder|Ddt whereType($value)
+ * @method static Builder|Ddt whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $year
+ * @method static Builder|Ddt whereYear($value)
  */
 class Ddt extends Model
 {
@@ -42,6 +47,7 @@ class Ddt extends Model
         'date',
         'causal',
         'type',
+        'year',
     ];
 
     protected $casts = [
@@ -58,5 +64,19 @@ class Ddt extends Model
     public function ddtRaws(): HasMany
     {
         return $this->hasMany(DdtRaw::class, 'ddt_id', 'id');
+    }
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted(): void
+    {
+        static::saved(function (Ddt $ddt) {
+
+            $ddt->year = Carbon::createFromFormat('d-m-Y', $ddt->date)->format('Y');
+            $ddt->save();
+        });
     }
 }

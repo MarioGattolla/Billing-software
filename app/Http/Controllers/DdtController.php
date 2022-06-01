@@ -36,9 +36,9 @@ class DdtController extends Controller
      * @param StoreDdtRequest $request
      * @return RedirectResponse
      */
-    public function store(StoreDdtRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-
+        dd($request);
         return redirect()->route('ddts.index');
     }
 
