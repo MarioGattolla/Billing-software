@@ -22,10 +22,20 @@ $actual_progressive = \App\Models\Ddt::where('type', '==', 'outgoing')->count() 
                 phone: null,
                 vat_number: null,
             },
+            selected_order: {
+                id: null,
+                date: null,
+                type: null,
+            },
+            movements: [],
             selectedRadioID: 0,
             filteredCompany: [],
+            filteredOrders: [],
             searchCompany: '',
             selectedCompanyIndex: 0,
+            selectedOrderIndex: 0,
+
+            modal: false,
 
 
             search_company_with_orders(event) {
@@ -77,6 +87,19 @@ $actual_progressive = \App\Models\Ddt::where('type', '==', 'outgoing')->count() 
                 this.filteredCompany = [];
 
                 return company;
+            },
+
+            set_order() {
+                axios.get('{{URL::to('/search/orders_by_company')}}', {
+                    'params': {'company_id': this.company.id}
+                }).then(response => {
+                    this.filteredOrders = response.data.data;
+                });
+                this.modal = true;
+            },
+
+            set_movements(order) {
+                console.log(order[1])
             },
 
             reset() {
@@ -171,6 +194,7 @@ $actual_progressive = \App\Models\Ddt::where('type', '==', 'outgoing')->count() 
                             </template>
                         </div>
 
+
                         <div x-show="company.contact_name == ''">
                             <x-companies.business-main-data/>
                         </div>
@@ -182,6 +206,12 @@ $actual_progressive = \App\Models\Ddt::where('type', '==', 'outgoing')->count() 
                         <x-ddts.create-ddt-raws-table/>
                         <div class="mt-2 mb-2">
                             <input type="file" class="mt-2 mb-2" name="file"/>
+                        </div>
+
+                        <div x-show="modal == true" class="fixed top-0 right-0 left-0 w-full
+                                h-full bg-gray-200   bg-opacity-75 flex items-center  "
+                             x-on:keyup.escape.window="modal = false">
+                            <x-ddts.ddt-modal-for-order-select/>
                         </div>
 
                         <button

@@ -7,6 +7,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchCompanyController;
+use App\Http\Controllers\SearchOrderController;
 use App\Http\Controllers\SearchProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +52,7 @@ Route::get('/search/company/companies', [SearchCompanyController::class, 'search
 
 Route::get('/search/company_with_orders', [SearchCompanyController::class, 'search_company_with_orders']);
 
+Route::get('/search/orders_by_company', [SearchOrderController::class, 'search_orders_by_company']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
