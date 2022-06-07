@@ -4,8 +4,8 @@
 
     <div class="m-3">
         <p>Name</p>
-        <input type="text" x-model="company.contact_name" value="{{null}}" id="contact_name"
-               name="company[contact_name]"/>
+        <input type="text" x-model="company.name" value="{{null}}" id="name"
+               name="company[name]"/>
     </div>
 
     <div class="m-3">

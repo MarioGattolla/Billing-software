@@ -29,11 +29,11 @@ $movements = OrderProduct::whereOrderId($order->id)->get();
 
                 <div class="  p-3 ml-10 mr-10  mb-10" x-data="modal()">
                     <div class="bg-gray-100 p-3 border rounded-md">
-                        @if($order->company->contact_name == null)
+                        @if($order->company->name == null)
                             <p class="m-3 text-lg">Company</p>
                             <div class="flex">
                                 <div class="bg-white p-3 m-2 rounded-md border-2 w-1/3">
-                                    Name : {{ $order->company->business_name }}
+                                    Name : {{ $order->company->name }}
                                 </div>
                                 <div class="bg-white p-3 m-2 rounded-md border-2 w-1/3">
                                     Vat : {{ $order->company->vat_number }}
@@ -42,7 +42,7 @@ $movements = OrderProduct::whereOrderId($order->id)->get();
                         @else
                             <p class="m-3">Private</p>
                             <div class="bg-white p-3 m-2 rounded-md border-2 w-1/3">
-                                Name : {{ $order->company->contact_name }}
+                                Name : {{ $order->company->name }}
                             </div>
                         @endif
 

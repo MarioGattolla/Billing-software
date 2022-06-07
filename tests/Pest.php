@@ -102,13 +102,13 @@ function newPrivateOrderData(): array
         'date' => today()->format('d-m-Y'),
         'company' => [
             'company_id' => null,
-            'business_name' => null,
             'email' => 'email@test.it',
             'country' => 'country',
             'address' => 'address',
             'phone' => 'phone',
             'vat_number' => null,
-            'contact_name' => 'name',
+            'name' => 'name',
+            'type' => 'private'
         ],
         'products' => [
             [
@@ -129,13 +129,13 @@ function newCompanyOrderData(): array
         'date' => today()->format('d-m-Y'),
         'company' => [
             'company_id' => null,
-            'business_name' => 'name',
+            'name' => 'name',
             'email' => 'email@test.it',
             'country' => 'country',
             'address' => 'address',
             'phone' => 'phone',
             'vat_number' => 'vat',
-            'contact_name' => null,
+            'type' => 'business'
         ],
         'products' => [
             [
@@ -156,13 +156,13 @@ function multipleProductsOrderData(): array
         'date' => today()->format('d-m-Y'),
         'company' => [
             'company_id' => null,
-            'business_name' => null,
             'email' => 'email@test.it',
             'country' => 'country',
             'address' => 'address',
             'phone' => 'phone',
             'vat_number' => null,
-            'contact_name' => 'name',
+            'name' => 'name',
+            'type' => 'private',
         ],
         'products' => [
             [
@@ -220,22 +220,20 @@ function newPrivateData(): array
 {
     return [
         'selectedRadioID' => 2,
-        'contact_name' => 'Test Name',
-        'business_name' => 'Test Name',
+        'name' => 'Test Name',
         'vat_number' => '123456789',
         'country' => 'Test',
         'address' => 'Test Address',
         'email' => 'email@test.it',
         'phone' => '392222222',
+        'type' => 'private'
     ];
 }
 
 function newBusinessData(): array
 {
     return [
-        'selectedRadioID' => 1,
-        'contact_name' => 'Test',
-        'business_name' => 'Test Name',
+        'name' => 'Test',
         'vat_number' => '123456789',
         'country' => 'Test',
         'address' => 'Test Address',

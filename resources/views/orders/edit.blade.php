@@ -28,14 +28,14 @@ $movements = OrderProduct::whereOrderId($order->id)->get();
                     <div class="  p-3 ml-10 mr-10  mb-10" x-data="modal()">
                         <input type="text" value="{{$order->company_id}}" name="company[company_id]" hidden/>
                         <div class="bg-gray-100 p-3 border rounded-md">
-                            @if($order->company->contact_name == null)
+                            @if($order->company->type == 'name')
                                 <p class="m-3 text-lg">Company</p>
-                                <input type="text" value="{{null}}" name="company[contact_name]" hidden/>
+                                <input type="text" value="{{null}}" name="company[name]" hidden/>
                                 <div class="flex">
                                     <div class="m-3"><p>Name</p>
                                         <label>
-                                            <input type="text" name="company[business_name]"
-                                                   value="{{$order->company->business_name}}"/>
+                                            <input type="text" name="company[name]"
+                                                   value="{{$order->company->name}}"/>
                                         </label>
                                     </div>
 
@@ -49,12 +49,12 @@ $movements = OrderProduct::whereOrderId($order->id)->get();
                                 </div>
                             @else
                                 <p class="m-3">Private</p>
-                                <input type="text" value="{{null}}" name="company[business_name]" hidden/>
+                                <input type="text" value="{{null}}" name="company[name]" hidden/>
                                 <input type="text" value="{{null}}" name="company[vat_number]" hidden/>
                                 <div class="m-3"><p>Name</p>
                                     <label>
-                                        <input type="text" name="company[contact_name]"
-                                               value="{{$order->company->contact_name}}"/>
+                                        <input type="text" name="company[name]"
+                                               value="{{$order->company->name}}"/>
                                     </label>
                                 </div>
                             @endif

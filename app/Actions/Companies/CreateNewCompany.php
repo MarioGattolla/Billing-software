@@ -16,11 +16,7 @@ class CreateNewCompany
     {
 
         // Request is a Company
-        if ($validated['selectedRadioID'] == 1) {
-            $validated['contact_name'] = null;
-        } // Request is a Private
-        else {
-            $validated['business_name'] = null;
+        if ($validated['type'] == 'private') {
             $validated['vat_number'] = null;
         }
 

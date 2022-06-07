@@ -21,7 +21,7 @@ $logged_user = Auth::user();
                 @if($company->vat_number == null)
 
                     <div class=" ml-10 p-6 bg-white   text-xl">
-                        Private : {{$company->contact_name}}
+                        Private : {{$company->name}}
                     </div>
 
                     <div class="  p-3 ml-10 mr-10  mb-10" x-data="modal()">
@@ -89,7 +89,7 @@ $logged_user = Auth::user();
                     </div>
                 @else
                     <div class=" ml-10 p-6 bg-white   text-xl">
-                        Company : {{$company->business_name}}
+                        Company : {{$company->name}}
                     </div>
 
                     <div class="  p-3 ml-10 mr-10  mb-10" x-data="modal()">

@@ -22,9 +22,12 @@ $outgoing_orders = Order::where('type', '=', 'outgoing')->paginate(18, ['*'], $p
                 <div class="flex ml-10 mt-3 p-2">
 
                     <div class="m-7 ">
-                        <a href="{{route('orders.create')}}"
+                        <button
                            class="p-3 border rounded-md border-green-400 hover:bg-green-400
-                            bg-green-200 text-sm">Create a new Order</a>
+                            bg-green-200 text-sm"
+
+                           onclick="Livewire.emit('openModal', 'orders.create-order-form')"
+                        >Create a new Order</button>
                     </div>
                 </div>
 
@@ -41,14 +44,14 @@ $outgoing_orders = Order::where('type', '=', 'outgoing')->paginate(18, ['*'], $p
                                 <a class=" hover:bg-blue-50 p-3 m-2 border-green-400 border
                             rounded-md col-span-2  text-center bg-white"
                                    href="{{route('orders.show', $ingoing_order)}}">
-                                    @if($ingoing_order->company->business_name == null)
+                                    @if($ingoing_order->company->name == null)
                                         <div>
-                                            <p> {{$ingoing_order->company->contact_name}}</p>
+                                            <p> {{$ingoing_order->company->name}}</p>
                                             <p> {{$ingoing_order->date}}</p>
                                         </div>
                                     @else
                                         <div>
-                                            <p> {{$ingoing_order->company->business_name}}</p>
+                                            <p> {{$ingoing_order->company->name}}</p>
                                             <p> {{$ingoing_order->date}}</p>
                                         </div>
                                     @endif
@@ -70,14 +73,14 @@ $outgoing_orders = Order::where('type', '=', 'outgoing')->paginate(18, ['*'], $p
                             rounded-md col-span-2  text-center bg-white"
                                    href="{{route('orders.show', $outgoing_order)}}">
                                     <div>
-                                        @if($outgoing_order->company->business_name == null)
+                                        @if($outgoing_order->company->name == null)
                                             <div>
-                                                <p> {{$outgoing_order->company->contact_name}}</p>
+                                                <p> {{$outgoing_order->company->name}}</p>
                                                 <p> {{$outgoing_order->date}}</p>
                                             </div>
                                         @else
                                             <div>
-                                                <p> {{$outgoing_order->company->business_name}}</p>
+                                                <p> {{$outgoing_order->company->name}}</p>
                                                 <p> {{$outgoing_order->date}}</p>
                                             </div>
                                         @endif

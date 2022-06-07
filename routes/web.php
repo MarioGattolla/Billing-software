@@ -36,6 +36,9 @@ Route::get('/test', function () {
 Route::resource('users', UserController::class)->middleware(['auth']);
 Route::resource('companies', CompanyController::class)->middleware(['auth']);
 Route::resource('products', ProductController::class)->middleware(['auth']);
+Route::get('/old/products', [ProductController::class, 'old_index'])->name('old.products.index');
+Route::get('/old/orders/create', [OrderController::class, 'old_create'])->name('old.orders.create');
+
 Route::resource('categories', CategoryController::class)->middleware(['auth']);
 Route::resource('invoices', InvoiceController::class)->middleware(['auth']);
 Route::resource('ddts', DdtController::class)->middleware(['auth']);

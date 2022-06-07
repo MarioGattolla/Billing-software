@@ -17,28 +17,26 @@ test('validation pass with correct data', function (array $data, bool $valid) {
             [
                 'with full data' => [
                     'data' => [
-                        'selectedRadioID' => 1,
-                        'business_name' => 'Test ',
                         'vat_number' => 'Test',
-                        'contact_name' => 'Test',
+                        'name' => 'Test',
                         'country' => 'Test',
                         'email' => 'email@test.it',
                         'phone' => '080808080',
-                        'address' =>'Test',
+                        'address' => 'Test',
+                        'type' => 'private',
                     ],
                     'valid' => true,
                 ],
 
                 'without country' => [
                     'data' => [
-                        'selectedRadioID' => 1,
-                        'business_name' => 'Test ',
                         'vat_number' => 'Test',
-                        'contact_name' => 'Test',
+                        'name' => 'Test',
                         'country' => null,
                         'email' => 'email@test.it',
                         'phone' => '080808080',
-                        'address' =>'Test',
+                        'address' => 'Test',
+                        'type' => 'private'
                     ],
                     'valid' => false,
                 ],
@@ -46,46 +44,42 @@ test('validation pass with correct data', function (array $data, bool $valid) {
                 'without email' => [
                     'data' => [
                         'selectedRadioID' => 1,
-                        'business_name' => 'Test ',
                         'vat_number' => 'Test',
-                        'contact_name' => 'Test',
+                        'name' => 'Test',
                         'country' => 'Test',
                         'email' => null,
                         'phone' => '080808080',
-                        'address' =>'Test',
+                        'address' => 'Test',
+                        'type' => 'private'
                     ],
                     'valid' => false,
                 ],
 
                 'without phone' => [
                     'data' => [
-                        'selectedRadioID' => 1,
-                        'business_name' => 'Test ',
                         'vat_number' => 'Test',
-                        'contact_name' => 'Test',
+                        'name' => 'Test',
                         'country' => 'Test',
                         'email' => 'test@email.it',
                         'phone' => null,
-                        'address' =>'Test',
+                        'address' => 'Test',
+                        'private',
                     ],
                     'valid' => false,
                 ],
 
                 'without address' => [
                     'data' => [
-                        'selectedRadioID' => 1,
-                        'business_name' => 'Test ',
                         'vat_number' => 'Test',
-                        'contact_name' => 'Test',
+                        'name' => 'Test',
                         'country' => 'Test',
                         'email' => 'test@email.it',
                         'phone' => '080808080',
                         'address' => null,
+                        'type' => 'private',
                     ],
                     'valid' => false,
                 ],
-
-
 
 
             ];

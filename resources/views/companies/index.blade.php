@@ -4,10 +4,10 @@ use App\Models\Company;
 use App\Models\User;
 
 /** @var Company[] $companies */
-$companies = Company::where('contact_name', '=', null)->paginate(18, ['*'], $pageName = 'companies', $page = null);
+$companies = Company::where('type', '=', 'business')->paginate(18, ['*'], $pageName = 'companies', $page = null);
 
 /** @var Company[] $privates */
-$privates = Company::where('business_name', '=', null)->paginate(18, ['*'], $pageName = 'privates', $page = null);
+$privates = Company::where('type', '=', 'private')->paginate(18, ['*'], $pageName = 'privates', $page = null);
 
 /** @var User $user */
 $user = Auth::user();
@@ -47,7 +47,7 @@ $user = Auth::user();
                             rounded-md col-span-2  text-center bg-white"
                                    href="{{route('companies.show', $company)}}">
                                     <div>
-                                        <p> {{$company->business_name}}</p>
+                                        <p> {{$company->name}}</p>
                                         <p> {{$company->email}}</p>
                                         <p> {{$company->address}}</p>
                                     </div>
@@ -69,7 +69,7 @@ $user = Auth::user();
                             rounded-md col-span-2  text-center bg-white"
                                    href="{{route('companies.show', $private)}}">
                                     <div>
-                                        <p>{{$private->contact_name}}</p>
+                                        <p>{{$private->name}}</p>
                                         <p>{{$private->email}}</p>
                                         <p>{{$private->address}}</p>
                                     </div>

@@ -36,6 +36,13 @@ class OrderController extends Controller
      * @return View
      * @throws AuthorizationException
      */
+    public function old_create(): View
+    {
+        $this->authorize('createOrder', Order::class);
+
+        return view('orders.old-create');
+    }
+
     public function create(): View
     {
         $this->authorize('createOrder', Order::class);

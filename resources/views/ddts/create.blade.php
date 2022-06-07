@@ -14,8 +14,7 @@ $actual_progressive = \App\Models\Ddt::where('type', '==', 'outgoing')->count() 
 
             company: {
                 id: null,
-                business_name: null,
-                contact_name: null,
+                name: null,
                 country: null,
                 address: null,
                 email: null,
@@ -78,7 +77,7 @@ $actual_progressive = \App\Models\Ddt::where('type', '==', 'outgoing')->count() 
                 }
             },
             company_all_click(company) {
-                if (company.business_name === '') {
+                if (company.name === '') {
                     this.company_type = 1;
 
                 } else {
@@ -187,21 +186,14 @@ $actual_progressive = \App\Models\Ddt::where('type', '==', 'outgoing')->count() 
                             <template x-for="(selected_company, index) in filteredCompany">
                                 <option class=" p-2 cursor-pointer   rounded-md hover:bg-indigo-100"
                                         @click="company = selected_company ,  company_all_click(company)"
-                                        x-text="selected_company.contact_name + selected_company.business_name "
+                                        x-text="selected_company.name  "
                                         :class="{'bg-indigo-100': index===selectedCompanyIndex}">
                                 </option>
 
                             </template>
                         </div>
 
-
-                        <div x-show="company.contact_name == ''">
-                            <x-companies.business-main-data/>
-                        </div>
-
-                        <div x-show="company.business_name == ''">
-                            <x-companies.private-main-data/>
-                        </div>
+                        <x-companies.private-main-data/>
 
                         <x-ddts.create-ddt-raws-table/>
                         <div class="mt-2 mb-2">

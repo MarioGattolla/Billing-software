@@ -57,8 +57,6 @@ $countries = CountryListFacade::getList();
                                  x-transition:leave="transition ease-in duration-300"
                                  x-transition:leave-start="opacity-100 scale-100"
                                  x-transition:leave-end="opacity-0 scale-90">
-                                <p>Business Name</p>
-                                <input class="rounded-md  " type="text" id="business_name" name="business_name"/>
 
                                 <p class="pt-2">VAT Number</p>
                                 <input class="rounded-md" type="text" id="vat_number" name="vat_number"/>
@@ -73,10 +71,11 @@ $countries = CountryListFacade::getList();
                                  x-transition:leave="transition ease-in duration-300"
                                  x-transition:leave-start="opacity-100 scale-100"
                                  x-transition:leave-end="opacity-0 scale-90">
-                                <p>Contact Name</p>
-                                <input class="rounded-md  " type="text" id="contact_name" name="contact_name"/>
+
                             </div>
 
+                            <p>Name</p>
+                            <input class="rounded-md  " type="text" id="name" name="name"/>
                             <div class="pt-2">
                                 <p>Country</p>
                                 <select class="w-1/5 rounded-md" name="country" id="country" required>

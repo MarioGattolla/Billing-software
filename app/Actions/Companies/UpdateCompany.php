@@ -18,10 +18,7 @@ class UpdateCompany
         /** @phpstan-ignore-next-line */
         $company ??= Company::findOrFail($validated['company_id']);
 
-        if ($company->contact_name == null) {
-            $validated['contact_name'] = null;
-        } else {
-            $validated['business_name'] = null;
+        if ($company->type == 'private') {
             $validated['vat_number'] = null;
         }
 

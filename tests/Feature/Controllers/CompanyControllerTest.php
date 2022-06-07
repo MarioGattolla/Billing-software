@@ -55,13 +55,14 @@ test('can store company and return correct redirect', function () {
     /** @var User $user */
     $company = Company::findOrFail(1);
 
-    expect($company->business_name)->toBe('Test Name');
-    expect($company->contact_name)->toBe(null);
+    expect($company->name)->toBe('Test Name');
     expect($company->vat_number)->toBe('123456789');
     expect($company->country)->toBe('Test');
     expect($company->address)->toBe('Test Address');
     expect($company->email)->toBe('email@test.it');
     expect($company->phone)->toBe('392222222');
+    expect($company->type)->toBe('private');
+
     expect($response)->toHaveStatus(302);
     expect($response)->toBeRedirect(route('companies.index'));
 });
@@ -77,13 +78,14 @@ test('can store private and return correct redirect', function () {
     /** @var User $user */
     $company = Company::findOrFail(1);
 
-    expect($company->business_name)->toBe(null);
-    expect($company->contact_name)->toBe('Test Name');
+    expect($company->name)->toBe('Test Name');
     expect($company->vat_number)->toBe(null);
     expect($company->country)->toBe('Test');
     expect($company->address)->toBe('Test Address');
     expect($company->email)->toBe('email@test.it');
     expect($company->phone)->toBe('392222222');
+    expect($company->type)->toBe('private');
+
     expect($response)->toHaveStatus(302);
     expect($response)->toBeRedirect(route('companies.index'));
 });
@@ -145,13 +147,14 @@ test('can update company and return correct redirect', function () {
     $company = Company::findOrFail(1);
 
 
-    expect($company->business_name)->toBe('Test Name');
-    expect($company->contact_name)->toBe(null);
+    expect($company->name)->toBe('Test Name');
     expect($company->vat_number)->toBe('123456789');
     expect($company->country)->toBe('Test');
     expect($company->address)->toBe('Test Address');
     expect($company->email)->toBe('email@test.it');
     expect($company->phone)->toBe('392222222');
+    expect($company->type)->toBe('business');
+
     expect($response)->toHaveStatus(302);
     expect($response)->toBeRedirect(route('companies.show', $company));
 
@@ -171,13 +174,14 @@ test('can update private and return correct redirect', function () {
     /** @var Company $company */
     $company = Company::findOrFail(1);
 
-    expect($company->business_name)->toBe(null);
-    expect($company->contact_name)->toBe('Test Name');
+    expect($company->name)->toBe('Test Name');
     expect($company->vat_number)->toBe(null);
     expect($company->country)->toBe('Test');
     expect($company->address)->toBe('Test Address');
     expect($company->email)->toBe('email@test.it');
     expect($company->phone)->toBe('392222222');
+    expect($company->type)->toBe('private');
+
     expect($response)->toHaveStatus(302);
     expect($response)->toBeRedirect(route('companies.show', $company));
 

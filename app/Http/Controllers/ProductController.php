@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnhandledExceptionInspection */
 
 namespace App\Http\Controllers;
 
@@ -14,12 +14,7 @@ use Throwable;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return View
-     * @throws AuthorizationException
-     */
+
     public function index(): View
     {
         $this->authorize('viewAny', Product::class);
@@ -27,12 +22,15 @@ class ProductController extends Controller
         return view('products.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return View
-     * @throws AuthorizationException
-     */
+
+    public function old_index(): View
+    {
+        $this->authorize('viewAny', Product::class);
+
+        return view('products.old-index');
+    }
+
+
     public function create(): View
     {
         $this->authorize('createProduct', Product::class);

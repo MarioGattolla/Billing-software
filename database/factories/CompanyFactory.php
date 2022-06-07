@@ -18,28 +18,28 @@ class CompanyFactory extends Factory
     public function definition(): array
     {
         return [
-            'business_name' => $this->faker->company(),
-            'contact_name' => $this->faker->firstName(),
+            'name' => $this->faker->company,
             'country' => $this->faker->country(),
             'address' => $this->faker->address(),
             'email' => $this->faker->email(),
             'phone' => $this->faker->phoneNumber(),
             'vat_number' => $this->faker->swiftBicNumber(),
+            'type' => $this->faker->randomElement(['private', 'business'])
         ];
     }
 
     function for_private(): CompanyFactory
     {
         return $this->afterCreating(function (Company $company) {
-            $company->business_name = null;
+            $company->type = 'private';
             $company->vat_number = null;
         });
     }
 
     function for_business(): CompanyFactory
     {
-       return $this->afterCreating(function (Company $company) {
-            $company->contact_name = null;
+        return $this->afterCreating(function (Company $company) {
+            $company->type = 'business';
         });
     }
 }

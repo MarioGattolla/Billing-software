@@ -25,14 +25,13 @@ class StoreCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'selectedRadioID' => 'nullable',
-            'business_name' => 'string|nullable',
             'vat_number' => 'string|nullable',
-            'contact_name' => 'string|nullable',
+            'name' => 'string',
             'country' => 'required',
             'email' => 'required',
             'phone' => 'required',
             'address' => 'required',
+            'type' => 'required|string'
         ];
 
 

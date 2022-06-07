@@ -13,24 +13,21 @@ class CompanyResource extends JsonResource
 
     public function toArray($request): array
     {
-        if ($this->business_name == null) {
+        if ($this->type == 'private') {
             return [
                 'id' => $this->id,
-                'contact_name' => $this->contact_name,
+                'name' => $this->name,
                 'email' => $this->email,
                 'phone' => $this->phone,
                 'country' => $this->country,
                 'address' => $this->address,
-                'business_name' => '',
                 'vat_number' => '',
 
             ];
         } else {
             return [
                 'id' => $this->id,
-                'business_name' => $this->business_name,
-                'contact_name' => '',
-
+                'name' => $this->name,
                 'email' => $this->email,
                 'vat_number' => $this->vat_number,
                 'phone' => $this->phone,

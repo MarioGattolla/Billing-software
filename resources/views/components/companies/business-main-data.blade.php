@@ -2,8 +2,8 @@
 <div class="m-3 flex">
     <div class="m-3">
         <p>Name</p>
-        <input type="text" x-model="company.business_name" value="{{null}}" id="business_name"
-               name="company[business_name]"/>
+        <input type="text" x-model="company.name" value="{{null}}" id="name"
+               name="company[name]"/>
     </div>
     <div class="m-3"><p>Email</p>
         <input type="text" x-model="company.email" value="{{null}}" id="email"

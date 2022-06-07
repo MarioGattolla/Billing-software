@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\CompanyFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,8 +16,6 @@ use Illuminate\Support\Carbon;
  * App\Models\Company
  *
  * @property int $id
- * @property string|null $business_name
- * @property string|null $contact_name
  * @property string $country
  * @property string $address
  * @property string $email
@@ -28,8 +27,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Company newQuery()
  * @method static Builder|Company query()
  * @method static Builder|Company whereAddress($value)
- * @method static Builder|Company whereBusinessName($value)
- * @method static Builder|Company whereContactName($value)
  * @method static Builder|Company whereCountry($value)
  * @method static Builder|Company whereCreatedAt($value)
  * @method static Builder|Company whereEmail($value)
@@ -41,19 +38,23 @@ use Illuminate\Support\Carbon;
  * @method static CompanyFactory factory(...$parameters)
  * @property-read Collection|Order[] $orders
  * @property-read int|null $orders_count
+ * @property string $name
+ * @property string $type
+ * @method static Builder|Company whereName($value)
+ * @method static Builder|Company whereType($value)
  */
 class Company extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'business_name',
-        'contact_name',
+        'name',
         'country',
         'address',
         'email',
         'phone',
         'vat_number',
+        'type',
     ];
 
     /** @return HasMany<Order> */
@@ -61,4 +62,5 @@ class Company extends Model
     {
         return $this->hasMany(Order::class);
     }
+
 }

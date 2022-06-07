@@ -9,10 +9,10 @@ uses(RefreshDatabase::class);
 
 it('can search business only', function () {
 
-    Company::factory()->count(10)->create(['contact_name' => 'test', 'business_name' => null]);
+    Company::factory()->count(10)->create(['type' => 'private', 'name' => 'test']);
 
 
-    $company = Company::factory()->count(5)->create(['business_name' => 'test']);
+    $company = Company::factory()->count(5)->create(['name' => 'test']);
 
 
     $request = Request::create('/search/company/companies', 'GET', [
@@ -29,9 +29,9 @@ it('can search business only', function () {
 
 it('can search all companies', function () {
 
-    Company::factory()->count(10)->create(['business_name' => 'Fail']);
+    Company::factory()->count(10)->create(['name' => 'Fail']);
 
-    $company = Company::factory()->count(5)->create(['business_name' => 'test']);
+    $company = Company::factory()->count(5)->create(['name' => 'test']);
 
     $request = Request::create('/search/company/all', 'GET', [
         'search' => 'tes',
@@ -45,7 +45,7 @@ it('can search all companies', function () {
 
 it('search company with orders', function (string $type) {
 
-    Company::factory()->count(3)->create(['contact_name' => 'test']);
+    Company::factory()->count(3)->create(['name' => 'test']);
     Company::factory()->count(10)->create();
 
     Company::findMany([1, 3])
