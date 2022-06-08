@@ -10,6 +10,7 @@
         </div>
 
         <div class=" rounded-md  flex-col  p-2 ">
+            <label for="searchProduct"></label>
             <input class="w-full flex-col"
                    autocomplete="off"
                    type="search"
@@ -21,14 +22,14 @@
 
             <div class="overflow-y-auto bg-white  h-1/2">
                 @foreach($products as $product)
-                    <div wire:click=""
-                         class="hover:bg-gray-100 p-1 cursor-pointer">
+                    <div wire:click="select_product({{$product->id}})" class="hover:bg-gray-100 p-1 cursor-pointer">
                         {{$product->name}}
                     </div>
                 @endforeach
             </div>
 
-            <div class=" p-2 rounded-md hover:bg-indigo-100 hover:cursor-pointer ">
+            <div wire:click="search_products('check_all_button')"
+                 class=" p-2 rounded-md hover:bg-indigo-100 hover:cursor-pointer ">
                 Check on all product
             </div>
 

@@ -1,5 +1,9 @@
-@props(['raws'])
-<?php ?>
+@props(['raws', 'movements'])
+<?php
+use Illuminate\Database\Eloquent\Collection;
+/** @var array $movements */
+/** @var  array $movement */
+?>
 
 <p class="mt-2">Select the Products</p>
 <div class="row">
@@ -10,54 +14,54 @@
             <thead class="bg-green-200 h-10 ">
             <tr>
                 <th>Name</th>
-                <th>Description</th>
-                <th class="w-1/12">Price</th>
-                <th class="w-1/12">Vat</th>
-                <th class="w-1/12">Quantity</th>
-                <th class="w-1/12">Total</th>
-                <th class="w-10"></th>
+                <th>Price</th>
+                <th>Vat</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th class="w-1/12 "></th>
             </tr>
             </thead>
             <tbody>
-            <td class="" hidden><label>
-                    <input x-model="product.id" type="number" x-bind:name="'products'+'['+index+']'+'[id]'"
-                           min="1" hidden/>
-                </label></td>
+            @if($movements != null)
+                @foreach($movements as $movement )
+                    <tr>
+                        <?php $index = array_search($movement, $movements) ?>
+                        <td class="">
+                            <div type="text" class="w-full border-gray-400">{{$movement['name']}}</div>
+                        </td>
 
-            <td class=""><label>
-                    <input x-model="product.name" type="text" x-bind:name="'products'+'['+index+']'+'[name]'"
-                           class="w-full border-gray-400" min="1"/>
-                </label></td>
-            <td class=""><label>
-                    <input x-model="product.description" type="text"
-                           x-bind:name="'products'+'['+index+']'+'[description]'"
-                           class="w-full border-gray-400"/>
-                </label></td>
-            <td class=""><label>
-                    <input x-model="product.price" type="number"
-                           x-bind:name="'products'+'['+index+']'+'[price]'"
-                           class="w-full border-gray-400" step="0.01"/>
-                </label></td>
-            <td class=""><label>
-                    <input x-model="product.vat" type="number" x-bind:name="'products'+'['+index+']'+'[vat]'"
-                           class="w-full border-gray-400" min="1"/>
-                </label></td>
-            <td><label>
-                    <input x-model="product.quantity" type="number"
-                           x-bind:name="'products'+'['+index+']'+'[quantity]'" min="1"
-                           x-on:input="set_total(index)"
-                           class="w-full border-gray-400"/>
-                </label></td>
-            <td><label>
-                    <input x-model="product.total" type="number"
-                           class="w-full border-gray-400" step="0.01"/>
-                </label></td>
-            <td class="text-center">
-                <button type="button" class="w-full"
-                        @click="removeField(index)">
-                    &times;
-                </button>
-            </td>
+                        <td class="">
+                            <div type="text" class="w-full border-gray-400">{{$movement['price']}}</div>
+                        </td>
+
+                        <td class="">
+                            <div type="number" class="w-full border-gray-400">{{$movement['vat']}}</div>
+                        </td>
+
+                        <td>
+                            <label>
+                                <input wire:model="movements.{{$index}}.quantity"
+                                       type="number" min="1"
+                                       wire:change="set_total({{$index}})"
+                                       class="w-full border-gray-400"/>
+                            </label>
+                        </td>
+                        <td class="">
+                            <label>
+                                <input wire:model="movements.{{$index}}.total"
+                                       type="number"
+                                       class=" w-full border-gray-400" step="0.01"/>
+                            </label>
+                        </td>
+                        <td class="text-center">
+                            <div class="w-full cursor-pointer"
+                                 wire:click="remove_row({{$index}})">
+                                &times;
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
             </tbody>
             <tfoot>
             <tr>

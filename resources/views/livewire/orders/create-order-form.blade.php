@@ -35,10 +35,11 @@ use Illuminate\Database\Eloquent\Collection;
             @endforeach
         </div>
     </div>
+    @if($company != null)
+        <x-companies.company-main-data/>
+    @endif
 
-    <x-companies.company-main-data/>
-
-    <x-orders.create.order-product-table :raws="$raws"/>
+    <x-orders.create.order-product-table :movements="$movements" :raws="$raws"/>
 
     @if($modal === true)
         <x-orders.create.product-search-with-modal :products="$filtered_products"/>
