@@ -10,10 +10,7 @@ $outgoing_orders = Order::where('type', '=', 'outgoing')->paginate(18, ['*'], $p
 
 ?>
 
-<script xmlns:x-on="http://www.w3.org/1999/xhtml">
-
-
-</script>
+<script xmlns:x-on="http://www.w3.org/1999/xhtml"></script>
 
 <x-app-layout>
     <div class="py-12">
@@ -23,11 +20,12 @@ $outgoing_orders = Order::where('type', '=', 'outgoing')->paginate(18, ['*'], $p
 
                     <div class="m-7 ">
                         <button
-                           class="p-3 border rounded-md border-green-400 hover:bg-green-400
+                            class="p-3 border rounded-md border-green-400 hover:bg-green-400
                             bg-green-200 text-sm"
 
-                           onclick="Livewire.emit('openModal', 'orders.create-order-form')"
-                        >Create a new Order</button>
+                            onclick="Livewire.emit('openModal', 'orders.create-order')"
+                        >Create a new Order
+                        </button>
                     </div>
                 </div>
 

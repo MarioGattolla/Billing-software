@@ -54,6 +54,10 @@ class Order extends Model
         'date',
     ];
 
+    protected $casts = [
+        'date' => 'date',
+    ];
+
 
     /** @return BelongsToMany<Product> */
     public function products(): BelongsToMany
@@ -77,15 +81,5 @@ class Order extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
-    }
-
-    /**
-     * @return Attribute<string , Carbon>
-     */
-    public function date(): Attribute
-    {
-        return Attribute::make(
-            get: fn(string $date) => \Carbon\Carbon::make($date)->format('d-m-Y'),
-        );
     }
 }

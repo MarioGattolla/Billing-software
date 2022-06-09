@@ -1,8 +1,8 @@
-@props(['raws', 'movements'])
+@props(['rows'])
 <?php
+use App\Models\OrderProduct;
 use Illuminate\Database\Eloquent\Collection;
-/** @var array $movements */
-/** @var  array $movement */
+/** @var Collection<int, OrderProduct> $rows */
 ?>
 
 <p class="mt-2">Select the Products</p>
@@ -22,35 +22,37 @@ use Illuminate\Database\Eloquent\Collection;
             </tr>
             </thead>
             <tbody>
-            @if($movements != null)
-                @foreach($movements as $movement )
+
+                @foreach($rows as $index => $row )
+                    <?php /** @var OrderProduct $row */ ?>
                     <tr>
-                        <?php $index = array_search($movement, $movements) ?>
                         <td class="">
-                            <div type="text" class="w-full border-gray-400">{{$movement['name']}}</div>
+                            <div type="text" class="w-full border-gray-400">{{$row->product->name}}</div>
                         </td>
 
                         <td class="">
-                            <div type="text" class="w-full border-gray-400">{{$movement['price']}}</div>
+                            <div type="text" class="w-full border-gray-400">{{$row->price}}</div>
                         </td>
 
                         <td class="">
-                            <div type="number" class="w-full border-gray-400">{{$movement['vat']}}</div>
+                            <div type="number" class="w-full border-gray-400">{{$row->vat}}</div>
                         </td>
 
                         <td>
                             <label>
-                                <input wire:model="movements.{{$index}}.quantity"
+                                <input wire:model="order_products.{{$index}}.quantity"
                                        type="number" min="1"
-                                       wire:change="set_total({{$index}})"
                                        class="w-full border-gray-400"/>
                             </label>
                         </td>
                         <td class="">
                             <label>
-                                <input wire:model="movements.{{$index}}.total"
-                                       type="number"
-                                       class=" w-full border-gray-400" step="0.01"/>
+                                <?php
+                                $no_vat_total = ($row->price * 100) * $row->quantity;
+                                $vat_total = round($no_vat_total * $row->vat / 100);
+                                $total = round((($no_vat_total + $vat_total) / 100), 2);
+                                ?>
+                                <div type="number" class="w-full border-gray-400">{{$total}}</div>
                             </label>
                         </td>
                         <td class="text-center">
@@ -61,13 +63,14 @@ use Illuminate\Database\Eloquent\Collection;
                         </td>
                     </tr>
                 @endforeach
-            @endif
+
             </tbody>
             <tfoot>
             <tr>
                 <td colspan="2" class="text-left h-10">
                     <button type="button" class=" bg-green-200 p-1 border hover:cursor-pointer  border-green-300
-                    rounded-md hover:bg-green-400  m-2" wire:click="open_modal">
+                    rounded-md hover:bg-green-400  m-2"
+                            wire:click='$emit("openModal", "products-search-modal")'>
                         Add Row
                     </button>
                 </td>

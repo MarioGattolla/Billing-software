@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Companies\UpdateCompany;
-use App\Actions\OrderProduct\CreateNewOrderProduct;
+use App\Actions\Orders\CreateNewOrder;
 use App\Actions\Products\UpdateProduct;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -30,18 +30,6 @@ class OrderController extends Controller
         return view('orders.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return View
-     * @throws AuthorizationException
-     */
-    public function old_create(): View
-    {
-        $this->authorize('createOrder', Order::class);
-
-        return view('orders.old-create');
-    }
 
     public function create(): View
     {
@@ -67,7 +55,7 @@ class OrderController extends Controller
 
         collect($request->validated('products'))
             ->each(fn(array $product_data) => UpdateProduct::run($product_data, Product::findOrFail($product_data['id'])))
-            ->each(fn(array $product_data) => CreateNewOrderProduct::run($product_data, $order->id));
+            ->each(fn(array $product_data) => CreateNewOrder::run($product_data, $order->id));
 
         return redirect()->route('orders.index')->with('success', 'Order created !!');
     }

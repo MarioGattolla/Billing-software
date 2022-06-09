@@ -10,7 +10,7 @@
             </div>
             <div class="m-10 ">
 
-                <livewire:orders.create-order-form/>
+                <livewire:orders.create-order/>
             </div>
         </div>
 
