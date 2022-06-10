@@ -29,7 +29,7 @@ Route::get('/', function () {
 
 Route::get('/test', function () {
 
-    echo asset('storage/file.txt');
+    return view('Fabio.Fabio Folder.test');
 
 });
 

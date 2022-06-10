@@ -22,8 +22,6 @@ class CreateOrder extends ModalComponent
 
     public string $type = 'incoming';
 
-
-
     public Order $order;
 
     /** @var array|Collection<int, OrderProduct>  */
@@ -85,9 +83,6 @@ class CreateOrder extends ModalComponent
     public function dehydrateOrderProducts(Collection $order_products){
         $this->order_products = $order_products->toArray();
     }
-
-
-
 
     public function add_row(Product $product)
     {
