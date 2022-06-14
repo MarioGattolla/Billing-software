@@ -27,70 +27,9 @@ $outgoing_orders = Order::where('type', '=', 'outgoing')->paginate(18, ['*'], $p
                         >Create a new Order
                         </button>
                     </div>
+
                 </div>
-
-                <div class="  p-3 ml-10 mr-10  mb-10">
-
-
-                    <div class="bg-gray-100 p-3 border rounded-md">
-                        <div class="ml-10 mr-10  mt-3 text-center mb-3 p-3 border w rounded-md
-                        border-green-400 bg-green-200 text-sm">
-                            Ingoing Orders
-                        </div>
-                        <div class=" ml-10 mr-10 flex grid grid-cols-6">
-                            @foreach($ingoing_orders as $ingoing_order)
-                                <a class=" hover:bg-blue-50 p-3 m-2 border-green-400 border
-                            rounded-md col-span-2  text-center bg-white"
-                                   href="{{route('orders.show', $ingoing_order)}}">
-                                    @if($ingoing_order->company->name == null)
-                                        <div>
-                                            <p> {{$ingoing_order->company->name}}</p>
-                                            <p> {{$ingoing_order->date}}</p>
-                                        </div>
-                                    @else
-                                        <div>
-                                            <p> {{$ingoing_order->company->name}}</p>
-                                            <p> {{$ingoing_order->date}}</p>
-                                        </div>
-                                    @endif
-                                </a>
-                            @endforeach
-                        </div>
-                        <div
-                            class="ml-10 mt-3 mr-10">{{$ingoing_orders->appends(['ingoing' => $outgoing_orders->currentPage()])->links()}}</div>
-                    </div>
-
-                    <div class="bg-gray-100 p-3 mt-10 border rounded-md">
-                        <div class="ml-10 mr-10 mt-3 text-center mb-3 p-3 border w rounded-md
-                         border-green-400 bg-green-200 text-sm">
-                            Outgoing Orders
-                        </div>
-                        <div class=" ml-10 mr-10 flex grid grid-cols-6">
-                            @foreach($outgoing_orders as $outgoing_order)
-                                <a class=" hover:bg-blue-50 p-3 m-2 border-green-400 border
-                            rounded-md col-span-2  text-center bg-white"
-                                   href="{{route('orders.show', $outgoing_order)}}">
-                                    <div>
-                                        @if($outgoing_order->company->name == null)
-                                            <div>
-                                                <p> {{$outgoing_order->company->name}}</p>
-                                                <p> {{$outgoing_order->date}}</p>
-                                            </div>
-                                        @else
-                                            <div>
-                                                <p> {{$outgoing_order->company->name}}</p>
-                                                <p> {{$outgoing_order->date}}</p>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </a>
-                            @endforeach
-                        </div>
-                        <div
-                            class="ml-10 mt-3 mr-10">{{$outgoing_orders->appends(['ingoing' => $ingoing_orders->currentPage()])->links()}}</div>
-                    </div>
-                </div>
-
+                <livewire:orders.index/>
             </div>
         </div>
     </div>

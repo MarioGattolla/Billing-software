@@ -1,6 +1,9 @@
 <?php
-/** @var \Illuminate\Pagination\LengthAwarePaginator $products */
+/** @var LengthAwarePaginator $products */
 /** @var string $search */
+
+use Illuminate\Pagination\LengthAwarePaginator;
+
 ?>
 
 <div class="  p-3 ml-10 mr-10  mb-10">

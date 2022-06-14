@@ -33,7 +33,7 @@ trait SearchesCompanies
     }
 
 
-    public function select_company(Company $selected)
+    public function select_company(Company $selected): void
     {
         $this->company = $selected;
         $this->search_company = '';

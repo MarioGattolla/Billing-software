@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Orders;
 
-use App\Actions\Orders\CreateNewOrder;
 use App\Enums\OrderType;
 use App\Http\Concerns\SearchesCompanies;
 use App\Models\Company;
@@ -24,7 +23,7 @@ class CreateOrder extends ModalComponent
 
     public Order $order;
 
-    /** @var array|Collection<int, OrderProduct>  */
+    /** @var array|Collection<int, OrderProduct> */
     public array|Collection $order_products;
 
     public string $date;
@@ -75,19 +74,21 @@ class CreateOrder extends ModalComponent
         ]);
     }
 
-    public function hydrateOrderProducts(array $order_products){
-       $this->order_products = Collection::make($order_products)
-           ->mapInto(OrderProduct::class);
+    public function hydrateOrderProducts(array $order_products)
+    {
+        $this->order_products = Collection::make($order_products)
+            ->mapInto(OrderProduct::class);
     }
 
-    public function dehydrateOrderProducts(Collection $order_products){
+    public function dehydrateOrderProducts(Collection $order_products)
+    {
         $this->order_products = $order_products->toArray();
     }
 
     public function add_row(Product $product)
     {
         $row = OrderProduct::make([
-            'product_id' =>  $product->id,
+            'product_id' => $product->id,
             'price' => $product->price,
             'vat' => $product->vat,
             'quantity' => 1,
@@ -98,7 +99,8 @@ class CreateOrder extends ModalComponent
         $this->order_products->push($row);
     }
 
-    public function remove_row(int $index){
+    public function remove_row(int $index)
+    {
         $this->order_products->pull($index);
     }
 
@@ -112,7 +114,7 @@ class CreateOrder extends ModalComponent
         $this->order->date = Carbon::make($this->date);
         $this->order->save();
 
-        $this->order_products->each(function (OrderProduct $order_product){
+        $this->order_products->each(function (OrderProduct $order_product) {
             $order_product->order_id = $this->order->id;
             $order_product->save();
         });

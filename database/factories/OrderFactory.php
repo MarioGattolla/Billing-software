@@ -25,7 +25,7 @@ class OrderFactory extends Factory
         return [
             'date' => $this->faker->date,
             'company_id' => random_int(1, $count),
-            'type' =>$this->faker->randomElement(['ingoing', 'outgoing']),
+            'type' => $this->faker->randomElement(['incoming', 'outcoming']),
         ];
 
     }

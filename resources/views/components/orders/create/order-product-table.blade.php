@@ -5,8 +5,8 @@ use Illuminate\Database\Eloquent\Collection;
 /** @var Collection<int, OrderProduct> $rows */
 ?>
 
-<p class="mt-2">Select the Products</p>
-<div class="row">
+<p class="mt-2 m-3">Select the Products</p>
+<div class="row m-3">
     <div class="mt-4">
         <table
             class="table-fixed w-full  bg-white table-bordered rounded-md

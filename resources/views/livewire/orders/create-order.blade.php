@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Collection;
     </div>
 
     <div>
-        <x-orders.create.company-search />
+        <x-orders.create.company-search :companies="$filtered_companies"/>
 
     </div>
     @if($company != null )
@@ -31,12 +31,11 @@ use Illuminate\Database\Eloquent\Collection;
 
     <div class="m-3">
         <label>
-            <input type="date" wire:model="date" >
+            <input type="date" wire:model="date">
         </label>
     </div>
 
-    <x-elements.button type="submit" class="w-20 bg-green-200 mt-3 h-10 rounded-md
-                                  border border-green-400 hover:bg-green-400 "
+    <x-elements.button type="submit" class="m-3"
                        wire:click="save">
         Submit
     </x-elements.button>
