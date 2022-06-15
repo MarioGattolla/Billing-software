@@ -1,15 +1,13 @@
 <?php
-/** @var Collection $filter_options */
-
-/** @var Collection $filters */
 
 /** @var User $user */
 
-use App\Models\Order;
 use App\Models\User;
-use Illuminate\Support\Collection;
+
 
 ?>
+
+
 <div class="m-3 grid grid-cols-3 bg-gray-100">
 
     <div class="col-span-1 m-3">
@@ -31,7 +29,7 @@ use Illuminate\Support\Collection;
         <div class="m-3">
             <div>Search By Name</div>
             <label>
-                <input class="m-3" type="search" wire:model="search_by_name"/>
+                <input class="m-3" type="search" wire:model="search_user"/>
             </label>
         </div>
 
@@ -45,15 +43,16 @@ use Illuminate\Support\Collection;
 
     </div>
 
+
     <div class="col-span-2 m-3">
         <div class=" grid grid-cols-3">
             @foreach($users as $user)
-                <div class="bg-green-200 rounded hover:bg-green-400 cursor-pointer p-3 m-3"
-                     href="{{route('users.show', $user)}}">
+                <button class="bg-green-200 rounded hover:bg-green-400 cursor-pointer p-3 m-3"
+                        wire:click="$emit('openModal', 'users.show', {{ json_encode([$user->id]) }})">
                     <div> {{$user->name}}</div>
                     <div> {{$user->email}}</div>
                     <div>{{$user->getRoleNames()->implode(',')}}</div>
-                </div>
+                </button>
             @endforeach
         </div>
         <div>{{$users->links()}}</div>

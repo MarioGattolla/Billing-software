@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Users;
 
 use App\Enums\Role;
+use App\Http\Concerns\SearchesUsers;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,13 +14,13 @@ use Livewire\WithPagination;
 
 class Index extends Component
 {
+    use SearchesUsers;
+
     use WithPagination;
 
     public Collection $filter_options;
 
     public string $role_filter = '';
-
-    public string $search_by_name = '';
 
     public string $search_by_email = '';
 
@@ -39,7 +40,7 @@ class Index extends Component
     public function filter_users(): LengthAwarePaginator
     {
         return User::role($this->role_filter ?: Role::get_roles_cases_values())
-            ->where('name', 'like', "%$this->search_by_name%")
+            ->where('name', 'like', "%$this->search_user%")
             ->where(function (Builder $query) {
                 $query->where('email', 'like', "%$this->search_by_email%");
             })
@@ -50,7 +51,7 @@ class Index extends Component
     {
         $this->role_filter = '';
 
-        $this->search_by_name = '';
+        $this->search_user = '';
 
         $this->search_by_email = '';
     }

@@ -5,13 +5,11 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class=" bg-white overflow-hidden  shadow-sm sm:rounded-lg ">
+
                 <div class="flex ml-10 mt-3 p-2">
 
-                    <div class="m-7 ">
-                        <a href="{{route('users.create')}}"
-                           class="p-3 border rounded-md border-green-400 hover:bg-green-400
-                            bg-green-200 text-sm">Create a new User</a>
-                    </div>
+                    <x-elements.button onclick="Livewire.emit('openModal', 'users.create')">Create User
+                    </x-elements.button>
                 </div>
 
                 <livewire:users.index/>

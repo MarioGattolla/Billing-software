@@ -40,48 +40,9 @@ class UserController extends Controller
     {
         $this->authorize('createUser', User::class);
 
-        $new_user = new User();
-        $new_user->setRelation('roles', Collection::make([Role::findByName(\App\Enums\Role::operator->value)]));
-
-        return \view('users.create')->with('user', $new_user);
+        return \view('users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return RedirectResponse
-     * @throws ActionException
-     * @throws AuthorizationException
-     * @throws ValidationException
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        $role = $request->role;
-        match ($role){
-            'Super Admin' => $this->authorize('createSuperAdmin', User::class),
-            'Admin' => $this->authorize('createAdmin', User::class),
-            'Operator' => $this->authorize('createUser', User::class),
-            default => 'unknown role',
-
-        };
-
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            'role' => 'required',
-        ]);
-
-        $name = $request->input('name');
-        $email = $request->input('email');
-        $password = $request->input('password');
-        $role = $request->input('role');
-
-        CreateNewUser::run($name, $email, $password, $role) ;
-
-        return redirect()->route('users.index')->with('success', 'User created !!');
-    }
 
     /**
      * Display the specified resource.
@@ -115,45 +76,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param User $user
-     * @return RedirectResponse
-     * @throws ActionException
-     * @throws AuthorizationException
-     * @throws ValidationException
-     */
-    public function update(Request $request, User $user): RedirectResponse
-    {
-        $role = $request->role;
-        match ($role){
-            'Super Admin' => $this->authorize('editSuperAdmin', $user),
-            'Admin' => $this->authorize('editAdmin', $user),
-            'Operator' => $this->authorize('editUser', $user),
-            default => 'unknown role',
-        };
-
-        if ($request->password == null){
-            $this->validate($request,[
-                'name' => 'required|string',
-                'email' => 'required|email',
-            ]);
-        }
-        else{
-            $this->validate($request,[
-                'name' => 'required|string',
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
-
-        }
-
-        UpdateUser::run($request, $user) ;
-
-        return redirect()->route('users.show',$user)->with('success', 'User updated !!');
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -164,16 +86,13 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
-        $role = $user->getRoleNames()->first();
-
-        match ($role){
-            'Super Admin' => $this->authorize('deleteSuperAdmin', $user),
+        match ($user->getRoleNames()->implode(',')) {
             'Admin' => $this->authorize('deleteAdmin', $user),
-            'Operator' => $this->authorize('deleteUser', $user),
+            'Super Admin' => $this->authorize('deleteSuperAdmin', $user),
+            default => $this->authorize('deleteUser', $user),
         };
 
-        $user->deleteOrFail();
+        $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'User deleted !!');
     }
 }

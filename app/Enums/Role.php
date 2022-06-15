@@ -6,10 +6,9 @@ use Illuminate\Support\Collection;
 
 enum Role: string
 {
+    case operator = 'Operator';
     case super_admin = 'Super Admin';
     case admin = 'Admin';
-    case operator = 'Operator';
-
 
 
     public static function get_roles_cases_values(): array
@@ -19,7 +18,7 @@ enum Role: string
     }
 
 
-    public function get_permissions_values_by_role( ): array
+    public function get_permissions_values_by_role(): array
     {
         return collect($this->permissions())
             ->map(fn(Permission $permission) => $permission->value)->toArray();
@@ -29,12 +28,12 @@ enum Role: string
     /** @return Collection<int, Role> */
     public static function get_roles_cases(): Collection
     {
-       return collect(Role::cases());
+        return collect(Role::cases());
     }
 
     public function permissions(): array
     {
-        return match ($this){
+        return match ($this) {
             self::super_admin => [
                 Permission::create_user,
                 Permission::create_admin,
