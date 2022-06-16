@@ -3,8 +3,7 @@
 namespace App\Http\Livewire\Orders;
 
 use App\Enums\OrderType;
-use App\Http\Concerns\SearchesCompanies;
-use App\Models\Company;
+use App\Http\Concerns\Companies\SearchesCompanies;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;

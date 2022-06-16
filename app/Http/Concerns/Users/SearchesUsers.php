@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Concerns;
+namespace App\Http\Concerns\Users;
 
 use App\Http\Livewire\Users\Index;
 use App\Models\User;

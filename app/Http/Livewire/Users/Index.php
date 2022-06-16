@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Users;
 
 use App\Enums\Role;
-use App\Http\Concerns\SearchesUsers;
+use App\Http\Concerns\Users\SearchesUsers;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;

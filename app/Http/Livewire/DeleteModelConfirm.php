@@ -3,9 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Http\Livewire\Users\Show;
-use App\Models\User;
-use Illuminate\Http\RedirectResponse;
-use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
 
 class DeleteModelConfirm extends ModalComponent

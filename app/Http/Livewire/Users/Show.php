@@ -2,22 +2,20 @@
 
 namespace App\Http\Livewire\Users;
 
+use App\Http\Concerns\Users\deletesUsers;
 use App\Models\User;
-
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\RedirectResponse;
-use Livewire\Redirector;
+use Illuminate\View\View;
 use LivewireUI\Modal\ModalComponent;
 
 class Show extends ModalComponent
 {
-    use AuthorizesRequests;
+    use deletesUsers;
 
     public User $user;
 
     protected $listeners = [
         'delete',
+        'user_modified',
     ];
 
     public function mount(User $user)
@@ -30,23 +28,17 @@ class Show extends ModalComponent
         return '2xl';
     }
 
-    public function render()
+    public function render(): View
     {
+        $this->authorize('view', $this->user);
+
         return view('livewire.users.show');
     }
 
-    /**
-     * @throws AuthorizationException
-     */
-    public function delete(): RedirectResponse|Redirector
+    public function user_modified(User $user)
     {
-        match ($this->user->getRoleNames()->implode(',')) {
-            'Admin' => $this->authorize('deleteAdmin', $this->user),
-            'Super Admin' => $this->authorize('deleteSuperAdmin', $this->user),
-            default  => $this->authorize('deleteUser', $this->user),
-        };
-
-        $this->user->delete();
-        return redirect()->to(route('users.index'));
+        $this->user = $user;
     }
+
+
 }

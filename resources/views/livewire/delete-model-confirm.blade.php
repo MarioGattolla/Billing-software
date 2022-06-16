@@ -9,7 +9,7 @@
     </div>
 </div>
 <div class="text-center">
-    <x-elements.button wire:click="$emit('delete')"> Delete {{$type}}</x-elements.button>
+    <x-elements.button type="submit" wire:click="$emit('delete')"> Delete {{$type}}</x-elements.button>
 
     <x-elements.button wire:click="$emit('closeModal')"> Return Back</x-elements.button>
 </div>

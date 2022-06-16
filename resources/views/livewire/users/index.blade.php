@@ -1,12 +1,7 @@
 <?php
-
 /** @var User $user */
-
 use App\Models\User;
-
-
 ?>
-
 
 <div class="m-3 grid grid-cols-3 bg-gray-100">
 

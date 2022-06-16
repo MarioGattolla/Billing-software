@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Concerns;
+namespace App\Http\Concerns\Companies;
 
 
 use App\Http\Livewire\Orders\CreateOrder;
